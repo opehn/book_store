@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "/Users/acho/Code/study/programmers/book_store/log/.c70829d2a9fa956404ca51a24d99c3770ddd49f6-audit.json",
+    "files": [
+        {
+            "date": 1704193152304,
+            "name": "/Users/acho/Code/study/programmers/book_store/log/2024-01-02.log",
+            "hash": "ebc9c72896a6b921fcb987389558f8a736fdd91ba4fa84047a6a867af64c5ad8"
+        }
+    ],
+    "hashType": "sha256"
+}
