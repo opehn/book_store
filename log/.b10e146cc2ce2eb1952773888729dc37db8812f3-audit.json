@@ -9,6 +9,11 @@
             "date": 1704193152306,
             "name": "/Users/acho/Code/study/programmers/book_store/log/2024-01-02.error.log",
             "hash": "9b7ddc2425e55566a8ef3d98231bf1e00f47df1613c99f4ab0fcad398dad3c75"
+        },
+        {
+            "date": 1704339909553,
+            "name": "/Users/acho/Code/study/programmers/book_store/log/2024-01-04.error.log",
+            "hash": "b742eeb4eaf2b2f6827d7d5e7bbef66331e460ae67ffeaa6155db927d6f41655"
         }
     ],
     "hashType": "sha256"

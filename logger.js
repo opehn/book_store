@@ -2,6 +2,7 @@ const winston = require("winston");
 const winstonDaily = require("winston-daily-rotate-file");
 const appRoot = require("app-root-path");
 const { createLogger, format } = require("winston");
+const { promiseHooks } = require("v8");
 const { combine, timestamp, label, printf } = winston.format;
 
 
@@ -12,7 +13,7 @@ const logFormat = printf(({ timestamp, level, message }) => {
 let logDir = `${appRoot}/log`;
 
 const logger = createLogger({
-    format: combine(timestamp(), logFormat),
+    format: (timestamp(), logFormat),
     transports: [
         new winstonDaily({
             level: "info",

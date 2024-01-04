@@ -1,16 +1,22 @@
-const http = require('http');
-
+const express = require('express');
+const app = express();
+const dotenv = require('dotenv');
 const logger = require('./logger');
+const apis = require('./routes/controllers/index.js');
 
-const server = http.createServer((req, res) => {
-    res.end('<p>Hello Server!</p>')
-})
+const result = dotenv.config();
 
-server.listen(8080);
-server.on('listening', () => {
-    logger.info('Sever is listening on 8080 port');
-})
+if (result.error) {
+    logger.error('dotenv config error');
+} else {
+    console.log(result.parsed);
+}
 
-server.on('error', (error) => {
-    logger.error(error);
+app.set('port', process.env.PORT || 3000);
+app.use(express.json());
+
+app.use('/users', apis.userRouter);
+
+app.listen(app.get('port'), () => {
+    logger.info(`Server is listening on ${app.get('port')}`);
 })
