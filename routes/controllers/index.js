@@ -1,5 +1,5 @@
 module.exports = {
-    get userRouter() {
-        return require('./user');
+    get joinRouter() {
+        return require('./join');
     },
 };

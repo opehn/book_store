@@ -15,7 +15,7 @@ if (result.error) {
 app.set('port', process.env.PORT || 3000);
 app.use(express.json());
 
-app.use('/users', apis.userRouter);
+app.use('/join', apis.joinRouter);
 
 app.listen(app.get('port'), () => {
     logger.info(`Server is listening on ${app.get('port')}`);
