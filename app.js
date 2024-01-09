@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
-const logger = require('./logger');
+const logger = require('./shared/logger');
 const apis = require('./routes/controllers/index.js');
+const nconf = require('./config');
 
 const result = dotenv.config();
 
