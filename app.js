@@ -2,8 +2,6 @@ const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
 const logger = require('./shared/logger');
-const apis = require('./routes/controllers/index.js');
-const nconf = require('./config');
 
 const result = dotenv.config();
 
@@ -14,10 +12,9 @@ if (result.error) {
 }
 
 app.set('port', process.env.PORT || 3000);
-app.use(express.json());
-
-app.use('/join', apis.joinRouter);
 
 app.listen(app.get('port'), () => {
     logger.info(`Server is listening on ${app.get('port')}`);
 })
+
+module.exports = app; 
