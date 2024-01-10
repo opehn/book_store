@@ -11,9 +11,11 @@ const loadNconf = function loadNconf() {
     nconf.argv();
     nconf.file('conf', path.join(baseConfigPath, 'config.json'));
 
-    console.log(nconf.conf)
 }
 
-module.exports = loadNconf;
+//TODO : init 파일 만들기
+loadNconf();
+
+module.exports = nconf;
 
 
