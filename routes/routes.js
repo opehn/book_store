@@ -1,11 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const conn = require('../../mariadb');
-const { body, validationResult } = require('express-validator');
-const jwt = require('jsonwebtoken');
-const lib = require('../../lib/util');
 
-router.use(express.json());
+const { body } = require('express-validator');
+const jwt = require('jsonwebtoken');
 
 router.post('/',
     [
@@ -18,12 +15,9 @@ router.post('/',
     (req, res, next) => {
         const { email, password } = req.body;
 
-        conn.query()
-
-
-        res.json({
-            message: 'I got it!'
-        })
+        //TODO : 컨트롤러 코드 작성 
+        //const result = await 
+        res.status(200).json(userData);
     })
 
 module.exports = router;
