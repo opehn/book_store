@@ -9,7 +9,7 @@ module.exports = {
             let vals = await knex(users).where({ email: email });
             return vals;
         } catch (e) {
-            logger.error(`DB error : Failed to select user by email | ${e}`)
+            logger.error(`DB error : Failed to select user by email | ${e}`);
             throw e;
         }
     },
@@ -26,6 +26,18 @@ module.exports = {
             logger.error(`DB Error : Failed to Create new user in ${userTable} | ${e}`);
             throw e;
         }
+    },
+
+    isPasswordMatch: async function isPasswordMatch(loginInfo) {
+        let userTable = 'USERS_TB';
+        try {
+            let matchUser = await knex(userTable)
+                .where({ email: loginInfo.email })
+                .andWhere({ password: loginInfo.password });
+            return matchUser;
+        } catch (e) {
+            logger.error(`DB Error : Failed to select user by email / password | ${e}`);
+            throw e;
+        }
     }
 }
-

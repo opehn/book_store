@@ -19,13 +19,33 @@ router.post('/join',
         const userInfo = req.body;
         try {
             let result = await users.join(userInfo);
-            console.log(result);
             res.status(200).json(result);
         } catch (e) {
-            logger.error(`Request on '/join' failed `);
-            console.log(e);
+            logger.error(`Request on '/join' failed | ${e}`);
             res.status(500).json({ message: 'Server error' });
         }
     })
+    .post('/login',
+        [
+            body('email')
+                .notEmpty().withMessage('No email')
+                .isEmail().withMessage(`Wrong email`),
+            body('password').notEmpty().withMessage('No password'),
+            lib.validate
+        ],
+        async (req, res, next) => {
+            logger.info(`Received Request on ${req.url}`)
+            const loginInfo = req.body;
+            try {
+                // let result = await users.login(loginInfo);
+
+                //TODO : login 결과 받아서 response 보내기
+
+
+            } catch (e) {
+
+            }
+        }
+    )
 
 module.exports = router;

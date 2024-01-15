@@ -17,5 +17,14 @@ module.exports = {
             console.log(`service error : ${e}`)
             throw (e);
         }
+    },
+
+    login: async function login(loginInfo) {
+
+        //email로 유저 확인
+        //없다면, 없는 유저라고 return
+        //있다면, password 매칭
+        //매칭되면 로그인
+
     }
 }
