@@ -14,12 +14,17 @@ router.post('/join',
         body('address').notEmpty().withMessage('No address'),
         lib.validate
     ],
-    (req, res, next) => {
+    async (req, res, next) => {
         const userInfo = req.body;
 
-        let result = join.join();
-        console.log(result);
-        res.status(200).json(result);
+        try {
+            let result = await join.join(userInfo);
+            console.log(result);
+            res.status(200).json(result);
+        } catch (e) {
+            log.error(`Request on '/join' failed `);
+            res.status(500).json(result);
+        }
     })
 
 module.exports = router;

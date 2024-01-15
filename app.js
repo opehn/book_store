@@ -15,4 +15,6 @@ app.listen(app.get('port'), () => {
     logger.info(`Server is listening on ${app.get('port')}`);
 })
 
+
+app.use('./', routes);
 module.exports = app; 
