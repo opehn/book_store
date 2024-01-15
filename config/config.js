@@ -7,9 +7,9 @@ const loadNconf = function loadNconf() {
 
     const baseConfigPath = __dirname;
 
-    nconf.argv();
-    nconf.file('conf', path.join(baseConfigPath, 'config.json'));
-
+    nconf.argv()
+        .env()
+        .file('conf', path.join(baseConfigPath, 'config.json'));
 }
 
 //TODO : init 파일 만들기

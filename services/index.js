@@ -1,5 +1,5 @@
 module.exports = {
-    get joinRouter() {
+    get join() {
         return require('./join');
     },
 };

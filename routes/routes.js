@@ -1,23 +1,25 @@
 const express = require('express');
 const router = express.Router();
-
 const { body } = require('express-validator');
-const jwt = require('jsonwebtoken');
+const join = require('../services');
+const lib = require('../shared/lib');
 
-router.post('/',
+router.post('/join',
     [
         body('email')
             .notEmpty().withMessage('No email')
             .isEmail().withMessage('Wrong email'),
         body('password').notEmpty().withMessage('No password'),
+        body('name').notEmpty().withMessage('No name'),
+        body('address').notEmpty().withMessage('No address'),
         lib.validate
     ],
     (req, res, next) => {
-        const { email, password } = req.body;
+        const userInfo = req.body;
 
-        //TODO : 컨트롤러 코드 작성 
-        //const result = await 
-        res.status(200).json(userData);
+        let result = join.join();
+        console.log(result);
+        res.status(200).json(result);
     })
 
 module.exports = router;

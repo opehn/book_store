@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const logger = require('./logger/logger');
+const logger = require('../logger');
 
 module.exports = {
     validate: function validate(req, res, next) {
@@ -13,13 +13,11 @@ module.exports = {
             return next();
         }
     },
+
     dbError: function dbError(res, err, query) {
         const route = req.originalUrl;
         logger.error(
             logger.error(`${route}`)
-
         )
     }
-
 }
-

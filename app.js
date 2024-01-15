@@ -7,8 +7,6 @@ const result = dotenv.config();
 
 if (result.error) {
     logger.error('dotenv config error');
-} else {
-    console.log(result.parsed);
 }
 
 app.set('port', process.env.PORT || 3000);
