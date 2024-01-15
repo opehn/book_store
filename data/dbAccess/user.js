@@ -3,6 +3,7 @@ const logger = require('../../shared/logger');
 
 module.exports = {
     getUserByEmail: async function getUserByEmail(email) {
+        console.log('getUserByEmail');
         let users = 'USERS_TB'
         try {
             let vals = await knex(users).where({ email: email });
@@ -15,13 +16,14 @@ module.exports = {
 
     createNewUser: async function createNewUser(userInfo) {
         let userTable = 'USERS_TB'
+        console.log('createNewUser');
 
         try {
             let newUserId = await knex(userTable).insert(userInfo);
-            log.info(`Successfully Added To ${userTable}, ID : ${newUserId}`);
+            logger.info(`Successfully Added To ${userTable}, ID : ${newUserId}`);
             return newUserId;
         } catch (e) {
-            log.error(`DB Error : Failed to Create new user in ${userTable} | ${e}`);
+            logger.error(`DB Error : Failed to Create new user in ${userTable} | ${e}`);
             throw e;
         }
     }

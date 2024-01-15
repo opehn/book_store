@@ -1,10 +1,8 @@
-const user = module.require('./user.js');
+const user = require('./user.js');
 
 module.exports = {
-    get getUserByEmail() {
-        return user.getUserByEmail;
-    },
-    get createNuewUser() {
-        return user.createNewUser;
+    user: {
+        getUserByEmail: user.getUserByEmail,
+        createNewUser: user.createNewUser
     }
-};
+}

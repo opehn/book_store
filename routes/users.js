@@ -1,29 +1,30 @@
 const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
-const join = require('../services');
+const users = require('../services');
 const lib = require('../shared/lib');
+const logger = require('../shared/logger');
 
 router.post('/join',
     [
         body('email')
             .notEmpty().withMessage('No email')
-            .isEmail().withMessage('Wrong email'),
+            .isEmail().withMessage(`Wrong email`),
         body('password').notEmpty().withMessage('No password'),
         body('name').notEmpty().withMessage('No name'),
-        body('address').notEmpty().withMessage('No address'),
         lib.validate
     ],
     async (req, res, next) => {
+        logger.info(`Received Request on ${req.url}`)
         const userInfo = req.body;
-
         try {
-            let result = await join.join(userInfo);
+            let result = await users.join(userInfo);
             console.log(result);
             res.status(200).json(result);
         } catch (e) {
-            log.error(`Request on '/join' failed `);
-            res.status(500).json(result);
+            logger.error(`Request on '/join' failed `);
+            console.log(e);
+            res.status(500).json({ message: 'Server error' });
         }
     })
 
