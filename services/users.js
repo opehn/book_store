@@ -1,5 +1,4 @@
 const { user } = require('../data/dbAccess');
-const { getUserByEmail } = require('../data/dbAccess/user');
 
 module.exports = {
     join: async function join(userInfo) {
@@ -8,6 +7,7 @@ module.exports = {
             if (matchedUser.length) {
                 return { message: 'Duplicate' };
             } else {
+
                 await user.createNewUser(userInfo);
                 return { message: 'Success' };
             }
@@ -16,13 +16,13 @@ module.exports = {
         }
     },
 
-    //TODO : 비밀번호 암호화
     login: async function login(loginInfo) {
         try {
             let matchedUser = await user.getUserByEmail(loginInfo.email);
             if (matchedUser.length) {
                 let result = await user.getUserByEmailAndPassword(loginInfo);
-                if (result.length)
+                console.log(result)
+                if (result)
                     return { message: 'Success' };
                 else
                     return { message: 'Password not matched' }

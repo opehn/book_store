@@ -19,21 +19,21 @@ module.exports = {
         const { token } = req.cookies;
         const secretKey = process.env.PRIVATE_KEY;
         if (!token) {
-            res.status(401).json({ message: 'Unauthorized' });
+            console.log(1)
+            return res.status(401).json({ message: 'Unauthorized' });
         }
-        jwt.verify(token, secretKey, (err, decoded) => {
-            if (err) {
-                return (res.status(403).json({ message: 'Invalid token' }));
-            }
-            req.user = decoded;
-            next();
-        })
-    },
 
-    dbError: function dbError(res, err, query) {
-        const route = req.originalUrl;
-        logger.error(
-            logger.error(`${route}`)
-        )
-    }
+        try {
+            let decoded = jwt.verify(token, secretKey);
+            req.user = decoded;
+            return next();
+        } catch (e) {
+            if (e.name === 'JsonWebTokenError') {
+                return res.status(403).json({ message: 'Invalid token' });
+            } else {
+                logger.error(`Request on ${req.url} failed | ${e}`);
+                return res.status(500).json({ message: 'Server Error' });
+            }
+        }
+    },
 }

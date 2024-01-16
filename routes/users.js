@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { body, cookie } = require('express-validator');
+const { body } = require('express-validator');
 const { users } = require('../services');
 const { util } = require('../shared/lib');
 const logger = require('../shared/logger');
