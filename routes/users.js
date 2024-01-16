@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
-const users = require('../services');
+const { users } = require('../services');
 const lib = require('../shared/lib');
 const logger = require('../shared/logger');
 
@@ -21,7 +21,7 @@ router.post('/join',
             let result = await users.join(userInfo);
             res.status(200).json(result);
         } catch (e) {
-            logger.error(`Request on '/join' failed | ${e}`);
+            logger.error(`Request on ${req.url} failed | ${e}`);
             res.status(500).json({ message: 'Server error' });
         }
     })
@@ -37,13 +37,11 @@ router.post('/join',
             logger.info(`Received Request on ${req.url}`)
             const loginInfo = req.body;
             try {
-                // let result = await users.login(loginInfo);
-
-                //TODO : login 결과 받아서 response 보내기
-
-
+                let result = await users.login(loginInfo);
+                res.status(200).json(result);
             } catch (e) {
-
+                logger.error(`Request on ${req.url} failed | ${e}`);
+                res.status(500).json({ message: 'Server error' });
             }
         }
     )

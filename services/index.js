@@ -2,7 +2,8 @@ const users = require('./users')
 
 
 module.exports = {
-    get join() {
-        return users.join;
-    },
+    users: {
+        join: users.join,
+        login: users.login,
+    }
 };

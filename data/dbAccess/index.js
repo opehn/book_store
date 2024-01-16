@@ -3,6 +3,7 @@ const user = require('./user.js');
 module.exports = {
     user: {
         getUserByEmail: user.getUserByEmail,
-        createNewUser: user.createNewUser
+        createNewUser: user.createNewUser,
+        getUserByEmailAndPassword: user.getUserByEmailAndPassword,
     }
 }
