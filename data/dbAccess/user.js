@@ -35,5 +35,11 @@ module.exports = {
             logger.error(`DB Error : Failed to select user by email / password | ${e}`);
             throw e;
         }
-    }
+    },
+
+    //    changeUserPassword: async function changeUserPassword(userInfo) {
+    //        await knex(userTable).update
+
+
+
 }

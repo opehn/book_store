@@ -46,4 +46,25 @@ router.post('/join',
         }
     )
 
+router.post('/reset',
+    [
+        body('email')
+            .notEmpty().withMessage('No email')
+            .isEmail().withMessage(`Wrong email`),
+        lib.validate
+    ],
+    async (req, res, next) => {
+        logger.info(`Received Request on ${req.url}`)
+        const { email } = req.body;
+        try {
+            let result = await users.isEmailMatch(email);
+            res.status(200).json(result);
+            logger.info(`Send response to ${req.url} : ${result}`)
+        } catch (e) {
+            logger.error(`Request on ${req.url} failed | ${e}`);
+            res.status(500).json({ message: 'Server error' });
+        }
+    }
+)
+
 module.exports = router;
