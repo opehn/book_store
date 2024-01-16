@@ -6,5 +6,6 @@ module.exports = {
         join: users.join,
         login: users.login,
         isEmailMatch: users.isEmailMatch,
+        updatePassword: users.updatePassword,
     }
 };

@@ -37,9 +37,15 @@ module.exports = {
         }
     },
 
-    //    changeUserPassword: async function changeUserPassword(userInfo) {
-    //        await knex(userTable).update
-
-
+    updatePassword: async function updatePassword(email, newPassword) {
+        try {
+            let result = await knex(userTable).update({ password: newPassword })
+                .where({ email: email });
+            return result;
+        } catch (e) {
+            logger.error(`DB Error : Failed to select user by email / password | ${e}`);
+            throw e;
+        }
+    }
 
 }

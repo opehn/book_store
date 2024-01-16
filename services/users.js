@@ -22,7 +22,6 @@ module.exports = {
             let matchedUser = await user.getUserByEmail(loginInfo.email);
             if (matchedUser.length) {
                 let result = await user.getUserByEmailAndPassword(loginInfo);
-                console.log(result);
                 if (result.length)
                     return { message: 'Success' };
                 else
@@ -37,9 +36,7 @@ module.exports = {
 
     isEmailMatch: async function isEmailMatch(email) {
         try {
-            let matchedUser = await getUserByEmail(email);
-            console.log(matchedUser)
-            console.log(matchedUser.length)
+            let matchedUser = await user.getUserByEmail(email);
             if (matchedUser.length) {
                 return { message: 'Success' };
             } else {
@@ -49,12 +46,16 @@ module.exports = {
             throw e;
         }
     },
-    /*     updatePassword: async function updatePassword(password) {
-            try {
-            let 
-    
-            } catch (e) {
-    
+    updatePassword: async function updatePassword(email, password) {
+        try {
+            let result = await user.updatePassword(email, password);
+            if (result) {
+                return { message: 'Success' };
+            } else {
+                return { message: 'Failed' };
             }
-        } */
+        } catch (e) {
+            throw e;
+        }
+    }
 }
