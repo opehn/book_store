@@ -6,10 +6,10 @@ module.exports = {
         try {
             let matchedUser = await user.getUserByEmail(userInfo.email);
             if (matchedUser.length) {
-                return ({ message: 'Duplicate' });
+                return { message: 'Duplicate' };
             } else {
                 await user.createNewUser(userInfo);
-                return ({ message: 'Success' });
+                return { message: 'Success' };
             }
         } catch (e) {
             throw e;
@@ -22,6 +22,7 @@ module.exports = {
             let matchedUser = await user.getUserByEmail(loginInfo.email);
             if (matchedUser.length) {
                 let result = await user.getUserByEmailAndPassword(loginInfo);
+                console.log(result);
                 if (result.length)
                     return { message: 'Success' };
                 else
@@ -40,12 +41,20 @@ module.exports = {
             console.log(matchedUser)
             console.log(matchedUser.length)
             if (matchedUser.length) {
-                return ({ message: 'Success' });
+                return { message: 'Success' };
             } else {
-                return ({ message: 'Failed' });
+                return { message: 'Failed' };
             }
         } catch (e) {
             throw e;
         }
-    }
+    },
+    /*     updatePassword: async function updatePassword(password) {
+            try {
+            let 
+    
+            } catch (e) {
+    
+            }
+        } */
 }

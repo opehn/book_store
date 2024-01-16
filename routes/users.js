@@ -4,6 +4,7 @@ const { body } = require('express-validator');
 const { users } = require('../services');
 const lib = require('../shared/lib');
 const logger = require('../shared/logger');
+const jwt = require('jsonwebtoken');
 
 router.post('/join',
     [
@@ -19,6 +20,7 @@ router.post('/join',
         const userInfo = req.body;
         try {
             let result = await users.join(userInfo);
+            logger.info(`Send response to ${req.url} : ${result}`)
             res.status(200).json(result);
         } catch (e) {
             logger.error(`Request on ${req.url} failed | ${e}`);
@@ -36,9 +38,22 @@ router.post('/join',
         async (req, res, next) => {
             logger.info(`Received Request on ${req.url}`)
             const loginInfo = req.body;
+
             try {
                 let result = await users.login(loginInfo);
-                res.status(200).json(result);
+                if (result.message === 'Success') {
+                    const token = jwt.sign({
+                        email: loginInfo.email,
+                        name: loginInfo.name
+                    }, process.env.PRIVATE_KEY, {
+                        expiresIn: '30m',
+                        issuer: "Anna"
+                    });
+                    res.cookie("token", token);
+                    res.status(200).json(result);
+                }
+                else
+                    res.status(400).json(result);
             } catch (e) {
                 logger.error(`Request on ${req.url} failed | ${e}`);
                 res.status(500).json({ message: 'Server error' });
@@ -46,7 +61,7 @@ router.post('/join',
         }
     )
 
-router.post('/reset',
+/* router.post('/reset',
     [
         body('email')
             .notEmpty().withMessage('No email')
@@ -64,7 +79,24 @@ router.post('/reset',
             logger.error(`Request on ${req.url} failed | ${e}`);
             res.status(500).json({ message: 'Server error' });
         }
-    }
-)
+    })
+     .put('/reset',
+        [
+            body('password').notEmpty().withMessage('No password'),
+            lib.validate
+        ],
+        async (req, res, next) => {
+            logger.info(`Received Request on ${req.url}`)
+            const { password } = req.body;
+            try {
+                let result = await users.updatePassword(password);
+                res.status(200).json(result);
+                logger.info(`Send response to ${req.url} : ${result}`)
+            } catch (e) {
+                logger.error(`Request on ${req.url} failed | ${e}`);
+                res.status(500).json({ message: 'Server error' });
+            }
+        }
+    )  */
 
 module.exports = router;
