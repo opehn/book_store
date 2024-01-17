@@ -21,7 +21,6 @@ module.exports = {
             let matchedUser = await user.getUserByEmail(loginInfo.email);
             if (matchedUser.length) {
                 let result = await user.getUserByEmailAndPassword(loginInfo);
-                console.log(result)
                 if (result)
                     return { message: 'Success' };
                 else
@@ -50,10 +49,8 @@ module.exports = {
         try {
             let result = await user.updatePassword(email, password);
             if (result) {
-                console.log('here 1');
                 return { message: 'Success' };
             } else {
-                console.log('here 2');
                 return { message: 'Failed' };
             }
         } catch (e) {
