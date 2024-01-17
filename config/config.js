@@ -6,11 +6,10 @@ const loadNconf = function loadNconf() {
     logger.info('Start config');
 
     const baseConfigPath = __dirname;
-    console.log(baseConfigPath);
 
-    nconf.argv();
-    nconf.file('conf', path.join(baseConfigPath, 'config.json'));
-
+    nconf.argv()
+        .env()
+        .file('conf', path.join(baseConfigPath, 'config.json'));
 }
 
 //TODO : init 파일 만들기

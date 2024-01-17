@@ -1,3 +1,5 @@
-const bookshelf = require('./connection.js');
+const dbAccess = require('./dbAccess');
 
-module.export(bookshellf);
+module.exports = {
+    dbAccess
+};

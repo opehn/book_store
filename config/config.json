@@ -5,10 +5,12 @@
     },
     "db": {
         "client": "mysql2",
-        "host": "127.0.0.1",
-        "user": "root",
-        "password": "root",
-        "database": "Bookstore"
+        "connection": {
+            "host": "127.0.0.1",
+            "user": "root",
+            "password": "root",
+            "database": "Bookstore"
+        }
     },
     "log_path": "/log"
 }
