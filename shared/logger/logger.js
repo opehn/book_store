@@ -44,18 +44,23 @@ if (process.env.NODE_ENV != "prod") {
 }
 
 //custom function
-function receiveLog() {
-    logger.info(`Received Request on ${req.url}`);
+function receiveLog(url, method) {
+    logger.info(`Received Request on ${url} by ${method}`);
     return;
 }
 
-function responseLog() {
-    logger.error(`Request on ${req.url} failed | ${e}`);
+function responseLog(url, method, result) {
+    logger.info(`Send response to ${url} by ${method} : ${result.message}`);
+
+}
+function responseErrLog(url, method, err) {
+    logger.error(`Request on ${url} by ${method} failed | ${err}`);
     return;
 }
 
 logger.receiveLog = receiveLog.bind(logger);
 logger.responseLog = responseLog.bind(logger);
+logger.responseErrLog = responseErrLog.bind(logger);
 
 
 module.exports = logger;

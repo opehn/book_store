@@ -16,14 +16,14 @@ router.post('/join',
         util.validate
     ],
     async (req, res, next) => {
-        logger.info(`Received Request on ${req.url}`)
+        logger.receiveLog(req.url, req.method);
         const userInfo = req.body;
         try {
             let result = await users.join(userInfo);
-            logger.info(`Send response to ${req.url} : ${result}`)
+            logger.responseLog(req.url, req.method, result)
             res.status(200).json(result);
         } catch (e) {
-            logger.error(`Request on ${req.url} failed | ${e}`);
+            logger.responseErrLog(req.url, req.method, e);
             res.status(500).json({ message: 'Server error' });
         }
     })
@@ -36,7 +36,7 @@ router.post('/join',
             util.validate
         ],
         async (req, res, next) => {
-            logger.info(`Received Request on ${req.url}`)
+            logger.receiveLog(req.url, req.method);
             const loginInfo = req.body;
 
             try {
@@ -46,16 +46,17 @@ router.post('/join',
                         email: loginInfo.email,
                         name: loginInfo.name
                     }, process.env.PRIVATE_KEY, {
-                        expiresIn: '30m',
+                        expiresIn: '1s',
                         issuer: "Anna"
                     });
+                    logger.responseLog(req.url, req.method, result)
                     res.cookie("token", token);
                     res.status(200).json(result);
                 }
                 else
                     res.status(400).json(result);
             } catch (e) {
-                logger.error(`Request on ${req.url} failed | ${e}`);
+                logger.responseErrLog(req.url, req.method, e);
                 res.status(500).json({ message: 'Server error' });
             }
         }
@@ -69,7 +70,7 @@ router.post('/reset',
         util.validate
     ],
     async (req, res, next) => {
-        logger.info(`Received Request on ${req.url}`)
+        logger.receiveLog(req.url, req.method);
         const { email } = req.body;
         try {
             let result = await users.isEmailMatch(email);
@@ -83,9 +84,9 @@ router.post('/reset',
                 res.cookie("token", token);
                 res.status(200).json(result);
             }
-            logger.info(`Send response to ${req.url} : ${result}`)
+            logger.responseLog(req.url, req.method, result)
         } catch (e) {
-            logger.error(`Request on ${req.url} failed | ${e}`);
+            logger.responseErrLog(req.url, req.method, e);
             res.status(500).json({ message: 'Server error' });
         }
     })
@@ -96,16 +97,15 @@ router.post('/reset',
             util.verifyToken,
         ],
         async (req, res, next) => {
-            logger.receiveLog();
-            //logger.info(`Received Request on ${req.url}`)
+            logger.receiveLog(req.url, req.method);
             const { password } = req.body;
             const { email } = req.user;
             try {
                 let result = await users.updatePassword(email, password);
+                logger.responseLog(req.url, req.method, result)
                 res.status(200).json(result);
-                logger.info(`Send response to ${req.url} : ${result}`)
             } catch (e) {
-                logger.error(`Request on ${req.url} failed | ${e}`);
+                logger.responseErrLog(req.url, req.method, e);
                 res.status(500).json({ message: 'Server error' });
             }
         }
