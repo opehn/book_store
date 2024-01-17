@@ -43,4 +43,19 @@ if (process.env.NODE_ENV != "prod") {
     );
 }
 
+//custom function
+function receiveLog() {
+    logger.info(`Received Request on ${req.url}`);
+    return;
+}
+
+function responseLog() {
+    logger.error(`Request on ${req.url} failed | ${e}`);
+    return;
+}
+
+logger.receiveLog = receiveLog.bind(logger);
+logger.responseLog = responseLog.bind(logger);
+
+
 module.exports = logger;

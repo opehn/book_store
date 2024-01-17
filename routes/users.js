@@ -96,10 +96,10 @@ router.post('/reset',
             util.verifyToken,
         ],
         async (req, res, next) => {
-            logger.info(`Received Request on ${req.url}`)
+            logger.receiveLog();
+            //logger.info(`Received Request on ${req.url}`)
             const { password } = req.body;
             const { email } = req.user;
-
             try {
                 let result = await users.updatePassword(email, password);
                 res.status(200).json(result);
