@@ -56,7 +56,10 @@ module.exports = {
     },
     updatePassword: async function updatePassword(email, newPassword) {
         try {
-            let hashedPassword = util.hashPassword(newPassword);
+
+            let hashedPassword = await util.hashPassword(newPassword);
+            console.log(newPassword)
+            console.log(hashedPassword);
             let result = await knex(userTable).update({ password: hashedPassword })
                 .where({ email: email });
             return result;

@@ -80,8 +80,8 @@ router.post('/reset',
                     expiresIn: '30m',
                     issuer: "Anna"
                 });
-                res.status(200).json(result);
                 res.cookie("token", token);
+                res.status(200).json(result);
             }
             logger.info(`Send response to ${req.url} : ${result}`)
         } catch (e) {

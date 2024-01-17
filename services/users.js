@@ -50,8 +50,10 @@ module.exports = {
         try {
             let result = await user.updatePassword(email, password);
             if (result) {
+                console.log('here 1');
                 return { message: 'Success' };
             } else {
+                console.log('here 2');
                 return { message: 'Failed' };
             }
         } catch (e) {

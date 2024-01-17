@@ -19,7 +19,6 @@ module.exports = {
         const { token } = req.cookies;
         const secretKey = process.env.PRIVATE_KEY;
         if (!token) {
-            console.log(1)
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
