@@ -1,7 +1,6 @@
 const knex = require('../connection.js');
 const logger = require('../../shared/logger');
 const util = require('../dbUtil');
-const { hash } = require('bcrypt');
 
 const userTable = 'USERS_TB';
 

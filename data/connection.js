@@ -1,8 +1,7 @@
-const logger = require('../shared/logger');
 const nconf = require('../config');
 const dbConf = nconf.get('db');
-const knex = require('knex')(dbConf);
 
-//const bookshelf = require('bookshelf')(knex);
+const knex = require('knex')({ dbConf });
 
 module.exports = knex;
+
