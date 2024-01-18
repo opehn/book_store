@@ -3,9 +3,9 @@ const appRoot = require("app-root-path");
 const { createLogger, format, transports } = require("winston");
 const { combine, timestamp, printf } = format;
 
-
 const logFormat = printf(({ timestamp, level, message }) => {
-    return `${timestamp} [${level}] : ${message}`;
+    const seoulTimestamp = new Date(timestamp).toLocaleString("ko-KR");
+    return `${seoulTimestamp} [${level}] : ${message}`;
 })
 
 let logDir = `${appRoot}/log`;
@@ -35,12 +35,33 @@ const logger = createLogger({
 if (process.env.NODE_ENV != "prod") {
     logger.add(
         new transports.Console({
-            format: format.combine(
-                format.colorize(),
-                format.simple()
-            ),
+            format: format.combine(timestamp(), logFormat),
         })
     );
 }
+
+//custom function
+function reportRequest(url, method) {
+    logger.info(`Received Request on ${url} by ${method}`);
+    return;
+}
+
+function reportResponse(url, method, result) {
+    logger.info(`Send response to ${url} by ${method} : ${result.message}`);
+
+}
+function reportReponseErr(url, method, err) {
+    logger.error(`Request on ${url} by ${method} failed | ${err}`);
+    return;
+}
+
+function reportDbErr(table, method, err) {
+    logger.error(`DB error : Failed to excute a ${method} query on the ${table} table | ${err}`);
+}
+
+logger.reportRequest = reportRequest.bind(logger);
+logger.reportResponse = reportResponse.bind(logger);
+logger.reportReponseErr = reportReponseErr.bind(logger);
+logger.reportDbErr = reportDbErr.bind(logger);
 
 module.exports = logger;
