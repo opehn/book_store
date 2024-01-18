@@ -1,6 +1,6 @@
 const knex = require('../connection.js');
-const logger = require('../../shared/logger');
-const util = require('../dbUtil');
+const logger = require('../../shared/logger/index.js');
+const util = require('../dbUtil.js');
 
 const userTable = 'USERS_TB';
 
