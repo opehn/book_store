@@ -8,7 +8,7 @@ module.exports = {
         const err = validationResult(req);
 
         if (!err.isEmpty()) {
-            logger.error(`[${route}] Request data is not vaild`);
+            logger.responseErrLog(req.url, req.method, err);
             return res.status(401).json(err.array())
         } else {
             return next();
@@ -19,7 +19,9 @@ module.exports = {
         const { token } = req.cookies;
         const secretKey = process.env.PRIVATE_KEY;
         if (!token) {
-            return res.status(401).json({ message: 'Unauthorized' });
+            result = { messge: 'Unauthorized' };
+            logger.reportResponse(req.url, req.method, result);
+            return res.status(401).json(result);
         }
 
         try {
@@ -27,13 +29,16 @@ module.exports = {
             req.user = decoded;
             return next();
         } catch (e) {
+            //TODO : 제대로 동작 안함. 찾아봐야 함
             if (e.name === 'JsonWebTokenError') {
-                return res.status(403).json({ message: 'Invalid token' });
+                result = { message: 'Invalid token' };
+                logger.reportResponse(req.url, req.method, result);
+                return res.status(403).json(result);
             } else {
-                logger.error(`Request on ${req.url} failed | ${e}`);
+                result = { message: 'Server Error' };
+                logger.reportReponseErr(req.url, req.method, e);
                 return res.status(500).json({ message: 'Server Error' });
             }
         }
     },
-
 }
