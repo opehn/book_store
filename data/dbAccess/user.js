@@ -10,7 +10,7 @@ module.exports = {
             let vals = await knex(userTable).where({ email: email });
             return vals;
         } catch (e) {
-            logger.error(`DB error : Failed to select user by email | ${e}`);
+            logger.reportDbErr(userTable, 'SELECT', e);
             throw e;
         }
     },
@@ -23,7 +23,7 @@ module.exports = {
             logger.info(`Successfully Added To ${userTable}, ID : ${newUserId}`);
             return newUserId;
         } catch (e) {
-            logger.error(`DB Error : Failed to Create new user in ${userTable} | ${e}`);
+            logger.reportDbErr(userTable, 'INSERT', e);
             throw e;
         }
     },
@@ -34,7 +34,7 @@ module.exports = {
             let result = await util.comparePassword(loginInfo.password, hashedPassword);
             return result;
         } catch (e) {
-            logger.error(`DB Error : Failed to select user by email / password | ${e}`);
+            logger.reportDbErr(userTable, 'SELECT', e);
             throw e;
         }
     },
@@ -49,7 +49,7 @@ module.exports = {
             else
                 return null;
         } catch (e) {
-            logger.error(`DB Error : Failed to select user by email / password | ${e}`);
+            logger.reportDbErr(userTable, 'SELECT', e);
             throw e;
         }
     },
@@ -61,7 +61,7 @@ module.exports = {
                 .where({ email: email });
             return result;
         } catch (e) {
-            logger.error(`DB Error : Failed to select user by email / password | ${e}`);
+            logger.reportDbErr(userTable, 'UPDATE', e);
             throw e;
         }
     }
