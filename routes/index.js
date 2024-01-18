@@ -1,3 +1,4 @@
 const users = require('./user-route');
+const books = require('./books-route');
 
-module.exports = { users };
+module.exports = { users, books };
