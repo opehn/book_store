@@ -11,6 +11,7 @@ module.exports = {
     },
     books: {
         getAllBooks: books.getAllBooks,
-        getOneBook: books.getOneBook,
+        getBookDetail: books.getBookDetail,
+        getBookByCategory: books.getBookByCategory,
     }
 };

@@ -11,5 +11,6 @@ module.exports = {
     bookDb: {
         getAllBooks: bookDb.getAllBooks,
         getBookById: bookDb.getBookById,
+        getBookByCategory: bookDb.getBookByCategory,
     }
 }
