@@ -23,19 +23,16 @@ module.exports = {
     },
     getBookByCategory: async function getBookByCategory(categoryId, isNew) {
         try {
-            //TODO : 한달 전 날짜 찾기
-            //const oneMonthAgo = await knex.raw('date_sub(?, INTERVAL ? MONTH)', [knex.fn.now(), 1]);
+            //const oneMonthAgo =  knex.raw('date_sub(?, INTERVAL ? MONTH)', [knex.fn.now(), 1]);
+            oneMonthAgo = util.getOneMonthAgo();
             let result;
             if (isNew) {
                 result = await knex(bookTable).select()
                     .where({ category_id: categoryId })
-                    .where('pub_date', '>', '2023-12-01T00:00:00.000Z');
-
-                console.log(result)
+                    .where('pub_date', '>', oneMonthAgo);
             } else {
                 result = await knex(bookTable).select()
                     .where({ category_id: categoryId });
-                console.log(result)
             }
             return result;
         } catch (e) {
