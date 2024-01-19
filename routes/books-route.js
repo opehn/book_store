@@ -59,26 +59,4 @@ router.get('/:bookId',
 
     })
 
-router.get('/',
-    [
-        query('categoryId').notEmpty().withMessage('No categoryId'),
-        query('new').notEmpty().withMessage('No new boolean'),
-        util.validate,
-    ], async (req, res, next) => {
-        logger.reportRequest(req.url, req.method);
-        const { categoryId, isNew } = req.params;
-        try {
-            const result = await books.getBookByCategory(categoryId, isNew);
-            result.message = 'Success';
-            logger.reportResponse(req.url, req.method, result);
-            res.status(200).json(result);
-        } catch (e) {
-            logger.reportReponseErr(req.url, req.method, e);
-            res.status(500).json({ message: 'Server Error' });
-        }
-
-    })
-
-
-
 module.exports = router;
