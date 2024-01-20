@@ -5,9 +5,9 @@ const util = require('../dbUtil.js');
 const bookTable = 'BOOKS_TB';
 
 module.exports = {
-    getAllBooks: async function getAllBooks() {
+    getAllBooks: async function getAllBooks(limit, offset) {
         try {
-            let result = await knex(bookTable).select('*');
+            let result = await knex(bookTable).select('*').limit(limit).offset(offset);
             return result;
         } catch (e) {
             logger.reportDbErr(bookTable, 'SELECT', e);
@@ -21,23 +21,23 @@ module.exports = {
             logger.reportDbErr(bookTable, 'SELECT', e);
         }
     },
-    getBookByCategory: async function getBookByCategory(categoryId, isNew) {
+    getBookByCategory: async function getBookByCategory(categoryId, isNew, limit, offset) {
         try {
-            //const oneMonthAgo =  knex.raw('date_sub(?, INTERVAL ? MONTH)', [knex.fn.now(), 1]);
             oneMonthAgo = util.getOneMonthAgo();
             let result;
             if (isNew) {
                 result = await knex(bookTable).select()
                     .where({ category_id: categoryId })
-                    .where('pub_date', '>', oneMonthAgo);
+                    .where('pub_date', '>', oneMonthAgo)
+                    .limit(limit).offset(offset);
             } else {
                 result = await knex(bookTable).select()
-                    .where({ category_id: categoryId });
+                    .where({ category_id: categoryId })
+                limit(limit).offset(offset);
             }
             return result;
         } catch (e) {
             logger.reportDbErr(bookTable, 'SELECT', e);
         }
-
     }
 }

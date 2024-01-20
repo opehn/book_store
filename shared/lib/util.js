@@ -8,7 +8,7 @@ module.exports = {
         const err = validationResult(req);
 
         if (!err.isEmpty()) {
-            logger.responseErrLog(req.url, req.method, err);
+            logger.reportReponseErr(req.url, req.method, err);
             return res.status(401).json(err.array())
         } else {
             return next();
