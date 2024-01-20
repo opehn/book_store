@@ -7,7 +7,10 @@ const bookTable = 'BOOKS_TB';
 module.exports = {
     getAllBooks: async function getAllBooks(limit, offset) {
         try {
-            let result = await knex(bookTable).select('*').limit(limit).offset(offset);
+            const result = await knex('BOOKS_TB as bt')
+                .select('bt.id', 'title', 'ct.name', 'form', 'isbn', 'summary', 'author', 'pages', 'contents', 'pub_date', 'detail', 'img')
+                .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
+                .limit(limit).offset(offset);
             return result;
         } catch (e) {
             logger.reportDbErr(bookTable, 'SELECT', e);
@@ -15,7 +18,10 @@ module.exports = {
     },
     getBookById: async function getBookById(bookId) {
         try {
-            let result = await knex(bookTable).select('*').where({ id: bookId });
+            const result = await knex('BOOKS_TB as bt')
+                .select('bt.id', 'title', 'ct.name', 'form', 'isbn', 'summary', 'author', 'pages', 'contents', 'pub_date', 'detail', 'img')
+                .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
+                .where('bt.id', bookId);
             return result;
         } catch (e) {
             logger.reportDbErr(bookTable, 'SELECT', e);
@@ -26,14 +32,18 @@ module.exports = {
             oneMonthAgo = util.getOneMonthAgo();
             let result;
             if (isNew) {
-                result = await knex(bookTable).select()
-                    .where({ category_id: categoryId })
+                result = await knex('BOOKS_TB as bt')
+                    .select('bt.id', 'title', 'ct.name', 'form', 'isbn', 'summary', 'author', 'pages', 'contents', 'pub_date', 'detail', 'img')
+                    .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
+                    .where('bt.category_id', categoryId)
                     .where('pub_date', '>', oneMonthAgo)
                     .limit(limit).offset(offset);
             } else {
-                result = await knex(bookTable).select()
+                result = await knex('BOOKS_TB as bt')
+                    .select('bt.id', 'title', 'ct.name', 'form', 'isbn', 'summary', 'author', 'pages', 'contents', 'pub_date', 'detail', 'img')
+                    .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
                     .where({ category_id: categoryId })
-                limit(limit).offset(offset);
+                    .limit(limit).offset(offset);
             }
             return result;
         } catch (e) {
