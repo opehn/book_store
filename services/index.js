@@ -1,4 +1,6 @@
-const users = require('./user-service')
+const users = require('./user-service');
+const books = require('./books-service');
+const category = require('./category-service');
 
 
 module.exports = {
@@ -7,5 +9,13 @@ module.exports = {
         login: users.login,
         isEmailMatch: users.isEmailMatch,
         updatePassword: users.updatePassword,
+    },
+    books: {
+        getAllBooks: books.getAllBooks,
+        getBookDetail: books.getBookDetail,
+        getBookByCategory: books.getBookByCategory,
+    },
+    category: {
+        getAllCategory: category.getAllCategory,
     }
 };

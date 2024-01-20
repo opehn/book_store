@@ -1,14 +1,14 @@
-const { user } = require('../data/dbAccess');
+const { user: userDb } = require('../data/dbAccess');
 
 module.exports = {
     join: async function join(userInfo) {
         try {
-            let matchedUser = await user.getUserByEmail(userInfo.email);
+            let matchedUser = await userDb.getUserByEmail(userInfo.email);
             if (matchedUser.length) {
                 return { message: 'Duplicate' };
             } else {
 
-                await user.createNewUser(userInfo);
+                await userDb.createNewUser(userInfo);
                 return { message: 'Success' };
             }
         } catch (e) {
@@ -18,9 +18,9 @@ module.exports = {
 
     login: async function login(loginInfo) {
         try {
-            let matchedUser = await user.getUserByEmail(loginInfo.email);
+            let matchedUser = await userDb.getUserByEmail(loginInfo.email);
             if (matchedUser.length) {
-                let result = await user.getUserByEmailAndPassword(loginInfo);
+                let result = await userDb.getUserByEmailAndPassword(loginInfo);
                 if (result)
                     return { message: 'Success' };
                 else
@@ -35,7 +35,7 @@ module.exports = {
 
     isEmailMatch: async function isEmailMatch(email) {
         try {
-            let matchedUser = await user.getUserByEmail(email);
+            let matchedUser = await userDb.getUserByEmail(email);
             if (matchedUser.length) {
                 return { message: 'Success' };
             } else {
@@ -47,7 +47,7 @@ module.exports = {
     },
     updatePassword: async function updatePassword(email, password) {
         try {
-            let result = await user.updatePassword(email, password);
+            let result = await userDb.updatePassword(email, password);
             if (result) {
                 return { message: 'Success' };
             } else {

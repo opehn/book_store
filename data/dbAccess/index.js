@@ -1,10 +1,20 @@
-const user = require('./user-db.js');
+const userDb = require('./user-db.js');
+const bookDb = require('./book-db.js');
+const categoryDb = require('./category-db.js');
 
 module.exports = {
     user: {
-        getUserByEmail: user.getUserByEmail,
-        createNewUser: user.createNewUser,
-        getUserByEmailAndPassword: user.getUserByEmailAndPassword,
-        updatePassword: user.updatePassword,
+        getUserByEmail: userDb.getUserByEmail,
+        createNewUser: userDb.createNewUser,
+        getUserByEmailAndPassword: userDb.getUserByEmailAndPassword,
+        updatePassword: userDb.updatePassword,
+    },
+    bookDb: {
+        getAllBooks: bookDb.getAllBooks,
+        getBookById: bookDb.getBookById,
+        getBookByCategory: bookDb.getBookByCategory,
+    },
+    categoryDb: {
+        getAllCategory: categoryDb.getAllCategory,
     }
 }
