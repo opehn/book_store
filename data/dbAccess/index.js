@@ -1,5 +1,6 @@
 const userDb = require('./user-db.js');
 const bookDb = require('./book-db.js');
+const categoryDb = require('./category-db.js');
 
 module.exports = {
     user: {
@@ -12,5 +13,8 @@ module.exports = {
         getAllBooks: bookDb.getAllBooks,
         getBookById: bookDb.getBookById,
         getBookByCategory: bookDb.getBookByCategory,
+    },
+    categoryDb: {
+        getAllCategory: categoryDb.getAllCategory,
     }
 }
