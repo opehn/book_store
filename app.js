@@ -13,11 +13,12 @@ if (result.error) {
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-const { users, books, category } = require('./routes');
+const { users, books, category, like } = require('./routes');
 
 app.use('/users', users);
 app.use('/books', books);
 app.use('/category', category);
+app.use('/like', like);
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), () => {

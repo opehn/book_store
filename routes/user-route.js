@@ -46,7 +46,7 @@ router.post('/join',
                         email: loginInfo.email,
                         name: loginInfo.name
                     }, process.env.PRIVATE_KEY, {
-                        expiresIn: '1s',
+                        expiresIn: '30m',
                         issuer: "Anna"
                     });
                     logger.reportResponse(req.url, req.method, result)

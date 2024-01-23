@@ -1,4 +1,4 @@
-const { user: userDb } = require('../data/dbAccess');
+const { userDb } = require('../data/dbAccess');
 
 module.exports = {
     join: async function join(userInfo) {

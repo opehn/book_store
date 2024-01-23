@@ -1,6 +1,7 @@
 const users = require('./user-service');
 const books = require('./books-service');
 const category = require('./category-service');
+const like = require('./like-service');
 
 
 module.exports = {
@@ -17,5 +18,8 @@ module.exports = {
     },
     category: {
         getAllCategory: category.getAllCategory,
+    },
+    like: {
+        toggleLikeStatus: like.toggleLikeStatus,
     }
 };
