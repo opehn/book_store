@@ -4,4 +4,4 @@ const category = require('./category-route');
 const like = require('./like-route');
 const cart = require('./cart-route');
 
-module.exports = { users, books, category, like };
+module.exports = { users, books, category, like, cart };
