@@ -7,7 +7,6 @@ const cookieParser = require('cookie-parser');
 
 const result = dotenv.config();
 
-
 if (result.error) {
     logger.error('dotenv config error');
 }
