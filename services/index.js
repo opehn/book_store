@@ -23,7 +23,7 @@ module.exports = {
         toggleLikeStatus: like.toggleLikeStatus,
     },
     cart: {
-        addCartItems: cart.addCartItems,
+        updateCartItems: cart.updateCartItems,
         getCartItems: cart.getCartItems,
         deleteCartItems: cart.deleteCartItems,
     }

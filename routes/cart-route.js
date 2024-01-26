@@ -1,7 +1,7 @@
 const express = require('express');
 const { cart } = require('../services');
 const router = express.Router();
-const { body, param } = require('express-validator');
+const { body, param, query } = require('express-validator');
 const { util } = require('../shared/lib');
 const logger = require('../shared/logger');
 
@@ -23,7 +23,6 @@ router.get('/',
             res.status(500).json({ message: 'Server error' });
             logger.reportReponseErr(req.url, req.method, e);
         }
-
     })
     .post('/', /* 장바구니 담기 */
         [
@@ -31,17 +30,17 @@ router.get('/',
                 .isInt().withMessage('BookId is not int'),
             body('count').notEmpty().withMessage('No count')
                 .isInt().withMessage('Count is not int'),
+            query('sign').notEmpty().withMessage('No sign'),
             util.validate,
             util.verifyToken
-
         ],
         async (req, res) => {
             logger.reportRequest(req.url, req.method);
             let { bookId, count } = req.body;
             let { email } = req.user;
-
+            let { sign } = req.query;
             try {
-                let result = await cart.addCartItems(email, bookId, count);
+                let result = await cart.updateCartItems(email, bookId, count, sign);
                 result.message = "Success"
                 logger.reportResponse(req.url, req.method, result);
                 res.status(200).json(result);

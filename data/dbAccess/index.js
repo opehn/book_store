@@ -24,7 +24,7 @@ module.exports = {
         deleteLikedUser: likeDb.deleteLikedUser
     },
     cartDb: {
-        insertCartItem: cartDb.insertCartItem,
+        updateOrInsertCartItem: cartDb.updateOrInsertCartItem,
         selectCartByUser: cartDb.selectCartByUser,
         deleteCartItems: cartDb.deleteCartItems,
     }

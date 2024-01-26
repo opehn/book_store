@@ -12,13 +12,24 @@ module.exports = {
             throw e;
         }
     },
-    insertCartItem: async function insertCartItem(userId, bookId, count) {
+    updateOrInsertCartItem: async function updateOrInsertCartItem(userId, bookId, count, sign) {
         try {
-            let result = await knex.raw(
-                'INSERT INTO CARTITEMS_TB (book_id, count, user_id)\
+            if (sign === 'plus')
+                queryString =
+                    'INSERT INTO CARTITEMS_TB (book_id, count, user_id)\
                 VALUES (?, ?, ?)\
                 ON DUPLICATE KEY UPDATE count = count + VALUES(count)'
-                , [bookId, count, userId]
+            else
+                queryString =
+                    'INSERT INTO CARTITEMS_TB (book_id, count, user_id)\
+                VALUES (?, ?, ?)\
+                ON DUPLICATE KEY UPDATE count = CASE\
+                WHEN count > 0 THEN count - VALUES(count)\
+                ELSE count\
+                END'
+
+            let result = await knex.raw(
+                queryString, [bookId, count, userId]
             );
             return result[0];
         } catch (e) {
