@@ -2,7 +2,7 @@ const users = require('./user-service');
 const books = require('./books-service');
 const category = require('./category-service');
 const like = require('./like-service');
-
+const cart = require('./cart-servcie');
 
 module.exports = {
     users: {
@@ -21,5 +21,9 @@ module.exports = {
     },
     like: {
         toggleLikeStatus: like.toggleLikeStatus,
+    },
+    cart: {
+        addCartItems: cart.addCartItems,
+        getCartItems: cart.getCartItems,
     }
 };

@@ -21,7 +21,7 @@ app.use('/users', users);
 app.use('/books', books);
 app.use('/category', category);
 app.use('/likes', like);
-app.use('/cart', cart);
+app.use('/carts', cart);
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), () => {
