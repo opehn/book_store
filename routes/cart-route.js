@@ -1,7 +1,7 @@
 const express = require('express');
 const { cart } = require('../services');
 const router = express.Router();
-const { body, param, query } = require('express-validator');
+const { body, param } = require('express-validator');
 const { util } = require('../shared/lib');
 const logger = require('../shared/logger');
 
@@ -51,9 +51,26 @@ router.get('/',
             }
         })
     .delete('/:bookId', /* 장바구니 삭제 */
-        [],
+        [
+            param('bookId').isInt().withMessage('BookId need to be int'),
+            util.verifyToken
+        ],
         async (req, res) => {
-
+            logger.reportRequest(req.url, req.method);
+            const { email } = req.user;
+            const { bookId } = req.params;
+            try {
+                let message = {};
+                let result = await cart.deleteCartItems(email, bookId);
+                if (!result)
+                    message.message = 'Already deleted';
+                else
+                    message.message = 'Success';
+                res.status(200).json(message);
+            } catch (e) {
+                res.status(500).json({ message: 'Server error' });
+                logger.reportReponseErr(req.url, req.method, e);
+            }
         })
 
 module.exports = router;

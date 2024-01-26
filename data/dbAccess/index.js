@@ -26,5 +26,6 @@ module.exports = {
     cartDb: {
         insertCartItem: cartDb.insertCartItem,
         selectCartByUser: cartDb.selectCartByUser,
+        deleteCartItems: cartDb.deleteCartItems,
     }
 }

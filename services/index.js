@@ -25,5 +25,6 @@ module.exports = {
     cart: {
         addCartItems: cart.addCartItems,
         getCartItems: cart.getCartItems,
+        deleteCartItems: cart.deleteCartItems,
     }
 };
