@@ -17,6 +17,7 @@ router.get('/',
         try {
             let result = await cart.getCartItems(email);
             result.message = 'Success';
+            logger.reportResponse(req.url, req.method, result);
             res.status(200).json(result);
         } catch (e) {
             res.status(500).json({ message: 'Server error' });
@@ -40,9 +41,10 @@ router.get('/',
             let { email } = req.user;
 
             try {
-                await cart.addCartItems(email, bookId, count);
+                let result = await cart.addCartItems(email, bookId, count);
+                result.message = "Success"
                 logger.reportResponse(req.url, req.method, result);
-                res.status(200).json({ message: 'Success' });
+                res.status(200).json(result);
             } catch (e) {
                 res.status(500).json({ message: 'Server error' });
                 logger.reportReponseErr(req.url, req.method, e);
