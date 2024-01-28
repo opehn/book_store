@@ -2,6 +2,7 @@ const userDb = require('./user-db');
 const bookDb = require('./book-db');
 const categoryDb = require('./category-db');
 const likeDb = require('./like-db');
+const cartDb = require('./cart-db');
 
 module.exports = {
     userDb: {
@@ -21,5 +22,10 @@ module.exports = {
     likeDb: {
         insertLikedUser: likeDb.insertLikedUser,
         deleteLikedUser: likeDb.deleteLikedUser
+    },
+    cartDb: {
+        updateOrInsertCartItem: cartDb.updateOrInsertCartItem,
+        selectCartByUser: cartDb.selectCartByUser,
+        deleteCartItems: cartDb.deleteCartItems,
     }
 }
