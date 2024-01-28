@@ -5,7 +5,11 @@ const cartTable = 'CARTITEMS_TB';
 module.exports = {
     selectCartByUser: async function selectCartByUser(userId) {
         try {
-            let result = await knex(cartTable).select('book_id', 'count').where({ user_id: userId });
+            let result = await knex('CARTITEMS_TB as ct')
+                .select('ct.id', 'ct.book_id', 'bt.title', 'bt.summary',
+                    'bt.img', 'bt.price', 'ct.count')
+                .join('BOOKS_TB as bt', 'bt.id', '=', 'ct.book_id')
+                .where({ 'ct.user_id': userId });
             return result;
         } catch (e) {
             logger.reportDbErr(cartTable, 'INSERT', e);
