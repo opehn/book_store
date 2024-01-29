@@ -40,8 +40,11 @@ router.get('/',
             let { items, delivery } = req.body;
 
             try {
-                let result = await order.handlePayment(email, items, delivery);
+                let result = {};
+                await order.handlePayment(email, items, delivery);
+                result.message = 'Success'
                 logger.reportResponse(req.url, req.method, result);
+                res.status(200).json(result);
 
             } catch (e) {
                 logger.reportReponseErr(req.url, req.method, e);
