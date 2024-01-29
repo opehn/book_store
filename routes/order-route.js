@@ -35,14 +35,16 @@ router.get('/',
             util.verifyToken,
         ],
         async (req, res) => {
+            logger.reportRequest(req.url, req.method);
             let { email } = req.user;
             let { items, delivery } = req.body;
 
             try {
                 let result = await order.handlePayment(email, items, delivery);
+                logger.reportResponse(req.url, req.method, result);
 
             } catch (e) {
-
+                logger.reportReponseErr(req.url, req.method, e);
             }
 
         })
