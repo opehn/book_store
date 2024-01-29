@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { body, param } = require('express-validator');
+const { order } = require('../services');
 const { util } = require('../shared/lib');
 const logger = require('../shared/logger');
 
@@ -37,10 +38,8 @@ router.get('/',
             let { email } = req.user;
             let { items, delivery } = req.body;
 
-            console.log(items)
-            console.log(delivery)
-
             try {
+                let result = await order.handlePayment(email, items, delivery);
 
             } catch (e) {
 
