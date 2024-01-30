@@ -15,9 +15,14 @@ router.get('/',
         let { userId } = req.user;
         logger.reportRequest(req.url, req.method);
         try {
-
+            let result = {};
+            result.data = await order.getOrderList(userId);
+            result.message = 'Success';
+            console.log(result);
+            logger.reportResponse(req.url, req.method, result);
+            res.status(200).json(result);
         } catch (e) {
-
+            logger.reportReponseErr(req.url, req.method, e);
         }
     })
     .post('/', /* 결제 하기 */
@@ -47,7 +52,6 @@ router.get('/',
         async (req, res) => {
             let { userId } = req.user;
             let { orderId } = req.params;
-
 
             try {
 

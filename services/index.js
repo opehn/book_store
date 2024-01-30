@@ -30,5 +30,6 @@ module.exports = {
     },
     order: {
         handlePayment: order.handlePayment,
+        getOrderList: order.getOrderList,
     }
 };

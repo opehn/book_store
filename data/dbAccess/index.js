@@ -31,6 +31,7 @@ module.exports = {
     },
     orderDb: {
         insertOrderAndDeleteCart: orderDb.insertOrderAndDeleteCart,
+        selectOrderList: orderDb.selectOrderList,
     }
 
 }
