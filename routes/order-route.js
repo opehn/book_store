@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const { body, param } = require('express-validator');
 const { checkSchema } = require('express-validator');
 const { order } = require('../services');
 const { util } = require('../shared/lib');
@@ -30,11 +29,10 @@ router.get('/',
         async (req, res) => {
             logger.reportRequest(req.url, req.method);
             let { userId } = req.user;
-            let { items, delivery } = req.body;
 
             try {
                 let result = {};
-                await order.handlePayment(userId, items, delivery);
+                await order.handlePayment(userId, req.body);
                 result.message = 'Success'
                 logger.reportResponse(req.url, req.method, result);
                 res.status(200).json(result);
@@ -47,7 +45,7 @@ router.get('/',
             util.verifyToken,
         ],
         async (req, res) => {
-            let { email } = req.user;
+            let { userId } = req.user;
             let { orderId } = req.params;
 
 
