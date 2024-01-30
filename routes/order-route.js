@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { body, param } = require('express-validator');
+const { checkSchema } = require('express-validator');
 const { order } = require('../services');
 const { util } = require('../shared/lib');
 const logger = require('../shared/logger');
+const { paymentSchema } = require('./validation-schema');
 
 
 /* 주문 목록 조회 */
@@ -13,7 +15,7 @@ router.get('/',
     ],
     async (req, res) => {
         let { email } = req.user;
-
+        logger.reportRequest(req.url, req.method);
         try {
 
         } catch (e) {
@@ -22,15 +24,7 @@ router.get('/',
     })
     .post('/', /* 결제 하기 */
         [
-            body('items').isArray().withMessage('items need to be array'),
-            body('items.*.bookId').isNumeric().withMessage('bookId need to be number'),
-            body('items.*.count').isNumeric().withMessage('count need to be number'),
-            body('delivery.address').notEmpty().withMessage('No address'),
-            body('delivery.receiver').notEmpty().withMessage('No receiver'),
-            body('delivery.contact').isMobilePhone('any').withMessage('Contact format error'),
-            //TODO : 000-0000-0000 패턴으로 변경
-            //body('delivery.contact').matches('/^\d{3}-\d{3,4}-\d{4}$/', 'g').withMessage('Contact format error'),
-            body('delivery.totalPrice').isNumeric().withMessage('Price need to be number'),
+            checkSchema(paymentSchema),
             util.validate,
             util.verifyToken,
         ],
@@ -39,6 +33,9 @@ router.get('/',
             let { email } = req.user;
             let { items, delivery } = req.body;
 
+            let regex = /^\d{3}-\d{3,4}-\d{4}$/;
+            let rres = regex.test('010-000-0000');
+            console.log(rres);
             try {
                 let result = {};
                 await order.handlePayment(email, items, delivery);
