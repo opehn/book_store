@@ -7,15 +7,13 @@ const { util } = require('../shared/lib');
 const logger = require('../shared/logger');
 const paymentSchema = require('./validation-schema');
 
-console.log(paymentSchema)
-
 /* 주문 목록 조회 */
 router.get('/',
     [
         util.verifyToken,
     ],
     async (req, res) => {
-        let { email } = req.user;
+        let { userId } = req.user;
         logger.reportRequest(req.url, req.method);
         try {
 
@@ -31,12 +29,12 @@ router.get('/',
         ],
         async (req, res) => {
             logger.reportRequest(req.url, req.method);
-            let { email } = req.user;
+            let { userId } = req.user;
             let { items, delivery } = req.body;
 
             try {
                 let result = {};
-                await order.handlePayment(email, items, delivery);
+                await order.handlePayment(userId, items, delivery);
                 result.message = 'Success'
                 logger.reportResponse(req.url, req.method, result);
                 res.status(200).json(result);

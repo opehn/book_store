@@ -7,9 +7,9 @@ const orderDb = require('./order-db');
 
 module.exports = {
     userDb: {
-        getUserByEmail: userDb.getUserByEmail,
+        selectUserByEmail: userDb.selectUserByEmail,
         createNewUser: userDb.createNewUser,
-        getUserByEmailAndPassword: userDb.getUserByEmailAndPassword,
+        comparePassword: userDb.comparePassword,
         updatePassword: userDb.updatePassword,
     },
     bookDb: {

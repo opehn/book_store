@@ -5,7 +5,7 @@ const util = require('../dbUtil.js');
 const userTable = 'USERS_TB';
 
 module.exports = {
-    getUserByEmail: async function getUserByEmail(email) {
+    selectUserByEmail: async function selectUserByEmail(email) {
         try {
             let vals = await knex(userTable).where({ email: email });
             return vals;
@@ -28,7 +28,7 @@ module.exports = {
         }
     },
 
-    getUserByEmailAndPassword: async function getUserByEmailAndPassword(loginInfo) {
+    comparePassword: async function comparePassword(loginInfo) {
         try {
             let hashedPassword = await module.exports.getPasswordByEmail(loginInfo);
             let result = await util.comparePassword(loginInfo.password, hashedPassword);
@@ -53,12 +53,12 @@ module.exports = {
             throw e;
         }
     },
-    updatePassword: async function updatePassword(email, newPassword) {
+    updatePassword: async function updatePassword(userId, newPassword) {
         try {
 
             let hashedPassword = await util.hashPassword(newPassword);
             let result = await knex(userTable).update({ password: hashedPassword })
-                .where({ email: email });
+                .where({ id: userId });
             return result;
         } catch (e) {
             logger.reportDbErr(userTable, 'UPDATE', e);

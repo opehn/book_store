@@ -22,7 +22,7 @@ module.exports = {
                         user_id: userId,
                         delivery_id: deliveryId[0],
                         book_title: bookTitle,
-                        total_price: delivery.totalPrice,
+                        total_price: totalPrice,
                         total_count: totalCount
                     })
 

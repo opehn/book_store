@@ -9,11 +9,8 @@ function getTotalCount(items) {
 }
 
 module.exports = {
-    handlePayment: async function handlePayment(email, items, delivery) {
+    handlePayment: async function handlePayment(userId, items, delivery) {
         try {
-            let userInfo = await userDb.getUserByEmail(email);
-            let userId = userInfo[0].id;
-
             let bookInfo = await bookDb.getBookById(items[0].bookId);
             let bookTitle = bookInfo[0].title;
             let bookIds = items.map(cur => (cur.bookId));

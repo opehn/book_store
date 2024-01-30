@@ -36,7 +36,6 @@ router.get('/',
                 res.status(500).json({ message: 'Server Error' });
             }
         } else {
-
             try {
                 const result = await books.getAllBooks(limit, offset);
                 result.message = 'Success';

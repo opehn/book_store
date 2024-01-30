@@ -41,9 +41,9 @@ router.post('/join',
 
             try {
                 let result = await users.login(loginInfo);
-                console.log(result);
                 if (result.message === 'Success') {
                     const token = jwt.sign({
+                        userId: result.userId,
                         email: loginInfo.email,
                         name: loginInfo.name
                     }, process.env.PRIVATE_KEY, {
@@ -100,9 +100,9 @@ router.post('/reset',
         async (req, res, next) => {
             logger.reportRequest(req.url, req.method);
             const { password } = req.body;
-            const { email } = req.user;
+            const { userId } = req.user;
             try {
-                let result = await users.updatePassword(email, password);
+                let result = await users.updatePassword(userId, password);
                 logger.reportResponse(req.url, req.method, result)
                 res.status(200).json(result);
             } catch (e) {
