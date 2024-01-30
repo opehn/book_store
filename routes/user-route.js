@@ -41,6 +41,7 @@ router.post('/join',
 
             try {
                 let result = await users.login(loginInfo);
+                console.log(result);
                 if (result.message === 'Success') {
                     const token = jwt.sign({
                         email: loginInfo.email,

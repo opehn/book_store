@@ -5,8 +5,9 @@ const { checkSchema } = require('express-validator');
 const { order } = require('../services');
 const { util } = require('../shared/lib');
 const logger = require('../shared/logger');
-const { paymentSchema } = require('./validation-schema');
+const paymentSchema = require('./validation-schema');
 
+console.log(paymentSchema)
 
 /* 주문 목록 조회 */
 router.get('/',
@@ -33,20 +34,15 @@ router.get('/',
             let { email } = req.user;
             let { items, delivery } = req.body;
 
-            let regex = /^\d{3}-\d{3,4}-\d{4}$/;
-            let rres = regex.test('010-000-0000');
-            console.log(rres);
             try {
                 let result = {};
                 await order.handlePayment(email, items, delivery);
                 result.message = 'Success'
                 logger.reportResponse(req.url, req.method, result);
                 res.status(200).json(result);
-
             } catch (e) {
                 logger.reportReponseErr(req.url, req.method, e);
             }
-
         })
     .get('/:orderId', /* 주문 상세 조회 */
         [
