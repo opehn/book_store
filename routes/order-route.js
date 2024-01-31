@@ -18,7 +18,6 @@ router.get('/',
             let result = {};
             result.data = await order.getOrderList(userId);
             result.message = 'Success';
-            console.log(result);
             logger.reportResponse(req.url, req.method, result);
             res.status(200).json(result);
         } catch (e) {
@@ -38,7 +37,7 @@ router.get('/',
             try {
                 let result = {};
                 await order.handlePayment(userId, req.body);
-                result.message = 'Success'
+                result.message = 'Success';
                 logger.reportResponse(req.url, req.method, result);
                 res.status(200).json(result);
             } catch (e) {
@@ -50,14 +49,17 @@ router.get('/',
             util.verifyToken,
         ],
         async (req, res) => {
+            logger.reportRequest(req.url, req.method);
             let { userId } = req.user;
             let { orderId } = req.params;
-
             try {
-
+                let result = {};
+                result.data = await order.getOrderDetail(userId, orderId);
+                result.message = 'Success';
+                logger.reportResponse(req.url, req.method, result);
+                res.status(200).json(result);
             } catch (e) {
-
+                logger.reportReponseErr(req.url, req.method, e);
             }
-
         })
 module.exports = router;

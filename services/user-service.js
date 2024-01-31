@@ -35,7 +35,6 @@ module.exports = {
             throw e;
         }
     },
-
     isEmailMatch: async function isEmailMatch(email) {
         try {
             let matchedUser = await userDb.getUserByEmail(email);

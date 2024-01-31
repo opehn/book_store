@@ -4,10 +4,9 @@ module.exports = {
     getOrderList: async function getOrderList(userId) {
         try {
             let result = await orderDb.selectOrderList(userId);
-            console.log(result)
             return result;
         } catch (e) {
-            throw (e);
+            throw e;
 
         }
     },
@@ -17,7 +16,15 @@ module.exports = {
             await orderDb.insertOrderAndDeleteCart(userId, body, bookIds);
             return;
         } catch (e) {
-            throw (e);
+            throw e;
+        }
+    },
+    getOrderDetail: async function getOrderDetail(userId, orderId) {
+        try {
+            let result = await orderDb.selectOrderDetail(userId, orderId);
+            return result;
+        } catch (e) {
+            throw e;
         }
     }
 }

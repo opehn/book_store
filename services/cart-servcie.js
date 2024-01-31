@@ -20,7 +20,6 @@ module.exports = {
         }
     },
     deleteCartItems: async function deleteCartItems(userId, bookId) {
-        console.log('deleteCart service');
         try {
             let result = await cartDb.deleteCartItems(userId, bookId);
             return result;

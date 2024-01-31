@@ -5,19 +5,6 @@ const orderBookTable = 'ORDERED_BOOKS_TB';
 const deliveryTable = 'DELIVERY_TB';
 const cartItemsTable = 'CARTITEMS_TB';
 
-// orderList: [{
-//     createdAt: ""
-//     delivery:
-//     {
-//         address: "주소" 
-//     receiver: "이름" 
-//     contact: "전화번호"
-//     }
-//     booktitle: "대표 책 제목"
-//     totalPrice: ""
-//     totalCount: ""
-// }]
-
 module.exports = {
     selectOrderList: async function selectOrderList(userId) {
         try {
@@ -71,5 +58,12 @@ module.exports = {
             logger.reportDbErr('Mutiple Table', 'Transaction', e);
             throw e;
         }
+    },
+    selectOrderDetail: async function selectOrderDetail(userId, orderId) {
+        let result = await knex('ORDERED_BOOKS_TB as ot')
+            .select('ot.book_id', 'title', 'author', 'price', 'count')
+            .where({ order_id: orderId })
+            .join('BOOKS_TB as bt', 'id', 'ot.book_id')
+        return result;
     }
 }
