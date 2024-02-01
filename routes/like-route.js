@@ -15,14 +15,14 @@ router.put('/:bookId',
         logger.reportRequest(req.url, req.method);
         const { bookId } = req.params;
         let { liked } = req.query;
-        const { email } = req.user;
+        const { userId } = req.user;
 
         if (liked === 'true')
             liked = true;
         else
             liked = false;
         try {
-            let result = like.toggleLikeStatus(email, bookId, liked);
+            let result = like.toggleLikeStatus(userId, bookId, liked);
             result.message = 'Success';
             logger.reportResponse(req.url, req.method, result);
             res.status(200).json(result);

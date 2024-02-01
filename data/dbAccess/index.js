@@ -3,12 +3,13 @@ const bookDb = require('./book-db');
 const categoryDb = require('./category-db');
 const likeDb = require('./like-db');
 const cartDb = require('./cart-db');
+const orderDb = require('./order-db');
 
 module.exports = {
     userDb: {
-        getUserByEmail: userDb.getUserByEmail,
+        selectUserByEmail: userDb.selectUserByEmail,
         createNewUser: userDb.createNewUser,
-        getUserByEmailAndPassword: userDb.getUserByEmailAndPassword,
+        comparePassword: userDb.comparePassword,
         updatePassword: userDb.updatePassword,
     },
     bookDb: {
@@ -27,5 +28,11 @@ module.exports = {
         updateOrInsertCartItem: cartDb.updateOrInsertCartItem,
         selectCartByUser: cartDb.selectCartByUser,
         deleteCartItems: cartDb.deleteCartItems,
+    },
+    orderDb: {
+        insertOrderAndDeleteCart: orderDb.insertOrderAndDeleteCart,
+        selectOrderList: orderDb.selectOrderList,
+        selectOrderDetail: orderDb.selectOrderDetail,
     }
+
 }

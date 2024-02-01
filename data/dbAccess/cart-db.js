@@ -42,12 +42,10 @@ module.exports = {
         }
     },
     deleteCartItems: async function deleteCartItems(userId, bookId) {
-        console.log('delete cart db')
         try {
             let result = await knex(cartTable).delete()
                 .where({ 'user_id': userId })
                 .andWhere({ 'book_id': bookId });
-            console.log(result);
             return result;
 
         } catch (e) {

@@ -18,11 +18,14 @@ module.exports = {
 
     login: async function login(loginInfo) {
         try {
-            let matchedUser = await userDb.getUserByEmail(loginInfo.email);
+            let matchedUser = await userDb.selectUserByEmail(loginInfo.email);
             if (matchedUser.length) {
-                let result = await userDb.getUserByEmailAndPassword(loginInfo);
+                let result = await userDb.comparePassword(loginInfo);
                 if (result)
-                    return { message: 'Success' };
+                    return {
+                        message: 'Success',
+                        userId: matchedUser[0].id
+                    };
                 else
                     return { message: 'Password not matched' }
             } else {
@@ -32,7 +35,6 @@ module.exports = {
             throw e;
         }
     },
-
     isEmailMatch: async function isEmailMatch(email) {
         try {
             let matchedUser = await userDb.getUserByEmail(email);
@@ -45,9 +47,9 @@ module.exports = {
             throw e;
         }
     },
-    updatePassword: async function updatePassword(email, password) {
+    updatePassword: async function updatePassword(userId, password) {
         try {
-            let result = await userDb.updatePassword(email, password);
+            let result = await userDb.updatePassword(userId, password);
             if (result) {
                 return { message: 'Success' };
             } else {

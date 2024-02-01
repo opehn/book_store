@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 const {
-    users, books, category, like, cart
+    users, books, category, like, cart, order
 } = require('./routes');
 
 app.use('/users', users);
@@ -22,6 +22,7 @@ app.use('/books', books);
 app.use('/category', category);
 app.use('/likes', like);
 app.use('/carts', cart);
+app.use('/orders', order)
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), () => {

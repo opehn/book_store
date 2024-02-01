@@ -12,10 +12,10 @@ router.get('/',
     ],
     async (req, res) => {
         logger.reportRequest(req.url, req.method);
-        let { email } = req.user;
+        let { userId } = req.user;
 
         try {
-            let result = await cart.getCartItems(email);
+            let result = await cart.getCartItems(userId);
             result.message = 'Success';
             logger.reportResponse(req.url, req.method, result);
             res.status(200).json(result);
@@ -37,10 +37,10 @@ router.get('/',
         async (req, res) => {
             logger.reportRequest(req.url, req.method);
             let { bookId, count } = req.body;
-            let { email } = req.user;
+            let { userId } = req.user;
             let { sign } = req.query;
             try {
-                let result = await cart.updateCartItems(email, bookId, count, sign);
+                let result = await cart.updateCartItems(userId, bookId, count, sign);
                 result.message = "Success"
                 logger.reportResponse(req.url, req.method, result);
                 res.status(200).json(result);
@@ -56,11 +56,11 @@ router.get('/',
         ],
         async (req, res) => {
             logger.reportRequest(req.url, req.method);
-            const { email } = req.user;
+            const { userId } = req.user;
             const { bookId } = req.params;
             try {
                 let message = {};
-                let result = await cart.deleteCartItems(email, bookId);
+                let result = await cart.deleteCartItems(userId, bookId);
                 if (!result)
                     message.message = 'Already deleted';
                 else
