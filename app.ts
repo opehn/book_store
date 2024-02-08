@@ -1,7 +1,7 @@
 import express, { Application } from 'express';
 const app = express();
 import dotenv from 'dotenv';
-import logger from './shared/logger';
+import logger from './shared/logger/index';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 
@@ -15,7 +15,7 @@ app.use(cookieParser());
 
 import {
     users, books, category, like, cart, order
-} from './routes');
+} from './routes';
 
 app.use('/users', users);
 app.use('/books', books);
