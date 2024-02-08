@@ -1,6 +1,6 @@
-import winston from 'winston';
-import winstonDaily from 'winston-daily-rotate-file';
-import appRoot from 'app-root-path';
+import winston = require('winston');
+import winstonDaily = require('winston-daily-rotate-file');
+import appRoot = require('app-root-path');
 const { Logger } = winston;
 const { createLogger, format, transports } = winston;
 const { combine, timestamp, printf } = format;
