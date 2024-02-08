@@ -42,21 +42,21 @@ if (process.env.NODE_ENV != "prod") {
 
 //custom function
 function reportRequest(url, method) {
-    logger.info(`Received Request on ${url} by ${method}`);
+    this.info(`Received Request on ${url} by ${method}`);
     return;
 }
 
 function reportResponse(url, method, result) {
-    logger.info(`Send response to ${url} by ${method} : ${result.message}`);
+    this.info(`Send response to ${url} by ${method} : ${result.message}`);
 
 }
 function reportReponseErr(url, method, err) {
-    logger.error(`Request on ${url} by ${method} failed | ${err}`);
+    this.error(`Request on ${url} by ${method} failed | ${err}`);
     return;
 }
 
 function reportDbErr(table, method, err) {
-    logger.error(`DB error : Failed to excute a ${method} query on the ${table} table | ${err}`);
+    this.error(`DB error : Failed to excute a ${method} query on the ${table} table | ${err}`);
 }
 
 logger.reportRequest = reportRequest.bind(logger);

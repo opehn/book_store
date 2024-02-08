@@ -1,6 +1,7 @@
 import winston from 'winston';
 import winstonDaily from 'winston-daily-rotate-file';
 import appRoot from 'app-root-path';
+const { Logger } = winston;
 const { createLogger, format, transports } = winston;
 const { combine, timestamp, printf } = format;
 
@@ -11,11 +12,13 @@ const logFormat = printf(({ timestamp, level, message }) => {
 
 let logDir = `${appRoot}/log`;
 
-interface CustomLogger extends winston.Logger {
-    reportRequest(url: string, method: string): void;
-    reportResponse(url: string, method: string, result: any): void;
-    reportResponseErr(url: string, method: string, err: string): void;
-    reportDbErr(table: string, method: string, err: string): void;
+declare module 'winston' {
+    interface Logger {
+        reportRequest(url: string, method: string): void;
+        reportResponse(url: string, method: string, result: any): void;
+        reportResponseErr(url: string, method: string, err: string): void;
+        reportDbErr(table: string, method: string, err: string): void;
+    }
 }
 
 const logger = createLogger({
@@ -38,7 +41,7 @@ const logger = createLogger({
             maxFiles: "30d",
         }),
     ],
-}) as CustomLogger;
+});
 
 if (process.env.NODE_ENV != "prod") {
     logger.add(
