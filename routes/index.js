@@ -1,8 +1,9 @@
-const users = require('./user-route');
-const books = require('./books-route');
-const category = require('./category-route');
-const like = require('./like-route');
-const cart = require('./cart-route');
-const order = require('./order-route');
+import users from './user-route';
+import books from './books-route';
+import category from './category-route';
+import like from './like-route';
+import cart from './cart-route';
+import order from './order-route';
 
-module.exports = { users, books, category, like, cart, order };
+
+export { users, books, category, like, cart, order };

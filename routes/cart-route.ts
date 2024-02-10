@@ -1,9 +1,9 @@
-const express = require('express');
-const { cart } = require('../services');
+import express = require('express');
+import { cart } from '../services';
 const router = express.Router();
 const { body, param, query } = require('express-validator');
-const { util } = require('../shared/lib');
-const logger = require('../shared/logger');
+import { util } from '../shared/lib';
+import logger from '../shared/logger';
 
 /* 전체 조회 */
 router.get('/',
@@ -21,7 +21,7 @@ router.get('/',
             res.status(200).json(result);
         } catch (e) {
             res.status(500).json({ message: 'Server error' });
-            logger.reportReponseErr(req.url, req.method, e);
+            logger.reportResponseErr(req.url, req.method, e);
         }
     })
     .post('/', /* 장바구니 담기 */
@@ -46,7 +46,7 @@ router.get('/',
                 res.status(200).json(result);
             } catch (e) {
                 res.status(500).json({ message: 'Server error' });
-                logger.reportReponseErr(req.url, req.method, e);
+                logger.reportResponseErr(req.url, req.method, e);
             }
         })
     .delete('/:bookId', /* 장바구니 삭제 */
@@ -68,7 +68,7 @@ router.get('/',
                 res.status(200).json(message);
             } catch (e) {
                 res.status(500).json({ message: 'Server error' });
-                logger.reportReponseErr(req.url, req.method, e);
+                logger.reportResponseErr(req.url, req.method, e);
             }
         })
 
