@@ -1,9 +1,10 @@
-import express, { Application } from 'express';
-const app = express();
-import dotenv from 'dotenv';
+import express = require('express');
+let app = express();
+import dotenv = require('dotenv');
 import logger from './shared/logger/index';
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
+import bodyParser = require('body-parser');
+import cookieParser = require('cookie-parser');
+import { Request, Response, NextFunction } from 'express';
 
 const result = dotenv.config();
 
@@ -15,7 +16,7 @@ app.use(cookieParser());
 
 import {
     users, books, category, like, cart, order
-} from './routes';
+} from './routes/index';
 
 app.use('/users', users);
 app.use('/books', books);
@@ -29,4 +30,5 @@ app.listen(app.get('port'), () => {
     logger.info(`Server is listening on ${app.get('port')}`);
 })
 
-module.exports = app; 
+export type MiddlewareFn = (req: Request, res: Response, next: NextFunction) => void;
+export { app };
