@@ -1,7 +1,7 @@
-const { userDb, likeDb } = require('../data/dbAccess');
+import { userDb, likeDb } from '../data/dbAccess';
 
-module.exports = {
-    toggleLikeStatus: async function toggleLikeStatus(userId, bookId, liked) {
+export default {
+    toggleLikeStatus: async function toggleLikeStatus(userId: number, bookId: number, liked: boolean) {
         try {
             let result;
             if (liked)

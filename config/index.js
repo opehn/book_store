@@ -1,3 +1,3 @@
-const nconf = require('./config');
+import nconf from './config';
 
-module.exports = nconf;
+export default nconf;

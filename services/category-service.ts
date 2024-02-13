@@ -1,6 +1,6 @@
-const { categoryDb } = require('../data/dbAccess');
+import { categoryDb } from '../data/dbAccess';
 
-module.exports = {
+export default {
     getAllCategory: async function getAllCategory() {
         try {
             let result = await categoryDb.getAllCategory();

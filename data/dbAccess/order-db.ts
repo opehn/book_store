@@ -1,12 +1,12 @@
-const knex = require('../connection');
-const logger = require('../../shared/logger/index.js');
+import knex from '../connection';
+import logger from '../../shared/logger/index.js';
 const orderTable = 'ORDERS_TB';
 const orderBookTable = 'ORDERED_BOOKS_TB';
 const deliveryTable = 'DELIVERY_TB';
 const cartItemsTable = 'CARTITEMS_TB';
 
-module.exports = {
-    selectOrderList: async function selectOrderList(userId) {
+export default {
+    selectOrderList: async function selectOrderList(userId: number) {
         try {
             let orderList = await knex('ORDERS_TB as ot')
                 .select(
@@ -19,7 +19,8 @@ module.exports = {
             logger.reportDbErr(orderTable, 'select', e);
         }
     },
-    insertOrderAndDeleteCart: async function insertOrderAndDeleteCart(userId, body, bookIds) {
+    //TODO : body, bookIds 인터페이스 정의
+    insertOrderAndDeleteCart: async function insertOrderAndDeleteCart(userId: number, body: any, bookIds: any) {
         try {
             await knex.transaction(async trx => {
                 const deliveryId = await trx(deliveryTable)
@@ -59,7 +60,7 @@ module.exports = {
             throw e;
         }
     },
-    selectOrderDetail: async function selectOrderDetail(userId, orderId) {
+    selectOrderDetail: async function selectOrderDetail(userId: number, orderId: number) {
         let result = await knex('ORDERED_BOOKS_TB as ot')
             .select('ot.book_id', 'title', 'author', 'price', 'count')
             .where({ order_id: orderId })

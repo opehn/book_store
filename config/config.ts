@@ -1,6 +1,6 @@
-const nconf = require('nconf');
-const logger = require('../shared/logger');
-const path = require('path');
+import nconf = require('nconf');
+import path = require('path');
+import logger from '../shared/logger';
 
 const loadNconf = function loadNconf() {
     logger.info('Start config');
@@ -15,6 +15,6 @@ const loadNconf = function loadNconf() {
 //TODO : init 파일 만들기
 loadNconf();
 
-module.exports = nconf;
+export default nconf;
 
 

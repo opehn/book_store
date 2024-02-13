@@ -1,7 +1,7 @@
-const { bookDb } = require('../data/dbAccess');
+import { bookDb } from '../data/dbAccess/index';
 
-module.exports = {
-    getAllBooks: async function getAllBooks(limit, offset) {
+export default {
+    getAllBooks: async function getAllBooks(limit: number, offset: number) {
         try {
             let result = await bookDb.getAllBooks(limit, offset);
             return result;
@@ -9,7 +9,7 @@ module.exports = {
             throw e;
         }
     },
-    getBookDetail: async function getBookDetail(bookId) {
+    getBookDetail: async function getBookDetail(bookId: number) {
         try {
             let result = await bookDb.getBookById(bookId);
             return result;
@@ -17,7 +17,7 @@ module.exports = {
             throw e;
         }
     },
-    getBookByCategory: async function getBookByCategory(categoryId, isNew, limit, offset) {
+    getBookByCategory: async function getBookByCategory(categoryId: number, isNew: boolean, limit: number, offset: number) {
         try {
             let result = await bookDb.getBookByCategory(categoryId, isNew, limit, offset);
             return result;

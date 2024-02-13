@@ -1,11 +1,11 @@
-const knex = require('../connection.js');
-const logger = require('../../shared/logger/index.js');
-const util = require('../dbUtil.js');
+import knex from '../connection';
+import logger from '../../shared/logger/index.js';
+import util from '../dbUtil.js';
 
 const likeTable = 'LIKES_TB';
 
-module.exports = {
-    insertLikedUser: async function insertLikedUser(userId, bookId) {
+export default {
+    insertLikedUser: async function insertLikedUser(userId: number, bookId: number) {
         try {
             const result = await knex(likeTable)
                 .insert({
@@ -18,7 +18,7 @@ module.exports = {
             throw e;
         }
     },
-    deleteLikedUser: async function deleteLikedUser(userId) {
+    deleteLikedUser: async function deleteLikedUser(userId: number) {
         try {
             const result = await knex(likeTable)
                 .delete()

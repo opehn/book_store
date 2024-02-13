@@ -1,11 +1,11 @@
-const knex = require('../connection.js');
-const logger = require('../../shared/logger/index.js');
-const util = require('../dbUtil.js');
+import knex from '../connection';
+import logger from '../../shared/logger/index.js';
+import util from '../dbUtil.js';
 
 const userTable = 'USERS_TB';
 
-module.exports = {
-    selectUserByEmail: async function selectUserByEmail(email) {
+export default {
+    selectUserByEmail: async function selectUserByEmail(email: string) {
         try {
             let vals = await knex(userTable).where({ email: email });
             return vals;
@@ -15,7 +15,8 @@ module.exports = {
         }
     },
 
-    createNewUser: async function createNewUser(userInfo) {
+    //TODO : userInfo 인터페이스 정의
+    createNewUser: async function createNewUser(userInfo: any) {
         try {
             let hash = await util.hashPassword(userInfo.password);
             userInfo.password = hash;
@@ -28,7 +29,8 @@ module.exports = {
         }
     },
 
-    comparePassword: async function comparePassword(loginInfo) {
+    //TODO : loginInfo 인터페이스 정의
+    comparePassword: async function comparePassword(loginInfo: any) {
         try {
             let hashedPassword = await module.exports.getPasswordByEmail(loginInfo);
             let result = await util.comparePassword(loginInfo.password, hashedPassword);
@@ -39,7 +41,7 @@ module.exports = {
         }
     },
 
-    getPasswordByEmail: async function getPasswordByEmail(loginInfo) {
+    getPasswordByEmail: async function getPasswordByEmail(loginInfo: any) {
         try {
             let passwordArray = await knex(userTable)
                 .select('password')
@@ -53,7 +55,7 @@ module.exports = {
             throw e;
         }
     },
-    updatePassword: async function updatePassword(userId, newPassword) {
+    updatePassword: async function updatePassword(userId: number, newPassword: string) {
         try {
 
             let hashedPassword = await util.hashPassword(newPassword);

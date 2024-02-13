@@ -1,9 +1,9 @@
-const knex = require('../connection');
-const logger = require('../../shared/logger/index.js');
+import knex from '../connection';
+import logger from '../../shared/logger/index.js';
 const cartTable = 'CARTITEMS_TB';
 
-module.exports = {
-    selectCartByUser: async function selectCartByUser(userId) {
+export default {
+    selectCartByUser: async function selectCartByUser(userId: number) {
         try {
             let result = await knex('CARTITEMS_TB as ct')
                 .select('ct.id', 'ct.book_id', 'bt.title', 'bt.summary',
@@ -16,8 +16,9 @@ module.exports = {
             throw e;
         }
     },
-    updateOrInsertCartItem: async function updateOrInsertCartItem(userId, bookId, count, sign) {
+    updateOrInsertCartItem: async function updateOrInsertCartItem(userId: number, bookId: number, count: number, sign: string) {
         try {
+            let queryString: string;
             if (sign === 'plus')
                 queryString =
                     'INSERT INTO CARTITEMS_TB (book_id, count, user_id)\
@@ -41,7 +42,7 @@ module.exports = {
             throw e;
         }
     },
-    deleteCartItems: async function deleteCartItems(userId, bookId) {
+    deleteCartItems: async function deleteCartItems(userId: number, bookId: number) {
         try {
             let result = await knex(cartTable).delete()
                 .where({ 'user_id': userId })

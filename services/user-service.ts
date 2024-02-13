@@ -1,9 +1,10 @@
-const { userDb } = require('../data/dbAccess');
+import { userDb } from '../data/dbAccess';
 
-module.exports = {
-    join: async function join(userInfo) {
+//TODO : userInfo, loginInfo 인터페이스 정의
+export default {
+    join: async function join(userInfo: any) {
         try {
-            let matchedUser = await userDb.getUserByEmail(userInfo.email);
+            let matchedUser = await userDb.selectUserByEmail(userInfo.email);
             if (matchedUser.length) {
                 return { message: 'Duplicate' };
             } else {
@@ -16,7 +17,7 @@ module.exports = {
         }
     },
 
-    login: async function login(loginInfo) {
+    login: async function login(loginInfo: any) {
         try {
             let matchedUser = await userDb.selectUserByEmail(loginInfo.email);
             if (matchedUser.length) {
@@ -35,9 +36,9 @@ module.exports = {
             throw e;
         }
     },
-    isEmailMatch: async function isEmailMatch(email) {
+    isEmailMatch: async function isEmailMatch(email: string) {
         try {
-            let matchedUser = await userDb.getUserByEmail(email);
+            let matchedUser = await userDb.selectUserByEmail(email);
             if (matchedUser.length) {
                 return { message: 'Success' };
             } else {
@@ -47,7 +48,7 @@ module.exports = {
             throw e;
         }
     },
-    updatePassword: async function updatePassword(userId, password) {
+    updatePassword: async function updatePassword(userId: number, password: string) {
         try {
             let result = await userDb.updatePassword(userId, password);
             if (result) {

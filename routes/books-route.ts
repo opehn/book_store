@@ -17,4 +17,4 @@ router.get('/:bookId',
         util.validate,
     ], bookDetailCotroller);
 
-module.exports = router;
+export default router;

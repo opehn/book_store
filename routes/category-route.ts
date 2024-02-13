@@ -1,8 +1,7 @@
-const express = require('express');
+import * as express from 'express';
 const router = express.Router();
-const logger = require('../shared/logger');
+import express_validator = require('express-validator');
 const { category } = require('../services');
-
 
 router.get('/',
     async (req, res) => {

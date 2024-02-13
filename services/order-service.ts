@@ -1,7 +1,7 @@
-const { orderDb } = require('../data/dbAccess');
+import { orderDb } from '../data/dbAccess';
 
-module.exports = {
-    getOrderList: async function getOrderList(userId) {
+export default {
+    getOrderList: async function getOrderList(userId: number) {
         try {
             let result = await orderDb.selectOrderList(userId);
             return result;
@@ -10,7 +10,8 @@ module.exports = {
 
         }
     },
-    handlePayment: async function handlePayment(userId, body) {
+    //TODO : body, cur인터페이스
+    handlePayment: async function handlePayment(userId: number, body: any) {
         try {
             let bookIds = body.items.map(cur => (cur.bookId));
             await orderDb.insertOrderAndDeleteCart(userId, body, bookIds);
@@ -19,7 +20,7 @@ module.exports = {
             throw e;
         }
     },
-    getOrderDetail: async function getOrderDetail(userId, orderId) {
+    getOrderDetail: async function getOrderDetail(userId: number, orderId: number) {
         try {
             let result = await orderDb.selectOrderDetail(userId, orderId);
             return result;
