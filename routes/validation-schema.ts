@@ -32,4 +32,4 @@ const paymentSchema = {
     },
 }
 
-module.exports = paymentSchema; 
+export { paymentSchema }; 

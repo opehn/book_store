@@ -1,6 +1,6 @@
 import express = require('express');
 let app = express();
-import dotenv = require('dotenv');
+import dotenv from 'dotenv';
 import logger from './shared/logger/index';
 import bodyParser = require('body-parser');
 import cookieParser = require('cookie-parser');
