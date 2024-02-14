@@ -36,90 +36,63 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var connection_js_1 = require("../connection.js");
-var index_js_1 = require("../../shared/logger/index.js");
-var dbUtil_js_1 = require("../dbUtil.js");
-var bookTable = 'BOOKS_TB';
+var dbAccess_1 = require("../data/dbAccess");
 exports.default = {
-    getAllBooks: function getAllBooks(limit, offset) {
+    getOrderList: function getOrderList(userId) {
         return __awaiter(this, void 0, void 0, function () {
             var result, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, (0, connection_js_1.default)('BOOKS_TB as bt')
-                                .select('bt.id', 'title', 'ct.name', 'form', 'isbn', 'summary', 'author', 'pages', 'contents', 'pub_date', 'detail', 'img')
-                                .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
-                                .limit(limit).offset(offset)];
+                        return [4 /*yield*/, dbAccess_1.orderDb.selectOrderList(userId)];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, result];
                     case 2:
                         e_1 = _a.sent();
-                        index_js_1.default.reportDbErr(bookTable, 'SELECT', e_1);
                         throw e_1;
                     case 3: return [2 /*return*/];
                 }
             });
         });
     },
-    getBookById: function getBookById(bookId) {
+    //TODO : body, cur인터페이스
+    handlePayment: function handlePayment(userId, body) {
         return __awaiter(this, void 0, void 0, function () {
-            var result, e_2;
+            var bookIds, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, (0, connection_js_1.default)('BOOKS_TB as bt')
-                                .select('bt.id', 'title', 'ct.name', 'form', 'isbn', 'summary', 'author', 'pages', 'contents', 'pub_date', 'detail', 'img')
-                                .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
-                                .where('bt.id', bookId)];
+                        bookIds = body.items.map(function (cur) { return (cur.bookId); });
+                        return [4 /*yield*/, dbAccess_1.orderDb.insertOrderAndDeleteCart(userId, body, bookIds)];
                     case 1:
-                        result = _a.sent();
-                        return [2 /*return*/, result];
+                        _a.sent();
+                        return [2 /*return*/];
                     case 2:
                         e_2 = _a.sent();
-                        index_js_1.default.reportDbErr(bookTable, 'SELECT', e_2);
                         throw e_2;
                     case 3: return [2 /*return*/];
                 }
             });
         });
     },
-    getBookByCategory: function getBookByCategory(categoryId, isNew, limit, offset) {
+    getOrderDetail: function getOrderDetail(userId, orderId) {
         return __awaiter(this, void 0, void 0, function () {
-            var oneMonthAgo, result, e_3;
+            var result, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 5, , 6]);
-                        oneMonthAgo = dbUtil_js_1.default.getOneMonthAgo();
-                        result = void 0;
-                        if (!isNew) return [3 /*break*/, 2];
-                        return [4 /*yield*/, (0, connection_js_1.default)('BOOKS_TB as bt')
-                                .select('bt.id', 'title', 'ct.name', 'form', 'isbn', 'summary', 'author', 'pages', 'contents', 'pub_date', 'detail', 'img')
-                                .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
-                                .where('bt.category_id', categoryId)
-                                .where('pub_date', '>', oneMonthAgo)
-                                .limit(limit).offset(offset)];
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, dbAccess_1.orderDb.selectOrderDetail(userId, orderId)];
                     case 1:
                         result = _a.sent();
-                        return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, (0, connection_js_1.default)('BOOKS_TB as bt')
-                            .select('bt.id', 'title', 'ct.name', 'form', 'isbn', 'summary', 'author', 'pages', 'contents', 'pub_date', 'detail', 'img')
-                            .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
-                            .where({ category_id: categoryId })
-                            .limit(limit).offset(offset)];
-                    case 3:
-                        result = _a.sent();
-                        _a.label = 4;
-                    case 4: return [2 /*return*/, result];
-                    case 5:
+                        return [2 /*return*/, result];
+                    case 2:
                         e_3 = _a.sent();
-                        index_js_1.default.reportDbErr(bookTable, 'SELECT', e_3);
                         throw e_3;
-                    case 6: return [2 /*return*/];
+                    case 3: return [2 /*return*/];
                 }
             });
         });

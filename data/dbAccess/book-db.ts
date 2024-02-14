@@ -14,8 +14,8 @@ export default {
                 .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
                 .limit(limit).offset(offset);
             return result;
-        } catch (e) {
-            logger.reportDbErr(bookTable, 'SELECT', e);
+        } catch (e: any) {
+            logger.reportDbErr(bookTable, 'SELECT', e.message);
             throw e;
         }
     },
@@ -26,8 +26,8 @@ export default {
                 .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
                 .where('bt.id', bookId);
             return result;
-        } catch (e) {
-            logger.reportDbErr(bookTable, 'SELECT', e);
+        } catch (e: any) {
+            logger.reportDbErr(bookTable, 'SELECT', e.message);
             throw e;
         }
     },
@@ -50,8 +50,8 @@ export default {
                     .limit(limit).offset(offset);
             }
             return result;
-        } catch (e) {
-            logger.reportDbErr(bookTable, 'SELECT', e);
+        } catch (e: any) {
+            logger.reportDbErr(bookTable, 'SELECT', e.message);
             throw e;
         }
     }

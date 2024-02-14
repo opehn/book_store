@@ -1,7 +1,6 @@
 import knex from '../connection';
 import logger from '../../shared/logger/index.js';
 import util from '../dbUtil.js';
-
 const userTable = 'USERS_TB';
 
 export default {
@@ -9,8 +8,8 @@ export default {
         try {
             let vals = await knex(userTable).where({ email: email });
             return vals;
-        } catch (e) {
-            logger.reportDbErr(userTable, 'SELECT', e);
+        } catch (e: any) {
+            logger.reportDbErr(userTable, 'SELECT', e.message);
             throw e;
         }
     },
@@ -23,8 +22,8 @@ export default {
             let newUserId = await knex(userTable).insert(userInfo);
             logger.info(`Successfully Added To ${userTable}, ID : ${newUserId}`);
             return newUserId;
-        } catch (e) {
-            logger.reportDbErr(userTable, 'INSERT', e);
+        } catch (e: any) {
+            logger.reportDbErr(userTable, 'INSERT', e.messsage);
             throw e;
         }
     },
@@ -35,8 +34,8 @@ export default {
             let hashedPassword = await module.exports.getPasswordByEmail(loginInfo);
             let result = await util.comparePassword(loginInfo.password, hashedPassword);
             return result;
-        } catch (e) {
-            logger.reportDbErr(userTable, 'SELECT', e);
+        } catch (e: any) {
+            logger.reportDbErr(userTable, 'SELECT', e.message);
             throw e;
         }
     },
@@ -50,8 +49,8 @@ export default {
                 return passwordArray[0].password;
             else
                 return null;
-        } catch (e) {
-            logger.reportDbErr(userTable, 'SELECT', e);
+        } catch (e: any) {
+            logger.reportDbErr(userTable, 'SELECT', e.message);
             throw e;
         }
     },
@@ -62,8 +61,8 @@ export default {
             let result = await knex(userTable).update({ password: hashedPassword })
                 .where({ id: userId });
             return result;
-        } catch (e) {
-            logger.reportDbErr(userTable, 'UPDATE', e);
+        } catch (e: any) {
+            logger.reportDbErr(userTable, 'UPDATE', e.message);
             throw e;
         }
     }

@@ -13,8 +13,8 @@ export default {
                     'liked_book_id': bookId
                 });
             return result;
-        } catch (e) {
-            logger.reportDbErr(likeTable, 'INSERT', e);
+        } catch (e: any) {
+            logger.reportDbErr(likeTable, 'INSERT', e.message);
             throw e;
         }
     },
@@ -26,8 +26,8 @@ export default {
                     user_id: userId,
                 });
             return result;
-        } catch (e) {
-            logger.reportDbErr(likeTable, 'DELETE', e);
+        } catch (e: any) {
+            logger.reportDbErr(likeTable, 'DELETE', e.message);
             throw e;
         }
     }

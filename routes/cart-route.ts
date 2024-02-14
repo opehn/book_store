@@ -2,7 +2,7 @@ import express = require('express');
 import { cart } from '../services';
 const router = express.Router();
 const { body, param, query } = require('express-validator');
-import { util } from '../shared/lib';
+import util from '../shared/lib';
 import logger from '../shared/logger';
 
 /* 전체 조회 */
@@ -72,4 +72,4 @@ router.get('/',
             }
         })
 
-module.exports = router;
+export default router;

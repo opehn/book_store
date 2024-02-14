@@ -8,8 +8,8 @@ export default {
         try {
             const result = await knex(categoryTable).select('*');
             return result;
-        } catch (e) {
-            logger.reportDbErr(categoryTable, 'SELECT', e);
+        } catch (e: any) {
+            logger.reportDbErr(categoryTable, 'SELECT', e.message);
         }
     }
 }

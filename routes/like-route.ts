@@ -1,7 +1,6 @@
 import * as express from 'express';
 const router = express.Router();
 import { param, query } from 'express-validator';
-
 import util from '../shared/lib/index';
 import logger from '../shared/logger';
 import likeController from '../controller/like-controller';
@@ -13,4 +12,4 @@ router.put('/:bookId',
         util.verifyToken
     ], likeController);
 
-module.exports = router;
+export default router;

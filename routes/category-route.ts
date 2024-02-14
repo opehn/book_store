@@ -6,4 +6,4 @@ import categoryController from '../controller/category-controller'
 router.get('/', categoryController);
 
 
-module.exports = router;
+export default router;

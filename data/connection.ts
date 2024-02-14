@@ -1,4 +1,4 @@
-import nconf from '../config';
+import nconf from '../config/index';
 const dbConf = nconf.get('db');
 
 import knex_ from 'knex'

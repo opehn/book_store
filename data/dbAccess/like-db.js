@@ -36,90 +36,54 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var connection_js_1 = require("../connection.js");
+var connection_1 = require("../connection");
 var index_js_1 = require("../../shared/logger/index.js");
-var dbUtil_js_1 = require("../dbUtil.js");
-var bookTable = 'BOOKS_TB';
+var likeTable = 'LIKES_TB';
 exports.default = {
-    getAllBooks: function getAllBooks(limit, offset) {
+    insertLikedUser: function insertLikedUser(userId, bookId) {
         return __awaiter(this, void 0, void 0, function () {
             var result, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, (0, connection_js_1.default)('BOOKS_TB as bt')
-                                .select('bt.id', 'title', 'ct.name', 'form', 'isbn', 'summary', 'author', 'pages', 'contents', 'pub_date', 'detail', 'img')
-                                .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
-                                .limit(limit).offset(offset)];
+                        return [4 /*yield*/, (0, connection_1.default)(likeTable)
+                                .insert({
+                                'user_id': userId,
+                                'liked_book_id': bookId
+                            })];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, result];
                     case 2:
                         e_1 = _a.sent();
-                        index_js_1.default.reportDbErr(bookTable, 'SELECT', e_1);
+                        index_js_1.default.reportDbErr(likeTable, 'INSERT', e_1);
                         throw e_1;
                     case 3: return [2 /*return*/];
                 }
             });
         });
     },
-    getBookById: function getBookById(bookId) {
+    deleteLikedUser: function deleteLikedUser(userId) {
         return __awaiter(this, void 0, void 0, function () {
             var result, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, (0, connection_js_1.default)('BOOKS_TB as bt')
-                                .select('bt.id', 'title', 'ct.name', 'form', 'isbn', 'summary', 'author', 'pages', 'contents', 'pub_date', 'detail', 'img')
-                                .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
-                                .where('bt.id', bookId)];
+                        return [4 /*yield*/, (0, connection_1.default)(likeTable)
+                                .delete()
+                                .where({
+                                user_id: userId,
+                            })];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, result];
                     case 2:
                         e_2 = _a.sent();
-                        index_js_1.default.reportDbErr(bookTable, 'SELECT', e_2);
+                        index_js_1.default.reportDbErr(likeTable, 'DELETE', e_2);
                         throw e_2;
                     case 3: return [2 /*return*/];
-                }
-            });
-        });
-    },
-    getBookByCategory: function getBookByCategory(categoryId, isNew, limit, offset) {
-        return __awaiter(this, void 0, void 0, function () {
-            var oneMonthAgo, result, e_3;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 5, , 6]);
-                        oneMonthAgo = dbUtil_js_1.default.getOneMonthAgo();
-                        result = void 0;
-                        if (!isNew) return [3 /*break*/, 2];
-                        return [4 /*yield*/, (0, connection_js_1.default)('BOOKS_TB as bt')
-                                .select('bt.id', 'title', 'ct.name', 'form', 'isbn', 'summary', 'author', 'pages', 'contents', 'pub_date', 'detail', 'img')
-                                .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
-                                .where('bt.category_id', categoryId)
-                                .where('pub_date', '>', oneMonthAgo)
-                                .limit(limit).offset(offset)];
-                    case 1:
-                        result = _a.sent();
-                        return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, (0, connection_js_1.default)('BOOKS_TB as bt')
-                            .select('bt.id', 'title', 'ct.name', 'form', 'isbn', 'summary', 'author', 'pages', 'contents', 'pub_date', 'detail', 'img')
-                            .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
-                            .where({ category_id: categoryId })
-                            .limit(limit).offset(offset)];
-                    case 3:
-                        result = _a.sent();
-                        _a.label = 4;
-                    case 4: return [2 /*return*/, result];
-                    case 5:
-                        e_3 = _a.sent();
-                        index_js_1.default.reportDbErr(bookTable, 'SELECT', e_3);
-                        throw e_3;
-                    case 6: return [2 /*return*/];
                 }
             });
         });

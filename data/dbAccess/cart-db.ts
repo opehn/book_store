@@ -11,8 +11,8 @@ export default {
                 .join('BOOKS_TB as bt', 'bt.id', '=', 'ct.book_id')
                 .where({ 'ct.user_id': userId });
             return result;
-        } catch (e) {
-            logger.reportDbErr(cartTable, 'INSERT', e);
+        } catch (e: any) {
+            logger.reportDbErr(cartTable, 'INSERT', e.message);
             throw e;
         }
     },
@@ -37,8 +37,8 @@ export default {
                 queryString, [bookId, count, userId]
             );
             return result[0];
-        } catch (e) {
-            logger.reportDbErr(cartTable, 'INSERT', e);
+        } catch (e: any) {
+            logger.reportDbErr(cartTable, 'INSERT', e.message);
             throw e;
         }
     },
@@ -49,8 +49,8 @@ export default {
                 .andWhere({ 'book_id': bookId });
             return result;
 
-        } catch (e) {
-            logger.reportDbErr(cartTable, 'INSERT', e);
+        } catch (e: any) {
+            logger.reportDbErr(cartTable, 'INSERT', e.message);
             throw e;
         }
     }

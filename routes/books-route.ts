@@ -3,6 +3,7 @@ const router = express.Router();
 import express_validator = require('express-validator');
 const { param, query } = express_validator;
 import { allBookController, bookDetailCotroller } from '../controller/books-controller';
+import util from '../shared/lib';
 
 router.get('/',
     [

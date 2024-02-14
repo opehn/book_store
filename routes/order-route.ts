@@ -20,4 +20,4 @@ router.get('/',
         [
             util.verifyToken,
         ], orderController.getOrderDetail)
-module.exports = router;
+export default router;
