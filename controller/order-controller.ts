@@ -2,10 +2,11 @@ import { RequestHandler } from 'express';
 import logger from '../shared/logger';
 import { order } from '../services';
 import { Result } from '../shared/type'
+import { UserToken } from '../shared/type';
 
 const getOrderList: RequestHandler = async function (req, res, next) {
     let result: Result = {};
-    let { userId } = req.user as any;
+    let { userId } = req.user as UserToken;
     logger.reportRequest(req.url, req.method);
     try {
         result.data = await order.getOrderList(userId);
