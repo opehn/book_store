@@ -14,7 +14,7 @@ const allBookController: RequestHandler = async (req, res, next) => {
         let isNew: boolean;
         if (!isNewParam) {
             let result = { message: 'No Data' };
-            logger.reportResponse(req.url, req.method, result);
+            logger.reportResponse(req.url, req.method, result.message);
             res.status(401).json(result);
             return;
         }
@@ -22,7 +22,7 @@ const allBookController: RequestHandler = async (req, res, next) => {
             isNew = (isNewParam === 'true');
             const result = await books.getBookByCategory(categoryId, isNew, limit, offset);
             result.message = 'Success';
-            logger.reportResponse(req.url, req.method, result);
+            logger.reportResponse(req.url, req.method, result.mssage);
             res.status(200).json(result);
         } catch (e: any) {
             logger.reportResponseErr(req.url, req.method, e.message);
@@ -32,7 +32,7 @@ const allBookController: RequestHandler = async (req, res, next) => {
         try {
             const result = await books.getAllBooks(limit, offset);
             result.message = 'Success';
-            logger.reportResponse(req.url, req.method, result);
+            logger.reportResponse(req.url, req.method, result.message);
             res.status(200).json(result);
         } catch (e: any) {
             logger.reportResponseErr(req.url, req.method, e.message);
@@ -47,7 +47,7 @@ const bookDetailCotroller: RequestHandler = async (req, res, next) => {
     try {
         const result = await books.getBookDetail(bookId);
         result.message = 'Success';
-        logger.reportResponse(req.url, req.method, result);
+        logger.reportResponse(req.url, req.method, result.message);
         res.status(200).json(result);
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);

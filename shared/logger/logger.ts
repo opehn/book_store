@@ -14,7 +14,7 @@ let logDir = `${appRoot}/log`;
 declare module 'winston' {
     interface Logger {
         reportRequest(url: string, method: string): void;
-        reportResponse(url: string, method: string, result: any): void;
+        reportResponse(url: string, method: string, result: string): void;
         reportResponseErr(url: string, method: string, err: string): void;
         reportDbErr(table: string, method: string, err: string): void;
     }

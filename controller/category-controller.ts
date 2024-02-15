@@ -10,7 +10,7 @@ const getBookByCategory: RequestHandler = async function getGookByCategory(req, 
         result.data = await category.getAllCategory();
         if (result.data) {
             result.message = 'Success';
-            logger.reportResponse(req.url, req.method, result)
+            logger.reportResponse(req.url, req.method, result.message)
             res.status(200).json(result);
         }
     } catch (e: any) {

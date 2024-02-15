@@ -26,7 +26,7 @@ const getOrderDetail: RequestHandler = async function (req, res, next) {
     try {
         result.data = await order.getOrderDetail(userId, orderId);
         result.message = 'Success';
-        logger.reportResponse(req.url, req.method, result);
+        logger.reportResponse(req.url, req.method, result.message);
         res.status(200).json(result);
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
