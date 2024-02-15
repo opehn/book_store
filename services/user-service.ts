@@ -1,9 +1,9 @@
 import { userDb } from '../data/dbAccess';
-import { LoginInfo } from '../shared/type'
+import { LoginInfo, UserInfo } from '../shared/type'
 
 //TODO : userInfo, loginInfo 인터페이스 정의
 export default {
-    join: async function join(userInfo: any) {
+    join: async function join(userInfo: UserInfo) {
         try {
             let matchedUser = await userDb.selectUserByEmail(userInfo.email);
             if (matchedUser.length) {

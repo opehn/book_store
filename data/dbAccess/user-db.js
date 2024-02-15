@@ -40,7 +40,7 @@ var connection_1 = require("../connection");
 var index_js_1 = require("../../shared/logger/index.js");
 var dbUtil_js_1 = require("../dbUtil.js");
 var userTable = 'USERS_TB';
-var getPasswordByEmail = function getPasswordByEmail(loginInfo) {
+var getPasswordByEmail = function getPasswordByEmail(email) {
     return __awaiter(this, void 0, void 0, function () {
         var passwordArray, e_1;
         return __generator(this, function (_a) {
@@ -49,7 +49,7 @@ var getPasswordByEmail = function getPasswordByEmail(loginInfo) {
                     _a.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, (0, connection_1.default)(userTable)
                             .select('password')
-                            .where({ email: loginInfo.email })];
+                            .where({ email: email })];
                 case 1:
                     passwordArray = _a.sent();
                     if (passwordArray.length)
@@ -121,7 +121,7 @@ exports.default = {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        return [4 /*yield*/, getPasswordByEmail(loginInfo)];
+                        return [4 /*yield*/, getPasswordByEmail(loginInfo.email)];
                     case 1:
                         hashedPassword = _a.sent();
                         return [4 /*yield*/, dbUtil_js_1.default.comparePassword(loginInfo.password, hashedPassword)];
@@ -145,10 +145,10 @@ exports.default = {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
+                        console.log("userId :", userId, "newPassword : ", newPassword);
                         return [4 /*yield*/, dbUtil_js_1.default.hashPassword(newPassword)];
                     case 1:
                         hashedPassword = _a.sent();
-                        console.log("userId : ".concat(userId, ",\n            newPassword : ").concat(newPassword, "\n            hashedPassword : ").concat(hashedPassword));
                         return [4 /*yield*/, (0, connection_1.default)(userTable).update({ password: hashedPassword })
                                 .where({ id: userId })];
                     case 2:

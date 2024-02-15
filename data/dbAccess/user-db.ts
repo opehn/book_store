@@ -2,13 +2,13 @@ import knex from '../connection';
 import logger from '../../shared/logger/index.js';
 import util from '../dbUtil.js';
 const userTable = 'USERS_TB';
-import { LoginInfo } from '../../shared/type'
+import { LoginInfo, UserInfo } from '../../shared/type'
 
-let getPasswordByEmail = async function getPasswordByEmail(loginInfo: any) {
+let getPasswordByEmail = async function getPasswordByEmail(email: string) {
     try {
         let passwordArray = await knex(userTable)
             .select('password')
-            .where({ email: loginInfo.email });
+            .where({ email: email });
         if (passwordArray.length)
             return passwordArray[0].password;
         else
@@ -31,7 +31,7 @@ export default {
     },
 
     //TODO : userInfo 인터페이스 정의
-    createNewUser: async function createNewUser(userInfo: any) {
+    createNewUser: async function createNewUser(userInfo: UserInfo) {
         try {
             let hash = await util.hashPassword(userInfo.password);
             userInfo.password = hash;
@@ -59,6 +59,7 @@ export default {
     getPasswordByEmail,
     updatePassword: async function updatePassword(userId: number, newPassword: string) {
         try {
+            console.log("userId :", userId, "newPassword : ", newPassword)
 
             let hashedPassword = await util.hashPassword(newPassword);
             let result = await knex(userTable).update({ password: hashedPassword })

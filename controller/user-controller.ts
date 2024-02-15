@@ -2,11 +2,11 @@ import { RequestHandler } from 'express';
 import logger from '../shared/logger';
 import { users } from '../services';
 import jwt = require('jsonwebtoken');
-import { Result } from '../shared/type'
+import { Result, UserInfo, UserToken } from '../shared/type'
 
 const join: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
-    const userInfo = req.body;
+    const userInfo: UserInfo = req.body;
     let result: Result = {};
     try {
         result.message = await users.join(userInfo);
@@ -73,7 +73,9 @@ const matchEmailForReset: RequestHandler = async function (req, res, next) {
 const reset: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
     const { password } = req.body;
-    const { userId } = req.user as any;
+    let userId;
+    if (req.user)
+        userId = parseInt(req.user.userId);
     let result: Result = {};
     try {
         result.data = await users.updatePassword(userId, password);

@@ -2,12 +2,7 @@ import { validationResult } from 'express-validator';
 import { RequestHandler } from 'express';
 import logger from '../logger';
 import jwt = require('jsonwebtoken');
-
-interface UserToken {
-    userId: number,
-    email: string,
-    name: string
-}
+import { UserToken } from '../type';
 
 const validate: RequestHandler = async function validate(req, res, next) {
     const err = validationResult(req);
