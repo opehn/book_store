@@ -58,7 +58,7 @@ var validate = function validate(req, res, next) {
 };
 var verifyToken = function verifyToken(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var token, secretKey, result, decoded, userInfo;
+        var token, secretKey, decoded, userInfo;
         return __generator(this, function (_a) {
             token = req.cookies.token;
             secretKey = process.env.PRIVATE_KEY;
@@ -66,11 +66,9 @@ var verifyToken = function verifyToken(req, res, next) {
                 logger_1.default.reportResponseErr(req.url, req.method, "Env error : Can't get PRIVATE_KEY");
                 return [2 /*return*/];
             }
-            result = {};
             if (!token) {
-                result = { messge: 'Unauthorized' };
-                logger_1.default.reportResponse(req.url, req.method, result);
-                return [2 /*return*/, res.status(401).json(result)];
+                logger_1.default.reportResponse(req.url, req.method, 'Unauthorized');
+                return [2 /*return*/, res.status(401).json({ message: 'Unauthorized' })];
             }
             try {
                 decoded = jwt.verify(token, secretKey);
@@ -85,13 +83,11 @@ var verifyToken = function verifyToken(req, res, next) {
             catch (e) {
                 //TODO : 제대로 동작 안함. 찾아봐야 함
                 if (e.name === 'JsonWebTokenError') {
-                    result = { message: 'Invalid token' };
-                    logger_1.default.reportResponse(req.url, req.method, result);
-                    return [2 /*return*/, res.status(403).json(result)];
+                    logger_1.default.reportResponse(req.url, req.method, 'Invalid token');
+                    return [2 /*return*/, res.status(403).json({ message: 'Invalid token' })];
                 }
                 else {
-                    result = { message: 'Server Error' };
-                    logger_1.default.reportResponseErr(req.url, req.method, e);
+                    logger_1.default.reportResponseErr(req.url, req.method, 'Server Error');
                     return [2 /*return*/, res.status(500).json({ message: 'Server Error' })];
                 }
             }
