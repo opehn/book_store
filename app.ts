@@ -1,16 +1,16 @@
 import express = require('express');
-let app = express();
 import dotenv = require('dotenv');
 import logger from './shared/logger/index';
 import bodyParser = require('body-parser');
 import cookieParser = require('cookie-parser');
-import { Request, Response, NextFunction } from 'express';
 
 const result = dotenv.config();
 
 if (result.error) {
     logger.error('dotenv config error');
 }
+
+let app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
 
@@ -30,5 +30,4 @@ app.listen(app.get('port'), () => {
     logger.info(`Server is listening on ${app.get('port')}`);
 })
 
-export type MiddlewareFn = (req: Request, res: Response, next: NextFunction) => void;
 export { app };

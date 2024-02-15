@@ -1,48 +1,49 @@
 import { RequestHandler } from 'express';
 import logger from '../shared/logger';
 import { order } from '../services';
+import { Result } from '../shared/type'
 
 const getOrderList: RequestHandler = async function (req, res, next) {
+    let result: Result = {};
     let { userId } = req.user;
     logger.reportRequest(req.url, req.method);
     try {
-        let result = {};
         result.data = await order.getOrderList(userId);
         result.message = 'Success';
-        logger.reportResponse(req.url, req.method, result);
+        logger.reportResponse(req.url, req.method, result.message);
         res.status(200).json(result);
-    } catch (e) {
-        logger.reportResponseErr(req.url, req.method, e);
+    } catch (e: any) {
+        logger.reportResponseErr(req.url, req.method, e.message);
     }
 }
 
 const getOrderDetail: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
     let { userId } = req.user;
-    let { orderId } = req.params;
+    let orderId = parseInt(req.params.orderId);
+    let result: Result = {};
     try {
-        let result = {};
         result.data = await order.getOrderDetail(userId, orderId);
         result.message = 'Success';
         logger.reportResponse(req.url, req.method, result);
         res.status(200).json(result);
-    } catch (e) {
-        logger.reportResponseErr(req.url, req.method, e);
+    } catch (e: any) {
+        logger.reportResponseErr(req.url, req.method, e.message);
     }
 }
 
 const orderPayment: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
     let { userId } = req.user;
+    let result: Result = {};
 
     try {
-        let result = {};
         await order.handlePayment(userId, req.body);
         result.message = 'Success';
         logger.reportResponse(req.url, req.method, result);
         res.status(200).json(result);
-    } catch (e) {
-        logger.reportResponseErr(req.url, req.method, e);
+    } catch (e: any) {
+        logger.reportResponseErr(req.url, req.method, e.message);
     }
 }
 

@@ -2,16 +2,18 @@ import { RequestHandler } from 'express';
 import logger from '../shared/logger';
 import { users } from '../services';
 import jwt from 'jsonwebtoken';
+import { Result } from '../shared/type'
 
 const join: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
     const userInfo = req.body;
+    let result: Result = {};
     try {
-        let result = await users.join(userInfo);
-        logger.reportResponse(req.url, req.method, result)
-        res.status(200).json(result);
-    } catch (e) {
-        logger.reportResponseErr(req.url, req.method, e);
+        result.message = await users.join(userInfo);
+        logger.reportResponse(req.url, req.method, result.message)
+        res.status(200).json(result.message);
+    } catch (e: any) {
+        logger.reportResponseErr(req.url, req.method, e.message);
         res.status(500).json({ message: 'Server error' });
     }
 }
@@ -21,24 +23,25 @@ const login: RequestHandler = async function (req, res, next) {
     const loginInfo = req.body;
 
     try {
-        let result = await users.login(loginInfo);
+        let result: Result = {};
+        result = await users.login(loginInfo);
         if (result.message === 'Success') {
             const token = jwt.sign({
-                userId: result.userId,
+                userId: result.data.userId,
                 email: loginInfo.email,
                 name: loginInfo.name
             }, process.env.PRIVATE_KEY, {
                 expiresIn: '30m',
                 issuer: "Anna"
             });
-            logger.reportResponse(req.url, req.method, result)
+            logger.reportResponse(req.url, req.method, result.message)
             res.cookie("token", token);
             res.status(200).json(result);
         }
         else
             res.status(400).json(result);
-    } catch (e) {
-        logger.reportResponseErr(req.url, req.method, e);
+    } catch (e: any) {
+        logger.reportResponseErr(req.url, req.method, e.message);
         res.status(500).json({ message: 'Server error' });
     }
 }
@@ -46,9 +49,11 @@ const login: RequestHandler = async function (req, res, next) {
 const matchEmailForReset: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
     const { email } = req.body;
+    let result: Result = {};
     try {
-        let result = await users.isEmailMatch(email);
-        if (result.message === 'Success') {
+        result.data = await users.isEmailMatch(email);
+        if (result.data.length) {
+            result.message = 'Success';
             const token = jwt.sign({
                 email: email,
             }, process.env.PRIVATE_KEY, {
@@ -56,11 +61,11 @@ const matchEmailForReset: RequestHandler = async function (req, res, next) {
                 issuer: "Anna"
             });
             res.cookie("token", token);
-            res.status(200).json(result);
+            res.status(200).json(result.message);
         }
-        logger.reportResponse(req.url, req.method, result)
-    } catch (e) {
-        logger.reportResponseErr(req.url, req.method, e);
+        logger.reportResponse(req.url, req.method, result.message)
+    } catch (e: any) {
+        logger.reportResponseErr(req.url, req.method, e.message);
         res.status(500).json({ message: 'Server error' });
     }
 }
@@ -69,12 +74,14 @@ const reset: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
     const { password } = req.body;
     const { userId } = req.user;
+    let result: Result = {};
     try {
-        let result = await users.updatePassword(userId, password);
-        logger.reportResponse(req.url, req.method, result)
-        res.status(200).json(result);
-    } catch (e) {
-        logger.reportResponseErr(req.url, req.method, e);
+        result.data = await users.updatePassword(userId, password);
+        result.data ? result.message = 'Success' : result.message = 'Failed';
+        logger.reportResponse(req.url, req.method, result.message)
+        res.status(200).json(result.message);
+    } catch (e: any) {
+        logger.reportResponseErr(req.url, req.method, e.message);
         res.status(500).json({ message: 'Server error' });
     }
 }

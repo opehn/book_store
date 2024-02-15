@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import logger from '../shared/logger';
 import { cart } from '../services';
+import { Result } from '../shared/type'
 
 const getCartList: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
@@ -11,9 +12,9 @@ const getCartList: RequestHandler = async function (req, res, next) {
         result.message = 'Success';
         logger.reportResponse(req.url, req.method, result);
         res.status(200).json(result);
-    } catch (e) {
+    } catch (e: any) {
         res.status(500).json({ message: 'Server error' });
-        logger.reportResponseErr(req.url, req.method, e);
+        logger.reportResponseErr(req.url, req.method, e.message);
     }
 }
 
@@ -36,22 +37,21 @@ const addCart: RequestHandler = async function (req, res, next) {
 const deleteCart: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
     const { userId } = req.user;
-    const { bookId } = req.params;
+    const bookId = parseInt(req.params.bookId);
     try {
-        let message = {};
-        let result = await cart.deleteCartItems(userId, bookId);
-        if (!result)
-            message.message = 'Already deleted';
+        let result: Result = {};
+        result.data = await cart.deleteCartItems(userId, bookId);
+        if (!result.data)
+            result.message = 'Already deleted';
         else
-            message.message = 'Success';
-        res.status(200).json(message);
-    } catch (e) {
+            result.message = 'Success';
+        res.status(200).json(result.message);
+    } catch (e: any) {
         res.status(500).json({ message: 'Server error' });
-        logger.reportResponseErr(req.url, req.method, e);
+        logger.reportResponseErr(req.url, req.method, e.message);
     }
 }
 
 let cartController = { getCartList, addCart, deleteCart };
 
 export default cartController;
-

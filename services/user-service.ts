@@ -1,4 +1,5 @@
 import { userDb } from '../data/dbAccess';
+import { Result } from '../shared/type'
 
 //TODO : userInfo, loginInfo 인터페이스 정의
 export default {
@@ -6,11 +7,11 @@ export default {
         try {
             let matchedUser = await userDb.selectUserByEmail(userInfo.email);
             if (matchedUser.length) {
-                return { message: 'Duplicate' };
+                return 'Duplicate';
             } else {
 
                 await userDb.createNewUser(userInfo);
-                return { message: 'Success' };
+                return 'Success';
             }
         } catch (e) {
             throw e;
@@ -21,9 +22,10 @@ export default {
         try {
             let matchedUser = await userDb.selectUserByEmail(loginInfo.email);
             if (matchedUser.length) {
-                let result = await userDb.comparePassword(loginInfo);
-                if (result)
+                let data = await userDb.comparePassword(loginInfo);
+                if (data)
                     return {
+                        data: data,
                         message: 'Success',
                         userId: matchedUser[0].id
                     };
@@ -38,24 +40,15 @@ export default {
     },
     isEmailMatch: async function isEmailMatch(email: string) {
         try {
-            let matchedUser = await userDb.selectUserByEmail(email);
-            if (matchedUser.length) {
-                return { message: 'Success' };
-            } else {
-                return { message: 'Failed' };
-            }
-        } catch (e) {
+            return await userDb.selectUserByEmail(email);
+        }
+        catch (e) {
             throw e;
         }
     },
     updatePassword: async function updatePassword(userId: number, password: string) {
         try {
-            let result = await userDb.updatePassword(userId, password);
-            if (result) {
-                return { message: 'Success' };
-            } else {
-                return { message: 'Failed' };
-            }
+            return await userDb.updatePassword(userId, password);
         } catch (e) {
             throw e;
         }
