@@ -1,5 +1,5 @@
 import { userDb } from '../data/dbAccess';
-import { Result } from '../shared/type'
+import { LoginInfo } from '../shared/type'
 
 //TODO : userInfo, loginInfo 인터페이스 정의
 export default {
@@ -18,7 +18,7 @@ export default {
         }
     },
 
-    login: async function login(loginInfo: any) {
+    login: async function login(loginInfo: LoginInfo) {
         try {
             let matchedUser = await userDb.selectUserByEmail(loginInfo.email);
             console.log('matchedUser', matchedUser)

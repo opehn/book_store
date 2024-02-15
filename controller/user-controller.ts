@@ -20,7 +20,7 @@ const join: RequestHandler = async function (req, res, next) {
 
 const login: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
-    const loginInfo: any = req.body;
+    const loginInfo = req.body;
     try {
         let result: Result = {};
         result = await users.login(loginInfo);

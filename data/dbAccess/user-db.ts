@@ -2,6 +2,7 @@ import knex from '../connection';
 import logger from '../../shared/logger/index.js';
 import util from '../dbUtil.js';
 const userTable = 'USERS_TB';
+import { LoginInfo } from '../../shared/type'
 
 let getPasswordByEmail = async function getPasswordByEmail(loginInfo: any) {
     try {
@@ -44,9 +45,9 @@ export default {
     },
 
     //TODO : loginInfo 인터페이스 정의
-    comparePassword: async function comparePassword(loginInfo: any) {
+    comparePassword: async function comparePassword(loginInfo: LoginInfo) {
         try {
-            let hashedPassword = await getPasswordByEmail(loginInfo);
+            let hashedPassword = await getPasswordByEmail(loginInfo.email);
             let result = await util.comparePassword(loginInfo.password, hashedPassword);
             return result;
         } catch (e: any) {
@@ -60,9 +61,6 @@ export default {
         try {
 
             let hashedPassword = await util.hashPassword(newPassword);
-            console.log(`userId : ${userId},
-            newPassword : ${newPassword}
-            hashedPassword : ${hashedPassword}`)
             let result = await knex(userTable).update({ password: hashedPassword })
                 .where({ id: userId });
             return result;
