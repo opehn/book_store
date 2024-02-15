@@ -136,8 +136,8 @@ var matchEmailForReset = function (req, res, next) {
                         });
                         res.cookie("token", token);
                         res.status(200).json(result.message);
+                        logger_1.default.reportResponse(req.url, req.method, result.message);
                     }
-                    logger_1.default.reportResponse(req.url, req.method, result.message);
                     return [3 /*break*/, 4];
                 case 3:
                     e_3 = _b.sent();

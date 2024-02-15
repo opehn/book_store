@@ -85,7 +85,7 @@ var getOrderDetail = function (req, res, next) {
                 case 2:
                     _a.data = _b.sent();
                     result.message = 'Success';
-                    logger_1.default.reportResponse(req.url, req.method, result);
+                    logger_1.default.reportResponse(req.url, req.method, result.message);
                     res.status(200).json(result);
                     return [3 /*break*/, 4];
                 case 3:
@@ -113,7 +113,7 @@ var orderPayment = function (req, res, next) {
                 case 2:
                     _a.sent();
                     result.message = 'Success';
-                    logger_1.default.reportResponse(req.url, req.method, result);
+                    logger_1.default.reportResponse(req.url, req.method, result.message);
                     res.status(200).json(result);
                     return [3 /*break*/, 4];
                 case 3:

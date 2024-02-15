@@ -20,7 +20,7 @@ const likeController: RequestHandler = async function (req, res, next) {
     try {
         like.toggleLikeStatus(userId, bookId, ifLiked);
         result.message = 'Success';
-        logger.reportResponse(req.url, req.method, result);
+        logger.reportResponse(req.url, req.method, result.message);
         res.status(200).json(result);
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);

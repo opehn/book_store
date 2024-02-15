@@ -29,11 +29,9 @@ const verifyToken: RequestHandler = async function verifyToken(req, res, next) {
         return;
     }
 
-    let result = {};
     if (!token) {
-        result = { messge: 'Unauthorized' };
-        logger.reportResponse(req.url, req.method, result);
-        return res.status(401).json(result);
+        logger.reportResponse(req.url, req.method, 'Unauthorized');
+        return res.status(401).json({ message: 'Unauthorized' });
     }
     try {
         let decoded: any = jwt.verify(token, secretKey);
@@ -47,12 +45,10 @@ const verifyToken: RequestHandler = async function verifyToken(req, res, next) {
     } catch (e: any) {
         //TODO : 제대로 동작 안함. 찾아봐야 함
         if (e.name === 'JsonWebTokenError') {
-            result = { message: 'Invalid token' };
-            logger.reportResponse(req.url, req.method, result);
-            return res.status(403).json(result);
+            logger.reportResponse(req.url, req.method, 'Invalid token');
+            return res.status(403).json({ message: 'Invalid token' });
         } else {
-            result = { message: 'Server Error' };
-            logger.reportResponseErr(req.url, req.method, e);
+            logger.reportResponseErr(req.url, req.method, 'Server Error');
             return res.status(500).json({ message: 'Server Error' });
         }
     }

@@ -62,8 +62,8 @@ const matchEmailForReset: RequestHandler = async function (req, res, next) {
             });
             res.cookie("token", token);
             res.status(200).json(result.message);
+            logger.reportResponse(req.url, req.method, result.message)
         }
-        logger.reportResponse(req.url, req.method, result.message)
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
         res.status(500).json({ message: 'Server error' });

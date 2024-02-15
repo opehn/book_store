@@ -55,7 +55,7 @@ var likeController = function (req, res, next) {
             try {
                 services_1.like.toggleLikeStatus(userId, bookId, ifLiked);
                 result.message = 'Success';
-                logger_1.default.reportResponse(req.url, req.method, result);
+                logger_1.default.reportResponse(req.url, req.method, result.message);
                 res.status(200).json(result);
             }
             catch (e) {

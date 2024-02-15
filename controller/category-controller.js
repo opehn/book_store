@@ -55,7 +55,7 @@ var getBookByCategory = function getGookByCategory(req, res, next) {
                     _a.data = _b.sent();
                     if (result.data) {
                         result.message = 'Success';
-                        logger_1.default.reportResponse(req.url, req.method, result);
+                        logger_1.default.reportResponse(req.url, req.method, result.message);
                         res.status(200).json(result);
                     }
                     return [3 /*break*/, 4];
