@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var winston = require("winston");
 var winstonDaily = require("winston-daily-rotate-file");
 var appRoot = require("app-root-path");
-var Logger = winston.Logger;
 var createLogger = winston.createLogger, format = winston.format, transports = winston.transports;
 var combine = format.combine, timestamp = format.timestamp, printf = format.printf;
 var logFormat = printf(function (_a) {
@@ -44,8 +43,8 @@ logger.reportRequest = function (url, method) {
     return;
 };
 //TODO : result 객체 타입 정의..
-logger.reportResponse = function (url, method, result) {
-    this.info("Send response to ".concat(url, " by ").concat(method, " : ").concat(result.message));
+logger.reportResponse = function (url, method, message) {
+    this.info("Send response to ".concat(url, " by ").concat(method, " : ").concat(message));
 };
 logger.reportResponseErr = function (url, method, err) {
     this.error("Request on ".concat(url, " by ").concat(method, " failed | ").concat(err));

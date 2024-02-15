@@ -1,7 +1,6 @@
 import winston = require('winston');
 import winstonDaily = require('winston-daily-rotate-file');
 import appRoot = require('app-root-path');
-const { Logger } = winston;
 const { createLogger, format, transports } = winston;
 const { combine, timestamp, printf } = format;
 
@@ -58,8 +57,8 @@ logger.reportRequest = function (url: string, method: string): void {
 }
 
 //TODO : result 객체 타입 정의..
-logger.reportResponse = function (url: string, method: string, result: any): void {
-    this.info(`Send response to ${url} by ${method} : ${result.message}`);
+logger.reportResponse = function (url: string, method: string, message: string): void {
+    this.info(`Send response to ${url} by ${method} : ${message}`);
 }
 
 logger.reportResponseErr = function (url: string, method: string, err: string): void {

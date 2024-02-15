@@ -1,5 +1,4 @@
 const { cartDb } = require('../data/dbAccess');
-const { userDb } = require('../data/dbAccess');
 
 export default {
     getCartItems: async function getCartItems(userId: number) {

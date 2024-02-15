@@ -20,7 +20,7 @@ const getOrderList: RequestHandler = async function (req, res, next) {
 
 const getOrderDetail: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
-    let { userId } = req.user as any;
+    let { userId } = req.user as UserToken;
     let orderId = parseInt(req.params.orderId);
     let result: Result = {};
     try {
@@ -35,7 +35,7 @@ const getOrderDetail: RequestHandler = async function (req, res, next) {
 
 const orderPayment: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
-    let { userId } = req.user as any;
+    let { userId } = req.user as UserToken;
     let result: Result = {};
 
     try {

@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var cartDb = require('../data/dbAccess').cartDb;
-var userDb = require('../data/dbAccess').userDb;
 exports.default = {
     getCartItems: function getCartItems(userId) {
         return __awaiter(this, void 0, void 0, function () {

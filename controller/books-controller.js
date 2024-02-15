@@ -38,13 +38,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookDetailCotroller = exports.allBookController = void 0;
 var books = require('../services').books;
-var logger = require('../shared/logger');
+var logger_1 = require("../shared/logger");
 var allBookController = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var categoryId, limit, offset, isNewParam, isNew, result, result, e_1, result, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                logger.reportRequest(req.url, req.method);
+                logger_1.default.reportRequest(req.url, req.method);
                 categoryId = req.query.categoryId;
                 limit = parseInt(req.query.limit);
                 offset = parseInt(req.query.offset);
@@ -54,7 +54,7 @@ var allBookController = function (req, res, next) { return __awaiter(void 0, voi
                 isNew = void 0;
                 if (!isNewParam) {
                     result = { message: 'No Data' };
-                    logger.reportResponse(req.url, req.method, result);
+                    logger_1.default.reportResponse(req.url, req.method, result);
                     res.status(401).json(result);
                     return [2 /*return*/];
                 }
@@ -66,12 +66,12 @@ var allBookController = function (req, res, next) { return __awaiter(void 0, voi
             case 2:
                 result = _a.sent();
                 result.message = 'Success';
-                logger.reportResponse(req.url, req.method, result);
+                logger_1.default.reportResponse(req.url, req.method, result);
                 res.status(200).json(result);
                 return [3 /*break*/, 4];
             case 3:
                 e_1 = _a.sent();
-                logger.reportReponseErr(req.url, req.method, e_1);
+                logger_1.default.reportReponseErr(req.url, req.method, e_1);
                 res.status(500).json({ message: 'Server Error' });
                 return [3 /*break*/, 4];
             case 4: return [3 /*break*/, 8];
@@ -81,12 +81,12 @@ var allBookController = function (req, res, next) { return __awaiter(void 0, voi
             case 6:
                 result = _a.sent();
                 result.message = 'Success';
-                logger.reportResponse(req.url, req.method, result);
+                logger_1.default.reportResponse(req.url, req.method, result);
                 res.status(200).json(result);
                 return [3 /*break*/, 8];
             case 7:
                 e_2 = _a.sent();
-                logger.reportReponseErr(req.url, req.method, e_2);
+                logger_1.default.reportReponseErr(req.url, req.method, e_2);
                 res.status(500).json({ message: 'Server Error' });
                 return [3 /*break*/, 8];
             case 8: return [2 /*return*/];
@@ -99,7 +99,7 @@ var bookDetailCotroller = function (req, res, next) { return __awaiter(void 0, v
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                logger.reportRequest(req.url, req.method);
+                logger_1.default.reportRequest(req.url, req.method);
                 bookId = req.params.bookId;
                 _a.label = 1;
             case 1:
@@ -108,12 +108,12 @@ var bookDetailCotroller = function (req, res, next) { return __awaiter(void 0, v
             case 2:
                 result = _a.sent();
                 result.message = 'Success';
-                logger.reportResponse(req.url, req.method, result);
+                logger_1.default.reportResponse(req.url, req.method, result);
                 res.status(200).json(result);
                 return [3 /*break*/, 4];
             case 3:
                 e_3 = _a.sent();
-                logger.reportReponseErr(req.url, req.method, e_3);
+                logger_1.default.reportReponseErr(req.url, req.method, e_3);
                 res.status(500).json({ message: 'Server Error' });
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];

@@ -74,15 +74,12 @@ var verifyToken = function verifyToken(req, res, next) {
             }
             try {
                 decoded = jwt.verify(token, secretKey);
-                console.log([decoded]);
-                console.log(token);
                 userInfo = {
                     userId: decoded.userId,
                     email: decoded.email,
                     name: decoded.name,
                 };
-                console.log(userInfo);
-                req.user = decoded;
+                req.user = userInfo;
                 return [2 /*return*/, next()];
             }
             catch (e) {

@@ -88,8 +88,6 @@ var login = function (req, res, next) {
                         email: result.data.email,
                         name: result.data.name
                     };
-                    console.log("result.data", result.data.id);
-                    console.log("user Object", user);
                     if (result.message === 'Success') {
                         token = jwt.sign(user, process.env.PRIVATE_KEY, {
                             expiresIn: '30m',
