@@ -13,7 +13,7 @@ export default {
     //TODO : body, cur인터페이스
     handlePayment: async function handlePayment(userId: number, body: any) {
         try {
-            let bookIds = body.items.map(cur => (cur.bookId));
+            let bookIds = body.items.map((cur: any) => (cur.bookId));
             await orderDb.insertOrderAndDeleteCart(userId, body, bookIds);
             return;
         } catch (e) {

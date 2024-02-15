@@ -47,19 +47,20 @@ var likeController = function (req, res, next) {
             bookId = parseInt(req.params.bookId);
             liked = req.query.liked;
             userId = req.user.userId;
+            result = {};
             if (liked === 'true')
                 ifLiked = true;
             else
                 ifLiked = false;
             try {
-                result = services_1.like.toggleLikeStatus(userId, bookId, ifLiked);
+                services_1.like.toggleLikeStatus(userId, bookId, ifLiked);
                 result.message = 'Success';
                 logger_1.default.reportResponse(req.url, req.method, result);
                 res.status(200).json(result);
             }
             catch (e) {
-                logger_1.default.reportResponseErr(req.url, req.method, e);
-                res.status(500).json({ message: "Server Error" });
+                logger_1.default.reportResponseErr(req.url, req.method, e.message);
+                res.status(500).json(e.message);
             }
             return [2 /*return*/];
         });

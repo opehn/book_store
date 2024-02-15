@@ -21,13 +21,13 @@ export default {
     login: async function login(loginInfo: any) {
         try {
             let matchedUser = await userDb.selectUserByEmail(loginInfo.email);
+            console.log('matchedUser', matchedUser)
             if (matchedUser.length) {
                 let data = await userDb.comparePassword(loginInfo);
                 if (data)
                     return {
-                        data: data,
+                        data: matchedUser[0],
                         message: 'Success',
-                        userId: matchedUser[0].id
                     };
                 else
                     return { message: 'Password not matched' }
@@ -48,6 +48,7 @@ export default {
     },
     updatePassword: async function updatePassword(userId: number, password: string) {
         try {
+            console.log(`service userId : ${userId}`)
             return await userDb.updatePassword(userId, password);
         } catch (e) {
             throw e;

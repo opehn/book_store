@@ -5,7 +5,7 @@ import { Result } from '../shared/type'
 
 const getOrderList: RequestHandler = async function (req, res, next) {
     let result: Result = {};
-    let { userId } = req.user;
+    let { userId } = req.user as any;
     logger.reportRequest(req.url, req.method);
     try {
         result.data = await order.getOrderList(userId);
@@ -19,7 +19,7 @@ const getOrderList: RequestHandler = async function (req, res, next) {
 
 const getOrderDetail: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
-    let { userId } = req.user;
+    let { userId } = req.user as any;
     let orderId = parseInt(req.params.orderId);
     let result: Result = {};
     try {
@@ -34,7 +34,7 @@ const getOrderDetail: RequestHandler = async function (req, res, next) {
 
 const orderPayment: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
-    let { userId } = req.user;
+    let { userId } = req.user as any;
     let result: Result = {};
 
     try {

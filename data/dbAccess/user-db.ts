@@ -3,6 +3,21 @@ import logger from '../../shared/logger/index.js';
 import util from '../dbUtil.js';
 const userTable = 'USERS_TB';
 
+let getPasswordByEmail = async function getPasswordByEmail(loginInfo: any) {
+    try {
+        let passwordArray = await knex(userTable)
+            .select('password')
+            .where({ email: loginInfo.email });
+        if (passwordArray.length)
+            return passwordArray[0].password;
+        else
+            return null;
+    } catch (e: any) {
+        logger.reportDbErr(userTable, 'SELECT', e.message);
+        throw e;
+    }
+}
+
 export default {
     selectUserByEmail: async function selectUserByEmail(email: string) {
         try {
@@ -31,7 +46,7 @@ export default {
     //TODO : loginInfo 인터페이스 정의
     comparePassword: async function comparePassword(loginInfo: any) {
         try {
-            let hashedPassword = await module.exports.getPasswordByEmail(loginInfo);
+            let hashedPassword = await getPasswordByEmail(loginInfo);
             let result = await util.comparePassword(loginInfo.password, hashedPassword);
             return result;
         } catch (e: any) {
@@ -40,24 +55,14 @@ export default {
         }
     },
 
-    getPasswordByEmail: async function getPasswordByEmail(loginInfo: any) {
-        try {
-            let passwordArray = await knex(userTable)
-                .select('password')
-                .where({ email: loginInfo.email });
-            if (passwordArray.length)
-                return passwordArray[0].password;
-            else
-                return null;
-        } catch (e: any) {
-            logger.reportDbErr(userTable, 'SELECT', e.message);
-            throw e;
-        }
-    },
+    getPasswordByEmail,
     updatePassword: async function updatePassword(userId: number, newPassword: string) {
         try {
 
             let hashedPassword = await util.hashPassword(newPassword);
+            console.log(`userId : ${userId},
+            newPassword : ${newPassword}
+            hashedPassword : ${hashedPassword}`)
             let result = await knex(userTable).update({ password: hashedPassword })
                 .where({ id: userId });
             return result;

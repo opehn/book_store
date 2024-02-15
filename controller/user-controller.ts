@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import logger from '../shared/logger';
 import { users } from '../services';
-import jwt from 'jsonwebtoken';
+import jwt = require('jsonwebtoken');
 import { Result } from '../shared/type'
 
 const join: RequestHandler = async function (req, res, next) {
@@ -20,23 +20,23 @@ const join: RequestHandler = async function (req, res, next) {
 
 const login: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
-    const loginInfo = req.body;
-
+    const loginInfo: any = req.body;
     try {
         let result: Result = {};
         result = await users.login(loginInfo);
+        let user = {
+            userId: result.data.id,
+            email: result.data.email,
+            name: result.data.name
+        }
         if (result.message === 'Success') {
-            const token = jwt.sign({
-                userId: result.data.userId,
-                email: loginInfo.email,
-                name: loginInfo.name
-            }, process.env.PRIVATE_KEY, {
+            const token = jwt.sign(user, process.env.PRIVATE_KEY as any, {
                 expiresIn: '30m',
                 issuer: "Anna"
             });
             logger.reportResponse(req.url, req.method, result.message)
             res.cookie("token", token);
-            res.status(200).json(result);
+            res.status(200).json(result.message);
         }
         else
             res.status(400).json(result);
@@ -56,7 +56,7 @@ const matchEmailForReset: RequestHandler = async function (req, res, next) {
             result.message = 'Success';
             const token = jwt.sign({
                 email: email,
-            }, process.env.PRIVATE_KEY, {
+            }, process.env.PRIVATE_KEY as any, {
                 expiresIn: '30m',
                 issuer: "Anna"
             });
@@ -73,7 +73,7 @@ const matchEmailForReset: RequestHandler = async function (req, res, next) {
 const reset: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
     const { password } = req.body;
-    const { userId } = req.user;
+    const { userId } = req.user as any;
     let result: Result = {};
     try {
         result.data = await users.updatePassword(userId, password);

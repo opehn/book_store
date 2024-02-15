@@ -2,10 +2,11 @@ import { RequestHandler } from 'express';
 import logger from '../shared/logger';
 import { cart } from '../services';
 import { Result } from '../shared/type'
+import { UserToken } from '../shared/type';
 
 const getCartList: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
-    let { userId } = req.user;
+    let { userId } = req.user as UserToken;
 
     try {
         let result = await cart.getCartItems(userId);
@@ -21,7 +22,7 @@ const getCartList: RequestHandler = async function (req, res, next) {
 const addCart: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
     let { bookId, count } = req.body;
-    let { userId } = req.user;
+    let { userId } = req.user as UserToken;
     let sign = req.query.sign as string;
     try {
         let result = await cart.updateCartItems(userId, bookId, count, sign);
@@ -36,7 +37,7 @@ const addCart: RequestHandler = async function (req, res, next) {
 
 const deleteCart: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
-    const { userId } = req.user;
+    const { userId } = req.user as UserToken;
     const bookId = parseInt(req.params.bookId);
     try {
         let result: Result = {};

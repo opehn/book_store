@@ -11,6 +11,7 @@ router.get('/', [
     index_1.default.verifyToken,
 ], order_controller_1.default.getOrderList)
     .post('/', /* 결제 하기 */ [
+    //TODO : 괴랄함 해결하기..
     (0, express_validator_1.checkSchema)(validation_schema_1.paymentSchema),
     index_1.default.validate,
     index_1.default.verifyToken,

@@ -2,13 +2,14 @@ import { RequestHandler } from 'express';
 import logger from '../shared/logger';
 import { like } from '../services';
 import { Result } from '../shared/type'
+import { UserToken } from '../shared/type';
 
 //TODO : user 인터페이스 추가
 const likeController: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
     const bookId: number = parseInt(req.params.bookId);
     const { liked } = req.query;
-    const { userId } = req.user;
+    const { userId } = req.user as UserToken;
     let ifLiked: boolean;
     let result: Result = {};
 

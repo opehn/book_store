@@ -56,7 +56,7 @@ exports.default = {
                         return [2 /*return*/, result];
                     case 2:
                         e_1 = _a.sent();
-                        index_js_1.default.reportDbErr(cartTable, 'INSERT', e_1);
+                        index_js_1.default.reportDbErr(cartTable, 'INSERT', e_1.message);
                         throw e_1;
                     case 3: return [2 /*return*/];
                 }
@@ -90,7 +90,7 @@ exports.default = {
                         return [2 /*return*/, result[0]];
                     case 2:
                         e_2 = _a.sent();
-                        index_js_1.default.reportDbErr(cartTable, 'INSERT', e_2);
+                        index_js_1.default.reportDbErr(cartTable, 'INSERT', e_2.message);
                         throw e_2;
                     case 3: return [2 /*return*/];
                 }
@@ -112,7 +112,7 @@ exports.default = {
                         return [2 /*return*/, result];
                     case 2:
                         e_3 = _a.sent();
-                        index_js_1.default.reportDbErr(cartTable, 'INSERT', e_3);
+                        index_js_1.default.reportDbErr(cartTable, 'INSERT', e_3.message);
                         throw e_3;
                     case 3: return [2 /*return*/];
                 }

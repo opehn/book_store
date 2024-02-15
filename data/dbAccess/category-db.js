@@ -53,7 +53,7 @@ exports.default = {
                         return [2 /*return*/, result];
                     case 2:
                         e_1 = _a.sent();
-                        index_js_1.default.reportDbErr(categoryTable, 'SELECT', e_1);
+                        index_js_1.default.reportDbErr(categoryTable, 'SELECT', e_1.message);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }

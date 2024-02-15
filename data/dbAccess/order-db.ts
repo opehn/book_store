@@ -15,8 +15,8 @@ export default {
                 ).where('ot.user_id', userId)
                 .join('DELIVERY_TB as dt', 'dt.id', 'ot.delivery_id');
             return orderList;
-        } catch (e) {
-            logger.reportDbErr(orderTable, 'select', e);
+        } catch (e: any) {
+            logger.reportDbErr(orderTable, 'select', e.message);
         }
     },
     //TODO : body, bookIds 인터페이스 정의
@@ -35,12 +35,12 @@ export default {
                     .insert({
                         user_id: userId,
                         delivery_id: deliveryId[0],
-                        book_title: bookTitle,
+                        book_title: body.bookTitle,
                         total_price: body.totalPrice,
                         total_count: body.totalCount
                     })
 
-                let newItems = body.items.map(cur => ({
+                let newItems = body.items.map((cur: any) => ({
                     'book_id': cur.bookId,
                     'count': cur.count,
                     'order_id': orderId
@@ -55,8 +55,8 @@ export default {
                     .whereIn('book_id', bookIds);
                 trx.commit;
             })
-        } catch (e) {
-            logger.reportDbErr('Mutiple Table', 'Transaction', e);
+        } catch (e: any) {
+            logger.reportDbErr('Mutiple Table', 'Transaction', e.message);
             throw e;
         }
     },

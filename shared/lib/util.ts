@@ -1,10 +1,13 @@
 import { validationResult } from 'express-validator';
 import { RequestHandler } from 'express';
 import logger from '../logger';
-import jwt from 'jsonwebtoken';
+import jwt = require('jsonwebtoken');
 
-
-
+interface UserToken {
+    userId: number,
+    email: string,
+    name: string
+}
 
 const validate: RequestHandler = async function validate(req, res, next) {
     const err = validationResult(req);
@@ -33,8 +36,13 @@ const verifyToken: RequestHandler = async function verifyToken(req, res, next) {
         return res.status(401).json(result);
     }
     try {
-        let decoded = jwt.verify(token, secretKey);
-        req.user = decoded;
+        let decoded: any = jwt.verify(token, secretKey);
+        let userInfo: UserToken = {
+            userId: decoded.userId,
+            email: decoded.email,
+            name: decoded.name,
+        }
+        req.user = userInfo;
         return next();
     } catch (e: any) {
         //TODO : 제대로 동작 안함. 찾아봐야 함

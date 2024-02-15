@@ -50,11 +50,11 @@ exports.default = {
                     case 1:
                         matchedUser = _a.sent();
                         if (!matchedUser.length) return [3 /*break*/, 2];
-                        return [2 /*return*/, { message: 'Duplicate' }];
+                        return [2 /*return*/, 'Duplicate'];
                     case 2: return [4 /*yield*/, dbAccess_1.userDb.createNewUser(userInfo)];
                     case 3:
                         _a.sent();
-                        return [2 /*return*/, { message: 'Success' }];
+                        return [2 /*return*/, 'Success'];
                     case 4: return [3 /*break*/, 6];
                     case 5:
                         e_1 = _a.sent();
@@ -66,7 +66,7 @@ exports.default = {
     },
     login: function login(loginInfo) {
         return __awaiter(this, void 0, void 0, function () {
-            var matchedUser, result, e_2;
+            var matchedUser, data, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -74,14 +74,15 @@ exports.default = {
                         return [4 /*yield*/, dbAccess_1.userDb.selectUserByEmail(loginInfo.email)];
                     case 1:
                         matchedUser = _a.sent();
+                        console.log('matchedUser', matchedUser);
                         if (!matchedUser.length) return [3 /*break*/, 3];
                         return [4 /*yield*/, dbAccess_1.userDb.comparePassword(loginInfo)];
                     case 2:
-                        result = _a.sent();
-                        if (result)
+                        data = _a.sent();
+                        if (data)
                             return [2 /*return*/, {
+                                    data: matchedUser[0],
                                     message: 'Success',
-                                    userId: matchedUser[0].id
                                 }];
                         else
                             return [2 /*return*/, { message: 'Password not matched' }];
@@ -98,21 +99,13 @@ exports.default = {
     },
     isEmailMatch: function isEmailMatch(email) {
         return __awaiter(this, void 0, void 0, function () {
-            var matchedUser, e_3;
+            var e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, dbAccess_1.userDb.selectUserByEmail(email)];
-                    case 1:
-                        matchedUser = _a.sent();
-                        if (matchedUser.length) {
-                            return [2 /*return*/, { message: 'Success' }];
-                        }
-                        else {
-                            return [2 /*return*/, { message: 'Failed' }];
-                        }
-                        return [3 /*break*/, 3];
+                    case 1: return [2 /*return*/, _a.sent()];
                     case 2:
                         e_3 = _a.sent();
                         throw e_3;
@@ -123,21 +116,14 @@ exports.default = {
     },
     updatePassword: function updatePassword(userId, password) {
         return __awaiter(this, void 0, void 0, function () {
-            var result, e_4;
+            var e_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
+                        console.log("service userId : ".concat(userId));
                         return [4 /*yield*/, dbAccess_1.userDb.updatePassword(userId, password)];
-                    case 1:
-                        result = _a.sent();
-                        if (result) {
-                            return [2 /*return*/, { message: 'Success' }];
-                        }
-                        else {
-                            return [2 /*return*/, { message: 'Failed' }];
-                        }
-                        return [3 /*break*/, 3];
+                    case 1: return [2 /*return*/, _a.sent()];
                     case 2:
                         e_4 = _a.sent();
                         throw e_4;

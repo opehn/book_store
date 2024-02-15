@@ -40,10 +40,36 @@ var connection_1 = require("../connection");
 var index_js_1 = require("../../shared/logger/index.js");
 var dbUtil_js_1 = require("../dbUtil.js");
 var userTable = 'USERS_TB';
+var getPasswordByEmail = function getPasswordByEmail(loginInfo) {
+    return __awaiter(this, void 0, void 0, function () {
+        var passwordArray, e_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, (0, connection_1.default)(userTable)
+                            .select('password')
+                            .where({ email: loginInfo.email })];
+                case 1:
+                    passwordArray = _a.sent();
+                    if (passwordArray.length)
+                        return [2 /*return*/, passwordArray[0].password];
+                    else
+                        return [2 /*return*/, null];
+                    return [3 /*break*/, 3];
+                case 2:
+                    e_1 = _a.sent();
+                    index_js_1.default.reportDbErr(userTable, 'SELECT', e_1.message);
+                    throw e_1;
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+};
 exports.default = {
     selectUserByEmail: function selectUserByEmail(email) {
         return __awaiter(this, void 0, void 0, function () {
-            var vals, e_1;
+            var vals, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -53,9 +79,9 @@ exports.default = {
                         vals = _a.sent();
                         return [2 /*return*/, vals];
                     case 2:
-                        e_1 = _a.sent();
-                        index_js_1.default.reportDbErr(userTable, 'SELECT', e_1);
-                        throw e_1;
+                        e_2 = _a.sent();
+                        index_js_1.default.reportDbErr(userTable, 'SELECT', e_2.message);
+                        throw e_2;
                     case 3: return [2 /*return*/];
                 }
             });
@@ -64,7 +90,7 @@ exports.default = {
     //TODO : userInfo 인터페이스 정의
     createNewUser: function createNewUser(userInfo) {
         return __awaiter(this, void 0, void 0, function () {
-            var hash, newUserId, e_2;
+            var hash, newUserId, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -79,9 +105,9 @@ exports.default = {
                         index_js_1.default.info("Successfully Added To ".concat(userTable, ", ID : ").concat(newUserId));
                         return [2 /*return*/, newUserId];
                     case 3:
-                        e_2 = _a.sent();
-                        index_js_1.default.reportDbErr(userTable, 'INSERT', e_2);
-                        throw e_2;
+                        e_3 = _a.sent();
+                        index_js_1.default.reportDbErr(userTable, 'INSERT', e_3.messsage);
+                        throw e_3;
                     case 4: return [2 /*return*/];
                 }
             });
@@ -90,12 +116,12 @@ exports.default = {
     //TODO : loginInfo 인터페이스 정의
     comparePassword: function comparePassword(loginInfo) {
         return __awaiter(this, void 0, void 0, function () {
-            var hashedPassword, result, e_3;
+            var hashedPassword, result, e_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        return [4 /*yield*/, module.exports.getPasswordByEmail(loginInfo)];
+                        return [4 /*yield*/, getPasswordByEmail(loginInfo)];
                     case 1:
                         hashedPassword = _a.sent();
                         return [4 /*yield*/, dbUtil_js_1.default.comparePassword(loginInfo.password, hashedPassword)];
@@ -103,40 +129,15 @@ exports.default = {
                         result = _a.sent();
                         return [2 /*return*/, result];
                     case 3:
-                        e_3 = _a.sent();
-                        index_js_1.default.reportDbErr(userTable, 'SELECT', e_3);
-                        throw e_3;
+                        e_4 = _a.sent();
+                        index_js_1.default.reportDbErr(userTable, 'SELECT', e_4.message);
+                        throw e_4;
                     case 4: return [2 /*return*/];
                 }
             });
         });
     },
-    getPasswordByEmail: function getPasswordByEmail(loginInfo) {
-        return __awaiter(this, void 0, void 0, function () {
-            var passwordArray, e_4;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, (0, connection_1.default)(userTable)
-                                .select('password')
-                                .where({ email: loginInfo.email })];
-                    case 1:
-                        passwordArray = _a.sent();
-                        if (passwordArray.length)
-                            return [2 /*return*/, passwordArray[0].password];
-                        else
-                            return [2 /*return*/, null];
-                        return [3 /*break*/, 3];
-                    case 2:
-                        e_4 = _a.sent();
-                        index_js_1.default.reportDbErr(userTable, 'SELECT', e_4);
-                        throw e_4;
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    },
+    getPasswordByEmail: getPasswordByEmail,
     updatePassword: function updatePassword(userId, newPassword) {
         return __awaiter(this, void 0, void 0, function () {
             var hashedPassword, result, e_5;
@@ -147,6 +148,7 @@ exports.default = {
                         return [4 /*yield*/, dbUtil_js_1.default.hashPassword(newPassword)];
                     case 1:
                         hashedPassword = _a.sent();
+                        console.log("userId : ".concat(userId, ",\n            newPassword : ").concat(newPassword, "\n            hashedPassword : ").concat(hashedPassword));
                         return [4 /*yield*/, (0, connection_1.default)(userTable).update({ password: hashedPassword })
                                 .where({ id: userId })];
                     case 2:
@@ -154,7 +156,7 @@ exports.default = {
                         return [2 /*return*/, result];
                     case 3:
                         e_5 = _a.sent();
-                        index_js_1.default.reportDbErr(userTable, 'UPDATE', e_5);
+                        index_js_1.default.reportDbErr(userTable, 'UPDATE', e_5.message);
                         throw e_5;
                     case 4: return [2 /*return*/];
                 }

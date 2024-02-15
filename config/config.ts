@@ -2,12 +2,12 @@ import nconf = require('nconf');
 import path = require('path');
 import logger from '../shared/logger';
 
-const loadNconf = function loadNconf() {
+const loadNconf = async function loadNconf() {
     logger.info('Start config');
 
     const baseConfigPath = __dirname;
 
-    nconf.argv()
+    await nconf.argv()
         .env()
         .file('conf', path.join(baseConfigPath, 'config.json'));
 }
@@ -16,5 +16,3 @@ const loadNconf = function loadNconf() {
 loadNconf();
 
 export default nconf;
-
-

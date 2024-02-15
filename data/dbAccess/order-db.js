@@ -58,7 +58,7 @@ exports.default = {
                         return [2 /*return*/, orderList];
                     case 2:
                         e_1 = _a.sent();
-                        index_js_1.default.reportDbErr(orderTable, 'select', e_1);
+                        index_js_1.default.reportDbErr(orderTable, 'select', e_1.message);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -91,7 +91,7 @@ exports.default = {
                                                     .insert({
                                                     user_id: userId,
                                                     delivery_id: deliveryId[0],
-                                                    book_title: bookTitle,
+                                                    book_title: body.bookTitle,
                                                     total_price: body.totalPrice,
                                                     total_count: body.totalCount
                                                 })];
@@ -122,7 +122,7 @@ exports.default = {
                         return [3 /*break*/, 3];
                     case 2:
                         e_2 = _a.sent();
-                        index_js_1.default.reportDbErr('Mutiple Table', 'Transaction', e_2);
+                        index_js_1.default.reportDbErr('Mutiple Table', 'Transaction', e_2.message);
                         throw e_2;
                     case 3: return [2 /*return*/];
                 }

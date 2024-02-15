@@ -2,8 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
 var express = require("express");
-var app = express();
-exports.app = app;
 var dotenv = require("dotenv");
 var index_1 = require("./shared/logger/index");
 var bodyParser = require("body-parser");
@@ -12,6 +10,8 @@ var result = dotenv.config();
 if (result.error) {
     index_1.default.error('dotenv config error');
 }
+var app = express();
+exports.app = app;
 app.use(bodyParser.json());
 app.use(cookieParser());
 var index_2 = require("./routes/index");

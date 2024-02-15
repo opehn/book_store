@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt = require('bcrypt');
 
 export default {
     hashPassword: async function hashPassword(password: string) {

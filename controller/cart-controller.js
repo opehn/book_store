@@ -38,35 +38,96 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var logger_1 = require("../shared/logger");
 var services_1 = require("../services");
-var getBookByCategory = function getGookByCategory(req, res, next) {
+var getCartList = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var result, _a, e_1;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var userId, result, e_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
                     logger_1.default.reportRequest(req.url, req.method);
-                    result = {};
-                    _b.label = 1;
+                    userId = req.user.userId;
+                    _a.label = 1;
                 case 1:
-                    _b.trys.push([1, 3, , 4]);
-                    _a = result;
-                    return [4 /*yield*/, services_1.category.getAllCategory()];
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, services_1.cart.getCartItems(userId)];
                 case 2:
-                    _a.data = _b.sent();
-                    if (result.data) {
-                        result.message = 'Success';
-                        logger_1.default.reportResponse(req.url, req.method, result);
-                        res.status(200).json(result);
-                    }
+                    result = _a.sent();
+                    result.message = 'Success';
+                    logger_1.default.reportResponse(req.url, req.method, result);
+                    res.status(200).json(result);
                     return [3 /*break*/, 4];
                 case 3:
-                    e_1 = _b.sent();
-                    logger_1.default.reportResponseErr(req.url, req.method, e_1.message);
+                    e_1 = _a.sent();
                     res.status(500).json({ message: 'Server error' });
+                    logger_1.default.reportResponseErr(req.url, req.method, e_1.message);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
         });
     });
 };
-exports.default = getBookByCategory;
+var addCart = function (req, res, next) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, bookId, count, userId, sign, result, e_2;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    logger_1.default.reportRequest(req.url, req.method);
+                    _a = req.body, bookId = _a.bookId, count = _a.count;
+                    userId = req.user.userId;
+                    sign = req.query.sign;
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, services_1.cart.updateCartItems(userId, bookId, count, sign)];
+                case 2:
+                    result = _b.sent();
+                    result.message = "Success";
+                    logger_1.default.reportResponse(req.url, req.method, result);
+                    res.status(200).json(result);
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_2 = _b.sent();
+                    res.status(500).json({ message: 'Server error' });
+                    logger_1.default.reportResponseErr(req.url, req.method, e_2.message);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+};
+var deleteCart = function (req, res, next) {
+    return __awaiter(this, void 0, void 0, function () {
+        var userId, bookId, result, _a, e_3;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    logger_1.default.reportRequest(req.url, req.method);
+                    userId = req.user.userId;
+                    bookId = parseInt(req.params.bookId);
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    result = {};
+                    _a = result;
+                    return [4 /*yield*/, services_1.cart.deleteCartItems(userId, bookId)];
+                case 2:
+                    _a.data = _b.sent();
+                    if (!result.data)
+                        result.message = 'Already deleted';
+                    else
+                        result.message = 'Success';
+                    res.status(200).json(result.message);
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_3 = _b.sent();
+                    res.status(500).json({ message: 'Server error' });
+                    logger_1.default.reportResponseErr(req.url, req.method, e_3.message);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+};
+var cartController = { getCartList: getCartList, addCart: addCart, deleteCart: deleteCart };
+exports.default = cartController;

@@ -38,27 +38,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var logger_1 = require("../shared/logger");
 var services_1 = require("../services");
-var jsonwebtoken_1 = require("jsonwebtoken");
+var jwt = require("jsonwebtoken");
 var join = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var userInfo, result, e_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var userInfo, result, _a, e_1;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     logger_1.default.reportRequest(req.url, req.method);
                     userInfo = req.body;
-                    _a.label = 1;
+                    result = {};
+                    _b.label = 1;
                 case 1:
-                    _a.trys.push([1, 3, , 4]);
+                    _b.trys.push([1, 3, , 4]);
+                    _a = result;
                     return [4 /*yield*/, services_1.users.join(userInfo)];
                 case 2:
-                    result = _a.sent();
-                    logger_1.default.reportResponse(req.url, req.method, result);
-                    res.status(200).json(result);
+                    _a.message = _b.sent();
+                    logger_1.default.reportResponse(req.url, req.method, result.message);
+                    res.status(200).json(result.message);
                     return [3 /*break*/, 4];
                 case 3:
-                    e_1 = _a.sent();
-                    logger_1.default.reportResponseErr(req.url, req.method, e_1);
+                    e_1 = _b.sent();
+                    logger_1.default.reportResponseErr(req.url, req.method, e_1.message);
                     res.status(500).json({ message: 'Server error' });
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
@@ -68,7 +70,7 @@ var join = function (req, res, next) {
 };
 var login = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var loginInfo, result, token, e_2;
+        var loginInfo, result, user, token, e_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -77,28 +79,32 @@ var login = function (req, res, next) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
+                    result = {};
                     return [4 /*yield*/, services_1.users.login(loginInfo)];
                 case 2:
                     result = _a.sent();
+                    user = {
+                        userId: result.data.id,
+                        email: result.data.email,
+                        name: result.data.name
+                    };
+                    console.log("result.data", result.data.id);
+                    console.log("user Object", user);
                     if (result.message === 'Success') {
-                        token = jsonwebtoken_1.default.sign({
-                            userId: result.userId,
-                            email: loginInfo.email,
-                            name: loginInfo.name
-                        }, process.env.PRIVATE_KEY, {
+                        token = jwt.sign(user, process.env.PRIVATE_KEY, {
                             expiresIn: '30m',
                             issuer: "Anna"
                         });
-                        logger_1.default.reportResponse(req.url, req.method, result);
+                        logger_1.default.reportResponse(req.url, req.method, result.message);
                         res.cookie("token", token);
-                        res.status(200).json(result);
+                        res.status(200).json(result.message);
                     }
                     else
                         res.status(400).json(result);
                     return [3 /*break*/, 4];
                 case 3:
                     e_2 = _a.sent();
-                    logger_1.default.reportResponseErr(req.url, req.method, e_2);
+                    logger_1.default.reportResponseErr(req.url, req.method, e_2.message);
                     res.status(500).json({ message: 'Server error' });
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
@@ -108,33 +114,36 @@ var login = function (req, res, next) {
 };
 var matchEmailForReset = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var email, result, token, e_3;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var email, result, _a, token, e_3;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     logger_1.default.reportRequest(req.url, req.method);
                     email = req.body.email;
-                    _a.label = 1;
+                    result = {};
+                    _b.label = 1;
                 case 1:
-                    _a.trys.push([1, 3, , 4]);
+                    _b.trys.push([1, 3, , 4]);
+                    _a = result;
                     return [4 /*yield*/, services_1.users.isEmailMatch(email)];
                 case 2:
-                    result = _a.sent();
-                    if (result.message === 'Success') {
-                        token = jsonwebtoken_1.default.sign({
+                    _a.data = _b.sent();
+                    if (result.data.length) {
+                        result.message = 'Success';
+                        token = jwt.sign({
                             email: email,
                         }, process.env.PRIVATE_KEY, {
                             expiresIn: '30m',
                             issuer: "Anna"
                         });
                         res.cookie("token", token);
-                        res.status(200).json(result);
+                        res.status(200).json(result.message);
                     }
-                    logger_1.default.reportResponse(req.url, req.method, result);
+                    logger_1.default.reportResponse(req.url, req.method, result.message);
                     return [3 /*break*/, 4];
                 case 3:
-                    e_3 = _a.sent();
-                    logger_1.default.reportResponseErr(req.url, req.method, e_3);
+                    e_3 = _b.sent();
+                    logger_1.default.reportResponseErr(req.url, req.method, e_3.message);
                     res.status(500).json({ message: 'Server error' });
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
@@ -144,25 +153,28 @@ var matchEmailForReset = function (req, res, next) {
 };
 var reset = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var password, userId, result, e_4;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var password, userId, result, _a, e_4;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     logger_1.default.reportRequest(req.url, req.method);
                     password = req.body.password;
                     userId = req.user.userId;
-                    _a.label = 1;
+                    result = {};
+                    _b.label = 1;
                 case 1:
-                    _a.trys.push([1, 3, , 4]);
+                    _b.trys.push([1, 3, , 4]);
+                    _a = result;
                     return [4 /*yield*/, services_1.users.updatePassword(userId, password)];
                 case 2:
-                    result = _a.sent();
-                    logger_1.default.reportResponse(req.url, req.method, result);
-                    res.status(200).json(result);
+                    _a.data = _b.sent();
+                    result.data ? result.message = 'Success' : result.message = 'Failed';
+                    logger_1.default.reportResponse(req.url, req.method, result.message);
+                    res.status(200).json(result.message);
                     return [3 /*break*/, 4];
                 case 3:
-                    e_4 = _a.sent();
-                    logger_1.default.reportResponseErr(req.url, req.method, e_4);
+                    e_4 = _b.sent();
+                    logger_1.default.reportResponseErr(req.url, req.method, e_4.message);
                     res.status(500).json({ message: 'Server error' });
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];

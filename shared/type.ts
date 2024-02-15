@@ -3,3 +3,9 @@ export interface Result {
     message?: string;
     errror?: string;
 }
+
+export interface UserToken {
+    userId: number,
+    email: string,
+    name: string
+}

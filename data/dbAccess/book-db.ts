@@ -5,7 +5,6 @@ import { Book } from './interface.js';
 
 const bookTable: string = 'BOOKS_TB';
 
-
 export default {
     getAllBooks: async function getAllBooks(limit: number, offset: number): Promise<Book[]> {
         try {

@@ -36,27 +36,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var dbAccess_1 = require("../data/dbAccess");
-exports.default = {
-    toggleLikeStatus: function toggleLikeStatus(userId, bookId, liked) {
-        return __awaiter(this, void 0, void 0, function () {
-            var e_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 5, , 6]);
-                        if (!liked) return [3 /*break*/, 2];
-                        return [4 /*yield*/, dbAccess_1.likeDb.deleteLikedUser(userId)];
-                    case 1: return [2 /*return*/, _a.sent()];
-                    case 2: return [4 /*yield*/, dbAccess_1.likeDb.insertLikedUser(userId, bookId)];
-                    case 3: return [2 /*return*/, _a.sent()];
-                    case 4: return [3 /*break*/, 6];
-                    case 5:
-                        e_1 = _a.sent();
-                        throw e_1;
-                    case 6: return [2 /*return*/];
-                }
-            });
+var nconf = require("nconf");
+var path = require("path");
+var logger_1 = require("../shared/logger");
+var loadNconf = function loadNconf() {
+    return __awaiter(this, void 0, void 0, function () {
+        var baseConfigPath;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    logger_1.default.info('Start config');
+                    baseConfigPath = __dirname;
+                    return [4 /*yield*/, nconf.argv()
+                            .env()
+                            .file('conf', path.join(baseConfigPath, 'config.json'))];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
         });
-    }
+    });
 };
+//TODO : init 파일 만들기
+loadNconf();
+exports.default = nconf;

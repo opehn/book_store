@@ -40,27 +40,27 @@ var logger_1 = require("../shared/logger");
 var services_1 = require("../services");
 var getOrderList = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var userId, result, _a, e_1;
+        var result, userId, _a, e_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
+                    result = {};
                     userId = req.user.userId;
                     logger_1.default.reportRequest(req.url, req.method);
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 3, , 4]);
-                    result = {};
                     _a = result;
                     return [4 /*yield*/, services_1.order.getOrderList(userId)];
                 case 2:
                     _a.data = _b.sent();
                     result.message = 'Success';
-                    logger_1.default.reportResponse(req.url, req.method, result);
+                    logger_1.default.reportResponse(req.url, req.method, result.message);
                     res.status(200).json(result);
                     return [3 /*break*/, 4];
                 case 3:
                     e_1 = _b.sent();
-                    logger_1.default.reportResponseErr(req.url, req.method, e_1);
+                    logger_1.default.reportResponseErr(req.url, req.method, e_1.message);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
@@ -75,11 +75,11 @@ var getOrderDetail = function (req, res, next) {
                 case 0:
                     logger_1.default.reportRequest(req.url, req.method);
                     userId = req.user.userId;
-                    orderId = req.params.orderId;
+                    orderId = parseInt(req.params.orderId);
+                    result = {};
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 3, , 4]);
-                    result = {};
                     _a = result;
                     return [4 /*yield*/, services_1.order.getOrderDetail(userId, orderId)];
                 case 2:
@@ -90,7 +90,7 @@ var getOrderDetail = function (req, res, next) {
                     return [3 /*break*/, 4];
                 case 3:
                     e_2 = _b.sent();
-                    logger_1.default.reportResponseErr(req.url, req.method, e_2);
+                    logger_1.default.reportResponseErr(req.url, req.method, e_2.message);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
@@ -105,10 +105,10 @@ var orderPayment = function (req, res, next) {
                 case 0:
                     logger_1.default.reportRequest(req.url, req.method);
                     userId = req.user.userId;
+                    result = {};
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    result = {};
                     return [4 /*yield*/, services_1.order.handlePayment(userId, req.body)];
                 case 2:
                     _a.sent();
@@ -118,7 +118,7 @@ var orderPayment = function (req, res, next) {
                     return [3 /*break*/, 4];
                 case 3:
                     e_3 = _a.sent();
-                    logger_1.default.reportResponseErr(req.url, req.method, e_3);
+                    logger_1.default.reportResponseErr(req.url, req.method, e_3.message);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
