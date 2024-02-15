@@ -31,7 +31,7 @@ const verifyToken: RequestHandler = async function verifyToken(req, res, next) {
     try {
         let decoded: any = jwt.verify(token, secretKey);
         let userInfo: UserToken = {
-            userId: decoded.userId,
+            userId: parseInt(decoded.userId),
             email: decoded.email,
             name: decoded.name,
         }
@@ -43,7 +43,7 @@ const verifyToken: RequestHandler = async function verifyToken(req, res, next) {
             logger.reportResponse(req.url, req.method, 'Invalid token');
             return res.status(403).json({ message: 'Invalid token' });
         } else {
-            logger.reportResponseErr(req.url, req.method, 'Server Error');
+            logger.reportResponseErr(req.url, req.method, e.message);
             return res.status(500).json({ message: 'Server Error' });
         }
     }

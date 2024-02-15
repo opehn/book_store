@@ -75,7 +75,9 @@ const reset: RequestHandler = async function (req, res, next) {
     const { password } = req.body;
     let userId;
     if (req.user)
-        userId = parseInt(req.user.userId);
+        userId = req.user.userId;
+    else //TODO : 에러 처리..
+        return;
     let result: Result = {};
     try {
         result.data = await users.updatePassword(userId, password);

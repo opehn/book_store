@@ -73,7 +73,7 @@ var verifyToken = function verifyToken(req, res, next) {
             try {
                 decoded = jwt.verify(token, secretKey);
                 userInfo = {
-                    userId: decoded.userId,
+                    userId: parseInt(decoded.userId),
                     email: decoded.email,
                     name: decoded.name,
                 };

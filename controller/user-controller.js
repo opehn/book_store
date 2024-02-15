@@ -157,7 +157,10 @@ var reset = function (req, res, next) {
                 case 0:
                     logger_1.default.reportRequest(req.url, req.method);
                     password = req.body.password;
-                    userId = req.user.userId;
+                    if (req.user)
+                        userId = req.user.userId;
+                    else //TODO : 에러 처리..
+                        return [2 /*return*/];
                     result = {};
                     _b.label = 1;
                 case 1:
