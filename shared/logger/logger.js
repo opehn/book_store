@@ -1,16 +1,17 @@
-const winstonDaily = require("winston-daily-rotate-file");
-const appRoot = require("app-root-path");
-const { createLogger, format, transports } = require("winston");
-const { combine, timestamp, printf } = format;
-
-const logFormat = printf(({ timestamp, level, message }) => {
-    const seoulTimestamp = new Date(timestamp).toLocaleString("ko-KR");
-    return `${seoulTimestamp} [${level}] : ${message}`;
-})
-
-let logDir = `${appRoot}/log`;
-
-const logger = createLogger({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var winston = require("winston");
+var winstonDaily = require("winston-daily-rotate-file");
+var appRoot = require("app-root-path");
+var createLogger = winston.createLogger, format = winston.format, transports = winston.transports;
+var combine = format.combine, timestamp = format.timestamp, printf = format.printf;
+var logFormat = printf(function (_a) {
+    var timestamp = _a.timestamp, level = _a.level, message = _a.message;
+    var seoulTimestamp = new Date(timestamp).toLocaleString("ko-KR");
+    return "".concat(seoulTimestamp, " [").concat(level, "] : ").concat(message);
+});
+var logDir = "".concat(appRoot, "/log");
+var logger = createLogger({
     format: combine(timestamp(), logFormat),
     transports: [
         new winstonDaily({
@@ -31,37 +32,24 @@ const logger = createLogger({
         }),
     ],
 });
-
 if (process.env.NODE_ENV != "prod") {
-    logger.add(
-        new transports.Console({
-            format: format.combine(timestamp(), logFormat),
-        })
-    );
+    logger.add(new transports.Console({
+        format: format.combine(timestamp(), logFormat),
+    }));
 }
-
 //custom function
-function reportRequest(url, method) {
-    logger.info(`Received Request on ${url} by ${method}`);
+logger.reportRequest = function (url, method) {
+    this.info("Received Request on ".concat(url, " by ").concat(method));
     return;
-}
-
-function reportResponse(url, method, result) {
-    logger.info(`Send response to ${url} by ${method} : ${result.message}`);
-
-}
-function reportReponseErr(url, method, err) {
-    logger.error(`Request on ${url} by ${method} failed | ${err}`);
+};
+logger.reportResponse = function (url, method, message) {
+    this.info("Send response to ".concat(url, " by ").concat(method, " : ").concat(message));
+};
+logger.reportResponseErr = function (url, method, err) {
+    this.error("Request on ".concat(url, " by ").concat(method, " failed | ").concat(err));
     return;
-}
-
-function reportDbErr(table, method, err) {
-    logger.error(`DB error : Failed to excute a ${method} query on the ${table} table | ${err}`);
-}
-
-logger.reportRequest = reportRequest.bind(logger);
-logger.reportResponse = reportResponse.bind(logger);
-logger.reportReponseErr = reportReponseErr.bind(logger);
-logger.reportDbErr = reportDbErr.bind(logger);
-
-module.exports = logger;
+};
+logger.reportDbErr = function (table, method, err) {
+    this.error("DB error : Failed to excute a ".concat(method, " query on the ").concat(table, " table | ").concat(err));
+};
+exports.default = logger;

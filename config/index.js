@@ -1,3 +1,4 @@
-const nconf = require('./config');
-
-module.exports = nconf;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var config_1 = require("./config");
+exports.default = config_1.default;

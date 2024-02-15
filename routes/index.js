@@ -1,8 +1,15 @@
-const users = require('./user-route');
-const books = require('./books-route');
-const category = require('./category-route');
-const like = require('./like-route');
-const cart = require('./cart-route');
-const order = require('./order-route');
-
-module.exports = { users, books, category, like, cart, order };
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.order = exports.cart = exports.like = exports.category = exports.books = exports.users = void 0;
+var user_route_1 = require("./user-route");
+exports.users = user_route_1.default;
+var books_route_1 = require("./books-route");
+exports.books = books_route_1.default;
+var category_route_1 = require("./category-route");
+exports.category = category_route_1.default;
+var like_route_1 = require("./like-route");
+exports.like = like_route_1.default;
+var cart_route_1 = require("./cart-route");
+exports.cart = cart_route_1.default;
+var order_route_1 = require("./order-route");
+exports.order = order_route_1.default;

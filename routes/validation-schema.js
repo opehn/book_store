@@ -1,5 +1,7 @@
-
-const paymentSchema = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.paymentSchema = void 0;
+var paymentSchema = {
     items: {
         isArray: true,
         errorMessage: 'Items should be array'
@@ -30,6 +32,5 @@ const paymentSchema = {
         isNumeric: true,
         errorMessage: 'TotalPrice should be number'
     },
-}
-
-module.exports = paymentSchema; 
+};
+exports.paymentSchema = paymentSchema;

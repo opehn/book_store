@@ -1,36 +1,15 @@
-const users = require('./user-service');
-const books = require('./books-service');
-const category = require('./category-service');
-const like = require('./like-service');
-const cart = require('./cart-servcie');
-const order = require('./order-service');
-
-module.exports = {
-    users: {
-        join: users.join,
-        login: users.login,
-        isEmailMatch: users.isEmailMatch,
-        updatePassword: users.updatePassword,
-    },
-    books: {
-        getAllBooks: books.getAllBooks,
-        getBookDetail: books.getBookDetail,
-        getBookByCategory: books.getBookByCategory,
-    },
-    category: {
-        getAllCategory: category.getAllCategory,
-    },
-    like: {
-        toggleLikeStatus: like.toggleLikeStatus,
-    },
-    cart: {
-        updateCartItems: cart.updateCartItems,
-        getCartItems: cart.getCartItems,
-        deleteCartItems: cart.deleteCartItems,
-    },
-    order: {
-        handlePayment: order.handlePayment,
-        getOrderList: order.getOrderList,
-        getOrderDetail: order.getOrderDetail,
-    }
-};
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.order = exports.cart = exports.like = exports.category = exports.books = exports.users = void 0;
+var user_service_1 = require("./user-service");
+exports.users = user_service_1.default;
+var books_service_1 = require("./books-service");
+exports.books = books_service_1.default;
+var category_service_1 = require("./category-service");
+exports.category = category_service_1.default;
+var like_service_1 = require("./like-service");
+exports.like = like_service_1.default;
+var cart_servcie_1 = require("./cart-servcie");
+exports.cart = cart_servcie_1.default;
+var order_service_1 = require("./order-service");
+exports.order = order_service_1.default;

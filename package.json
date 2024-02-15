@@ -10,6 +10,8 @@
   "author": "Acho",
   "license": "MIT",
   "dependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express-validator": "^3.0.0",
     "app-root-path": "^3.1.0",
     "bcrypt": "^5.1.1",
     "bookshelf": "^1.2.0",
@@ -27,6 +29,10 @@
     "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cookie-parser": "^1.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/nconf": "^0.10.6",
     "nodemon": "^3.0.3"
   }
 }
