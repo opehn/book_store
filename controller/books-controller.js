@@ -71,7 +71,7 @@ var allBookController = function (req, res, next) { return __awaiter(void 0, voi
                 return [3 /*break*/, 4];
             case 3:
                 e_1 = _a.sent();
-                logger_1.default.reportReponseErr(req.url, req.method, e_1);
+                logger_1.default.reportResponseErr(req.url, req.method, e_1);
                 res.status(500).json({ message: 'Server Error' });
                 return [3 /*break*/, 4];
             case 4: return [3 /*break*/, 8];
@@ -86,7 +86,7 @@ var allBookController = function (req, res, next) { return __awaiter(void 0, voi
                 return [3 /*break*/, 8];
             case 7:
                 e_2 = _a.sent();
-                logger_1.default.reportReponseErr(req.url, req.method, e_2);
+                logger_1.default.reportResponseErr(req.url, req.method, e_2);
                 res.status(500).json({ message: 'Server Error' });
                 return [3 /*break*/, 8];
             case 8: return [2 /*return*/];
@@ -113,7 +113,7 @@ var bookDetailCotroller = function (req, res, next) { return __awaiter(void 0, v
                 return [3 /*break*/, 4];
             case 3:
                 e_3 = _a.sent();
-                logger_1.default.reportReponseErr(req.url, req.method, e_3);
+                logger_1.default.reportResponseErr(req.url, req.method, e_3);
                 res.status(500).json({ message: 'Server Error' });
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];

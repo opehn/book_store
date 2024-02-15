@@ -24,8 +24,8 @@ const allBookController: RequestHandler = async (req, res, next) => {
             result.message = 'Success';
             logger.reportResponse(req.url, req.method, result);
             res.status(200).json(result);
-        } catch (e) {
-            logger.reportResponseErr(req.url, req.method, e);
+        } catch (e: any) {
+            logger.reportResponseErr(req.url, req.method, e.message);
             res.status(500).json({ message: 'Server Error' });
         }
     } else {
@@ -34,8 +34,8 @@ const allBookController: RequestHandler = async (req, res, next) => {
             result.message = 'Success';
             logger.reportResponse(req.url, req.method, result);
             res.status(200).json(result);
-        } catch (e) {
-            logger.reportResponseErr(req.url, req.method, e);
+        } catch (e: any) {
+            logger.reportResponseErr(req.url, req.method, e.message);
             res.status(500).json({ message: 'Server Error' });
         }
     }
@@ -49,8 +49,8 @@ const bookDetailCotroller: RequestHandler = async (req, res, next) => {
         result.message = 'Success';
         logger.reportResponse(req.url, req.method, result);
         res.status(200).json(result);
-    } catch (e) {
-        logger.reportResponseErr(req.url, req.method, e);
+    } catch (e: any) {
+        logger.reportResponseErr(req.url, req.method, e.message);
         res.status(500).json({ message: 'Server Error' });
     }
 }
