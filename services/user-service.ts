@@ -1,7 +1,6 @@
 import { userDb } from '../data/dbAccess';
 import { LoginInfo, UserInfo } from '../shared/type'
 
-//TODO : userInfo, loginInfo 인터페이스 정의
 export default {
     join: async function join(userInfo: UserInfo) {
         try {

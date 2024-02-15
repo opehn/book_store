@@ -3,6 +3,7 @@ import logger from '../../shared/logger/index.js';
 import util from '../dbUtil.js';
 const userTable = 'USERS_TB';
 import { LoginInfo, UserInfo } from '../../shared/type'
+import { hash } from 'bcrypt';
 
 let getPasswordByEmail = async function getPasswordByEmail(email: string) {
     try {
@@ -30,7 +31,6 @@ export default {
         }
     },
 
-    //TODO : userInfo 인터페이스 정의
     createNewUser: async function createNewUser(userInfo: UserInfo) {
         try {
             let hash = await util.hashPassword(userInfo.password);
@@ -44,7 +44,6 @@ export default {
         }
     },
 
-    //TODO : loginInfo 인터페이스 정의
     comparePassword: async function comparePassword(loginInfo: LoginInfo) {
         try {
             let hashedPassword = await getPasswordByEmail(loginInfo.email);
@@ -62,6 +61,7 @@ export default {
             console.log("userId :", userId, "newPassword : ", newPassword)
 
             let hashedPassword = await util.hashPassword(newPassword);
+            console.log("hashedPassword : ", hashedPassword);
             let result = await knex(userTable).update({ password: hashedPassword })
                 .where({ id: userId });
             return result;

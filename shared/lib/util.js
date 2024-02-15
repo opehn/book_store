@@ -87,7 +87,7 @@ var verifyToken = function verifyToken(req, res, next) {
                     return [2 /*return*/, res.status(403).json({ message: 'Invalid token' })];
                 }
                 else {
-                    logger_1.default.reportResponseErr(req.url, req.method, 'Server Error');
+                    logger_1.default.reportResponseErr(req.url, req.method, e.message);
                     return [2 /*return*/, res.status(500).json({ message: 'Server Error' })];
                 }
             }

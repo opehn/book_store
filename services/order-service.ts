@@ -1,4 +1,5 @@
 import { orderDb } from '../data/dbAccess';
+import { Item } from '../shared/type'
 
 export default {
     getOrderList: async function getOrderList(userId: number) {
@@ -10,10 +11,10 @@ export default {
 
         }
     },
-    //TODO : body, cur인터페이스
+
     handlePayment: async function handlePayment(userId: number, body: any) {
         try {
-            let bookIds = body.items.map((cur: any) => (cur.bookId));
+            let bookIds: number[] = body.items.map((cur: Item) => (cur.bookId));
             await orderDb.insertOrderAndDeleteCart(userId, body, bookIds);
             return;
         } catch (e) {

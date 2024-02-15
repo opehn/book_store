@@ -56,7 +56,6 @@ logger.reportRequest = function (url: string, method: string): void {
     return;
 }
 
-//TODO : result 객체 타입 정의..
 logger.reportResponse = function (url: string, method: string, message: string): void {
     this.info(`Send response to ${url} by ${method} : ${message}`);
 }

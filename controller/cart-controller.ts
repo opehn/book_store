@@ -11,7 +11,7 @@ const getCartList: RequestHandler = async function (req, res, next) {
     try {
         let result = await cart.getCartItems(userId);
         result.message = 'Success';
-        logger.reportResponse(req.url, req.method, result);
+        logger.reportResponse(req.url, req.method, result.message);
         res.status(200).json(result);
     } catch (e: any) {
         res.status(500).json({ message: 'Server error' });
@@ -27,7 +27,7 @@ const addCart: RequestHandler = async function (req, res, next) {
     try {
         let result = await cart.updateCartItems(userId, bookId, count, sign);
         result.message = "Success"
-        logger.reportResponse(req.url, req.method, result);
+        logger.reportResponse(req.url, req.method, result.message);
         res.status(200).json(result);
     } catch (e: any) {
         res.status(500).json({ message: 'Server error' });

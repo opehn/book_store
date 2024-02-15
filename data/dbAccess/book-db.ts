@@ -1,7 +1,7 @@
 import knex from '../connection.js';
 import logger from '../../shared/logger/index.js';
 import util from '../dbUtil.js';
-import { Book } from './interface.js';
+import { Book } from '../../shared/type'
 
 const bookTable: string = 'BOOKS_TB';
 

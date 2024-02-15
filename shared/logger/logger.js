@@ -42,7 +42,6 @@ logger.reportRequest = function (url, method) {
     this.info("Received Request on ".concat(url, " by ").concat(method));
     return;
 };
-//TODO : result 객체 타입 정의..
 logger.reportResponse = function (url, method, message) {
     this.info("Send response to ".concat(url, " by ").concat(method, " : ").concat(message));
 };

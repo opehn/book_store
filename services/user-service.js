@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dbAccess_1 = require("../data/dbAccess");
-//TODO : userInfo, loginInfo 인터페이스 정의
 exports.default = {
     join: function join(userInfo) {
         return __awaiter(this, void 0, void 0, function () {

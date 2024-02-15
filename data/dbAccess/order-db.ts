@@ -19,8 +19,7 @@ export default {
             logger.reportDbErr(orderTable, 'select', e.message);
         }
     },
-    //TODO : body, bookIds 인터페이스 정의
-    insertOrderAndDeleteCart: async function insertOrderAndDeleteCart(userId: number, body: any, bookIds: any) {
+    insertOrderAndDeleteCart: async function insertOrderAndDeleteCart(userId: number, body: any, bookIds: number[]) {
         try {
             await knex.transaction(async trx => {
                 const deliveryId = await trx(deliveryTable)

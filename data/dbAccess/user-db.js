@@ -87,18 +87,17 @@ exports.default = {
             });
         });
     },
-    //TODO : userInfo 인터페이스 정의
     createNewUser: function createNewUser(userInfo) {
         return __awaiter(this, void 0, void 0, function () {
-            var hash, newUserId, e_3;
+            var hash_1, newUserId, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
                         return [4 /*yield*/, dbUtil_js_1.default.hashPassword(userInfo.password)];
                     case 1:
-                        hash = _a.sent();
-                        userInfo.password = hash;
+                        hash_1 = _a.sent();
+                        userInfo.password = hash_1;
                         return [4 /*yield*/, (0, connection_1.default)(userTable).insert(userInfo)];
                     case 2:
                         newUserId = _a.sent();
@@ -113,7 +112,6 @@ exports.default = {
             });
         });
     },
-    //TODO : loginInfo 인터페이스 정의
     comparePassword: function comparePassword(loginInfo) {
         return __awaiter(this, void 0, void 0, function () {
             var hashedPassword, result, e_4;
@@ -149,6 +147,7 @@ exports.default = {
                         return [4 /*yield*/, dbUtil_js_1.default.hashPassword(newPassword)];
                     case 1:
                         hashedPassword = _a.sent();
+                        console.log("hashedPassword : ", hashedPassword);
                         return [4 /*yield*/, (0, connection_1.default)(userTable).update({ password: hashedPassword })
                                 .where({ id: userId })];
                     case 2:

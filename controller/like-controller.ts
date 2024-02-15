@@ -4,7 +4,6 @@ import { like } from '../services';
 import { Result } from '../shared/type'
 import { UserToken } from '../shared/type';
 
-//TODO : user 인터페이스 추가
 const likeController: RequestHandler = async function (req, res, next) {
     logger.reportRequest(req.url, req.method);
     const bookId: number = parseInt(req.params.bookId);

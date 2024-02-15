@@ -38,7 +38,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var logger_1 = require("../shared/logger");
 var services_1 = require("../services");
-//TODO : user 인터페이스 추가
 var likeController = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
         var bookId, liked, userId, ifLiked, result;
