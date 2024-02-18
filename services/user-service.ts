@@ -8,7 +8,6 @@ export default {
             if (matchedUser.length) {
                 return 'Duplicate';
             } else {
-
                 await userDb.createNewUser(userInfo);
                 return 'Success';
             }

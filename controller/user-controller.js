@@ -39,6 +39,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var logger_1 = require("../shared/logger");
 var services_1 = require("../services");
 var jwt = require("jsonwebtoken");
+function makeUser(userId, email, name) {
+    return { userId: userId, email: email, name: name };
+}
+function makeJwtOption(expireTime, issuer) {
+    return { expiresIn: expireTime, issuer: issuer };
+}
 var join = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
         var userInfo, result, _a, e_1;
@@ -66,15 +72,6 @@ var join = function (req, res, next) {
         });
     });
 };
-function makeUser(userId, email, name) {
-    return { userId: userId, email: email, name: name };
-}
-function signToken(user, key, config) {
-    return jwt.sign(user, key, config);
-}
-function makeJwtOption(expireTime, issuer) {
-    return { expiresIn: expireTime, issuer: issuer };
-}
 var login = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
         var loginInfo, result, user, opt, token, e_2;
@@ -89,10 +86,10 @@ var login = function (req, res, next) {
                     return [4 /*yield*/, services_1.users.login(loginInfo)];
                 case 2:
                     result = _a.sent();
-                    user = makeUser(result.data.id, result.data.email, result.data.name);
+                    user = makeUser(parseInt(result.data.id), result.data.email, result.data.name);
                     opt = makeJwtOption('30m', 'Anna');
                     if (result.message === 'Success') {
-                        token = signToken(user, process.env.PRIVATE_KEY, opt);
+                        token = jwt.sign(user, process.env.PRIVATE_KEY, opt);
                         res.cookie("token", token);
                         res.status(200).json(result.message);
                     }
@@ -124,11 +121,15 @@ var matchEmailForReset = function (req, res, next) {
                     return [4 /*yield*/, services_1.users.isEmailMatch(email)];
                 case 2:
                     _a.data = _b.sent();
+                    console.log("data : ", result.data);
+                    console.log("data- : ", result.data[0]);
                     if (result.data.length) {
                         result.message = 'Success';
-                        user = makeUser(result.data.id, result.data.email, result.data.name);
+                        user = makeUser(result.data[0].id, result.data[0].email, result.data[0].name);
                         opt = makeJwtOption('30m', 'Anna');
-                        token = signToken(user, process.env.PRIVATE_KEY, opt);
+                        console.log("user : ", user, "opt: ", opt);
+                        token = jwt.sign(user, process.env.PRIVATE_KEY, opt);
+                        console.log(token);
                         res.cookie("token", token);
                         res.status(200).json(result.message);
                     }
@@ -155,6 +156,7 @@ var reset = function (req, res, next) {
                     else //TODO : 에러 처리..
                         return [2 /*return*/];
                     result = {};
+                    console.log(userId);
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 3, , 4]);
