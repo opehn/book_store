@@ -46,7 +46,6 @@ var getOrderList = function (req, res, next) {
                 case 0:
                     result = {};
                     userId = req.user.userId;
-                    logger_1.default.reportRequest(req.url, req.method);
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 3, , 4]);
@@ -55,7 +54,6 @@ var getOrderList = function (req, res, next) {
                 case 2:
                     _a.data = _b.sent();
                     result.message = 'Success';
-                    logger_1.default.reportResponse(req.url, req.method, result.message);
                     res.status(200).json(result);
                     return [3 /*break*/, 4];
                 case 3:
@@ -73,7 +71,6 @@ var getOrderDetail = function (req, res, next) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    logger_1.default.reportRequest(req.url, req.method);
                     userId = req.user.userId;
                     orderId = parseInt(req.params.orderId);
                     result = {};
@@ -85,7 +82,6 @@ var getOrderDetail = function (req, res, next) {
                 case 2:
                     _a.data = _b.sent();
                     result.message = 'Success';
-                    logger_1.default.reportResponse(req.url, req.method, result.message);
                     res.status(200).json(result);
                     return [3 /*break*/, 4];
                 case 3:
@@ -103,7 +99,6 @@ var orderPayment = function (req, res, next) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    logger_1.default.reportRequest(req.url, req.method);
                     userId = req.user.userId;
                     result = {};
                     _a.label = 1;
@@ -113,7 +108,6 @@ var orderPayment = function (req, res, next) {
                 case 2:
                     _a.sent();
                     result.message = 'Success';
-                    logger_1.default.reportResponse(req.url, req.method, result.message);
                     res.status(200).json(result);
                     return [3 /*break*/, 4];
                 case 3:

@@ -5,7 +5,6 @@ import { Result } from '../shared/type'
 import { UserToken } from '../shared/type';
 
 const likeController: RequestHandler = async function (req, res, next) {
-    logger.reportRequest(req.url, req.method);
     const bookId: number = parseInt(req.params.bookId);
     const { liked } = req.query;
     const { userId } = req.user as UserToken;
@@ -19,7 +18,6 @@ const likeController: RequestHandler = async function (req, res, next) {
     try {
         like.toggleLikeStatus(userId, bookId, ifLiked);
         result.message = 'Success';
-        logger.reportResponse(req.url, req.method, result.message);
         res.status(200).json(result);
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);

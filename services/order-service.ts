@@ -11,7 +11,6 @@ export default {
 
         }
     },
-
     handlePayment: async function handlePayment(userId: number, body: any) {
         try {
             let bookIds: number[] = body.items.map((cur: Item) => (cur.bookId));

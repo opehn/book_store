@@ -4,6 +4,7 @@ import appRoot = require('app-root-path');
 const { createLogger, format, transports } = winston;
 const { combine, timestamp, printf } = format;
 
+
 const logFormat = printf(({ timestamp, level, message }) => {
     const seoulTimestamp = new Date(timestamp).toLocaleString("ko-KR");
     return `${seoulTimestamp} [${level}] : ${message}`;
@@ -56,8 +57,8 @@ logger.reportRequest = function (url: string, method: string): void {
     return;
 }
 
-logger.reportResponse = function (url: string, method: string, message: string): void {
-    this.info(`Send response to ${url} by ${method} : ${message}`);
+logger.reportResponse = function (url: string, method: string, result: any): void {
+    this.info(`Send response to ${url} by ${method} : ${result}`);
 }
 
 logger.reportResponseErr = function (url: string, method: string, err: string): void {

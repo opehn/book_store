@@ -5,12 +5,10 @@ import jwt = require('jsonwebtoken');
 import { Result, UserInfo, UserToken } from '../shared/type'
 
 const join: RequestHandler = async function (req, res, next) {
-    logger.reportRequest(req.url, req.method);
     const userInfo: UserInfo = req.body;
     let result: Result = {};
     try {
         result.message = await users.join(userInfo);
-        logger.reportResponse(req.url, req.method, result.message)
         res.status(200).json(result.message);
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
@@ -19,7 +17,6 @@ const join: RequestHandler = async function (req, res, next) {
 }
 
 const login: RequestHandler = async function (req, res, next) {
-    logger.reportRequest(req.url, req.method);
     const loginInfo = req.body;
     try {
         let result: Result = {};
@@ -34,7 +31,6 @@ const login: RequestHandler = async function (req, res, next) {
                 expiresIn: '30m',
                 issuer: "Anna"
             });
-            logger.reportResponse(req.url, req.method, result.message)
             res.cookie("token", token);
             res.status(200).json(result.message);
         }
@@ -47,7 +43,6 @@ const login: RequestHandler = async function (req, res, next) {
 }
 
 const matchEmailForReset: RequestHandler = async function (req, res, next) {
-    logger.reportRequest(req.url, req.method);
     const { email } = req.body;
     let result: Result = {};
     try {
@@ -62,7 +57,6 @@ const matchEmailForReset: RequestHandler = async function (req, res, next) {
             });
             res.cookie("token", token);
             res.status(200).json(result.message);
-            logger.reportResponse(req.url, req.method, result.message)
         }
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
@@ -71,7 +65,6 @@ const matchEmailForReset: RequestHandler = async function (req, res, next) {
 }
 
 const reset: RequestHandler = async function (req, res, next) {
-    logger.reportRequest(req.url, req.method);
     const { password } = req.body;
     let userId;
     if (req.user)
@@ -82,7 +75,6 @@ const reset: RequestHandler = async function (req, res, next) {
     try {
         result.data = await users.updatePassword(userId, password);
         result.data ? result.message = 'Success' : result.message = 'Failed';
-        logger.reportResponse(req.url, req.method, result.message)
         res.status(200).json(result.message);
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);

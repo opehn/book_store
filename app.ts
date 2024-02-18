@@ -3,7 +3,7 @@ import dotenv = require('dotenv');
 import logger from './shared/logger/index';
 import bodyParser = require('body-parser');
 import cookieParser = require('cookie-parser');
-
+import log from './middleware/loggerMiddleware'
 const result = dotenv.config();
 
 if (result.error) {
@@ -13,6 +13,8 @@ if (result.error) {
 let app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(log.requestLog);
+app.use(log.responseLog);
 
 import {
     users, books, category, like, cart, order
@@ -24,6 +26,7 @@ app.use('/category', category);
 app.use('/likes', like);
 app.use('/carts', cart);
 app.use('/orders', order)
+
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), () => {

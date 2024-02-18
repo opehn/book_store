@@ -36,35 +36,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var logger_1 = require("../shared/logger");
-var services_1 = require("../services");
-var getBookByCategory = function getGookByCategory(req, res, next) {
+var index_1 = require("../shared/logger/index");
+var requestLog = function reportRequest(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var result, _a, e_1;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    result = {};
-                    _b.label = 1;
-                case 1:
-                    _b.trys.push([1, 3, , 4]);
-                    _a = result;
-                    return [4 /*yield*/, services_1.category.getAllCategory()];
-                case 2:
-                    _a.data = _b.sent();
-                    if (result.data) {
-                        result.message = 'Success';
-                        res.status(200).json(result);
-                    }
-                    return [3 /*break*/, 4];
-                case 3:
-                    e_1 = _b.sent();
-                    logger_1.default.reportResponseErr(req.url, req.method, e_1.message);
-                    res.status(500).json({ message: 'Server error' });
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
-            }
+        return __generator(this, function (_a) {
+            index_1.default.reportRequest(req.url, req.method);
+            next();
+            return [2 /*return*/];
         });
     });
 };
-exports.default = getBookByCategory;
+var responseLog = function reportResponse(req, res, next) {
+    return __awaiter(this, void 0, void 0, function () {
+        var originalSend;
+        return __generator(this, function (_a) {
+            originalSend = res.send;
+            res.send = function (body) {
+                index_1.default.reportResponse(req.url, req.method, body);
+                return originalSend.call(res, body);
+            };
+            next();
+            return [2 /*return*/];
+        });
+    });
+};
+exports.default = {
+    requestLog: requestLog,
+    responseLog: responseLog
+};

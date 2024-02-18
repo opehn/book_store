@@ -45,7 +45,6 @@ var join = function (req, res, next) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    logger_1.default.reportRequest(req.url, req.method);
                     userInfo = req.body;
                     result = {};
                     _b.label = 1;
@@ -55,7 +54,6 @@ var join = function (req, res, next) {
                     return [4 /*yield*/, services_1.users.join(userInfo)];
                 case 2:
                     _a.message = _b.sent();
-                    logger_1.default.reportResponse(req.url, req.method, result.message);
                     res.status(200).json(result.message);
                     return [3 /*break*/, 4];
                 case 3:
@@ -74,7 +72,6 @@ var login = function (req, res, next) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    logger_1.default.reportRequest(req.url, req.method);
                     loginInfo = req.body;
                     _a.label = 1;
                 case 1:
@@ -93,7 +90,6 @@ var login = function (req, res, next) {
                             expiresIn: '30m',
                             issuer: "Anna"
                         });
-                        logger_1.default.reportResponse(req.url, req.method, result.message);
                         res.cookie("token", token);
                         res.status(200).json(result.message);
                     }
@@ -116,7 +112,6 @@ var matchEmailForReset = function (req, res, next) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    logger_1.default.reportRequest(req.url, req.method);
                     email = req.body.email;
                     result = {};
                     _b.label = 1;
@@ -136,7 +131,6 @@ var matchEmailForReset = function (req, res, next) {
                         });
                         res.cookie("token", token);
                         res.status(200).json(result.message);
-                        logger_1.default.reportResponse(req.url, req.method, result.message);
                     }
                     return [3 /*break*/, 4];
                 case 3:
@@ -155,7 +149,6 @@ var reset = function (req, res, next) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    logger_1.default.reportRequest(req.url, req.method);
                     password = req.body.password;
                     if (req.user)
                         userId = req.user.userId;
@@ -170,7 +163,6 @@ var reset = function (req, res, next) {
                 case 2:
                     _a.data = _b.sent();
                     result.data ? result.message = 'Success' : result.message = 'Failed';
-                    logger_1.default.reportResponse(req.url, req.method, result.message);
                     res.status(200).json(result.message);
                     return [3 /*break*/, 4];
                 case 3:

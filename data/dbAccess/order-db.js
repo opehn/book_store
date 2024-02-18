@@ -65,7 +65,6 @@ exports.default = {
             });
         });
     },
-    //TODO : body, bookIds 인터페이스 정의
     insertOrderAndDeleteCart: function insertOrderAndDeleteCart(userId, body, bookIds) {
         return __awaiter(this, void 0, void 0, function () {
             var e_2;

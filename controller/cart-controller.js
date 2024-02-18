@@ -44,7 +44,6 @@ var getCartList = function (req, res, next) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    logger_1.default.reportRequest(req.url, req.method);
                     userId = req.user.userId;
                     _a.label = 1;
                 case 1:
@@ -53,7 +52,6 @@ var getCartList = function (req, res, next) {
                 case 2:
                     result = _a.sent();
                     result.message = 'Success';
-                    logger_1.default.reportResponse(req.url, req.method, result.message);
                     res.status(200).json(result);
                     return [3 /*break*/, 4];
                 case 3:
@@ -72,7 +70,6 @@ var addCart = function (req, res, next) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    logger_1.default.reportRequest(req.url, req.method);
                     _a = req.body, bookId = _a.bookId, count = _a.count;
                     userId = req.user.userId;
                     sign = req.query.sign;
@@ -83,7 +80,6 @@ var addCart = function (req, res, next) {
                 case 2:
                     result = _b.sent();
                     result.message = "Success";
-                    logger_1.default.reportResponse(req.url, req.method, result.message);
                     res.status(200).json(result);
                     return [3 /*break*/, 4];
                 case 3:
@@ -102,7 +98,6 @@ var deleteCart = function (req, res, next) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    logger_1.default.reportRequest(req.url, req.method);
                     userId = req.user.userId;
                     bookId = parseInt(req.params.bookId);
                     _b.label = 1;

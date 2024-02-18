@@ -44,7 +44,6 @@ var allBookController = function (req, res, next) { return __awaiter(void 0, voi
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                logger_1.default.reportRequest(req.url, req.method);
                 categoryId = req.query.categoryId;
                 limit = parseInt(req.query.limit);
                 offset = parseInt(req.query.offset);
@@ -54,7 +53,6 @@ var allBookController = function (req, res, next) { return __awaiter(void 0, voi
                 isNew = void 0;
                 if (!isNewParam) {
                     result = { message: 'No Data' };
-                    logger_1.default.reportResponse(req.url, req.method, result.message);
                     res.status(401).json(result);
                     return [2 /*return*/];
                 }
@@ -66,7 +64,6 @@ var allBookController = function (req, res, next) { return __awaiter(void 0, voi
             case 2:
                 result = _a.sent();
                 result.message = 'Success';
-                logger_1.default.reportResponse(req.url, req.method, result.mssage);
                 res.status(200).json(result);
                 return [3 /*break*/, 4];
             case 3:
@@ -81,7 +78,6 @@ var allBookController = function (req, res, next) { return __awaiter(void 0, voi
             case 6:
                 result = _a.sent();
                 result.message = 'Success';
-                logger_1.default.reportResponse(req.url, req.method, result.message);
                 res.status(200).json(result);
                 return [3 /*break*/, 8];
             case 7:
@@ -99,7 +95,6 @@ var bookDetailCotroller = function (req, res, next) { return __awaiter(void 0, v
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                logger_1.default.reportRequest(req.url, req.method);
                 bookId = req.params.bookId;
                 _a.label = 1;
             case 1:
@@ -108,7 +103,6 @@ var bookDetailCotroller = function (req, res, next) { return __awaiter(void 0, v
             case 2:
                 result = _a.sent();
                 result.message = 'Success';
-                logger_1.default.reportResponse(req.url, req.method, result.message);
                 res.status(200).json(result);
                 return [3 /*break*/, 4];
             case 3:

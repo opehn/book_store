@@ -42,7 +42,6 @@ var likeController = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
         var bookId, liked, userId, ifLiked, result;
         return __generator(this, function (_a) {
-            logger_1.default.reportRequest(req.url, req.method);
             bookId = parseInt(req.params.bookId);
             liked = req.query.liked;
             userId = req.user.userId;
@@ -54,7 +53,6 @@ var likeController = function (req, res, next) {
             try {
                 services_1.like.toggleLikeStatus(userId, bookId, ifLiked);
                 result.message = 'Success';
-                logger_1.default.reportResponse(req.url, req.method, result.message);
                 res.status(200).json(result);
             }
             catch (e) {

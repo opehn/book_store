@@ -57,7 +57,6 @@ exports.default = {
             });
         });
     },
-    //TODO : body, cur인터페이스
     handlePayment: function handlePayment(userId, body) {
         return __awaiter(this, void 0, void 0, function () {
             var bookIds, e_2;
@@ -66,7 +65,6 @@ exports.default = {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         bookIds = body.items.map(function (cur) { return (cur.bookId); });
-                        console.log(bookIds);
                         return [4 /*yield*/, dbAccess_1.orderDb.insertOrderAndDeleteCart(userId, body, bookIds)];
                     case 1:
                         _a.sent();
