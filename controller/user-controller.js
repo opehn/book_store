@@ -66,9 +66,18 @@ var join = function (req, res, next) {
         });
     });
 };
+function makeUser(userId, email, name) {
+    return { userId: userId, email: email, name: name };
+}
+function signToken(user, key, config) {
+    return jwt.sign(user, key, config);
+}
+function makeJwtOption(expireTime, issuer) {
+    return { expiresIn: expireTime, issuer: issuer };
+}
 var login = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var loginInfo, result, user, token, e_2;
+        var loginInfo, result, user, opt, token, e_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -80,16 +89,10 @@ var login = function (req, res, next) {
                     return [4 /*yield*/, services_1.users.login(loginInfo)];
                 case 2:
                     result = _a.sent();
-                    user = {
-                        userId: result.data.id,
-                        email: result.data.email,
-                        name: result.data.name
-                    };
+                    user = makeUser(result.data.id, result.data.email, result.data.name);
+                    opt = makeJwtOption('30m', 'Anna');
                     if (result.message === 'Success') {
-                        token = jwt.sign(user, process.env.PRIVATE_KEY, {
-                            expiresIn: '30m',
-                            issuer: "Anna"
-                        });
+                        token = signToken(user, process.env.PRIVATE_KEY, opt);
                         res.cookie("token", token);
                         res.status(200).json(result.message);
                     }
@@ -108,7 +111,7 @@ var login = function (req, res, next) {
 };
 var matchEmailForReset = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var email, result, _a, token, e_3;
+        var email, result, _a, user, opt, token, e_3;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -123,12 +126,9 @@ var matchEmailForReset = function (req, res, next) {
                     _a.data = _b.sent();
                     if (result.data.length) {
                         result.message = 'Success';
-                        token = jwt.sign({
-                            email: email,
-                        }, process.env.PRIVATE_KEY, {
-                            expiresIn: '30m',
-                            issuer: "Anna"
-                        });
+                        user = makeUser(result.data.id, result.data.email, result.data.name);
+                        opt = makeJwtOption('30m', 'Anna');
+                        token = signToken(user, process.env.PRIVATE_KEY, opt);
                         res.cookie("token", token);
                         res.status(200).json(result.message);
                     }

@@ -16,6 +16,7 @@ exports.app = app;
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(loggerMiddleware_1.default.requestLog);
+app.use(loggerMiddleware_1.default.responseLog);
 var index_2 = require("./routes/index");
 app.use('/users', index_2.users);
 app.use('/books', index_2.books);
@@ -23,7 +24,6 @@ app.use('/category', index_2.category);
 app.use('/likes', index_2.like);
 app.use('/carts', index_2.cart);
 app.use('/orders', index_2.order);
-app.use(loggerMiddleware_1.default.responseLog);
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), function () {
     index_1.default.info("Server is listening on ".concat(app.get('port')));

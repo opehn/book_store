@@ -4,6 +4,18 @@ import { users } from '../services';
 import jwt = require('jsonwebtoken');
 import { Result, UserInfo, UserToken } from '../shared/type'
 
+function makeUser(userId: number, email: string, name: string): UserToken {
+    return { userId: userId, email: email, name: name };
+}
+
+function signToken(user: UserToken, key: any, config: any) {
+    return jwt.sign(user, key, config);
+}
+
+function makeJwtOption(expireTime: string, issuer: string) {
+    return { expiresIn: expireTime, issuer: issuer }
+}
+
 const join: RequestHandler = async function (req, res, next) {
     const userInfo: UserInfo = req.body;
     let result: Result = {};
@@ -21,16 +33,10 @@ const login: RequestHandler = async function (req, res, next) {
     try {
         let result: Result = {};
         result = await users.login(loginInfo);
-        let user = {
-            userId: result.data.id,
-            email: result.data.email,
-            name: result.data.name
-        }
+        let user = makeUser(result.data.id, result.data.email, result.data.name);
+        let opt = makeJwtOption('30m', 'Anna');
         if (result.message === 'Success') {
-            const token = jwt.sign(user, process.env.PRIVATE_KEY as any, {
-                expiresIn: '30m',
-                issuer: "Anna"
-            });
+            const token = signToken(user, process.env.PRIVATE_KEY as any, opt);
             res.cookie("token", token);
             res.status(200).json(result.message);
         }
@@ -49,12 +55,9 @@ const matchEmailForReset: RequestHandler = async function (req, res, next) {
         result.data = await users.isEmailMatch(email);
         if (result.data.length) {
             result.message = 'Success';
-            const token = jwt.sign({
-                email: email,
-            }, process.env.PRIVATE_KEY as any, {
-                expiresIn: '30m',
-                issuer: "Anna"
-            });
+            let user = makeUser(result.data.id, result.data.email, result.data.name);
+            let opt = makeJwtOption('30m', 'Anna');
+            const token = signToken(user, process.env.PRIVATE_KEY as any, opt);
             res.cookie("token", token);
             res.status(200).json(result.message);
         }
