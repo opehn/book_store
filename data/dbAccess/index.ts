@@ -1,8 +1,8 @@
-import userDb from './user-db';
-import bookDb from './book-db';
-import categoryDb from './category-db';
-import likeDb from './like-db';
-import cartDb from './cart-db';
-import orderDb from './order-db';
+import userDb from '../../apps/users/user-db';
+import bookDb from '../../apps/books/book-db';
+import categoryDb from '../../apps/categories/category-db';
+import likeDb from '../../apps/like/like-db';
+import cartDb from '../../apps/carts/cart-db';
+import orderDb from '../../apps/order/order-db';
 
 export { userDb, bookDb, categoryDb, likeDb, cartDb, orderDb }

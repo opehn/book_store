@@ -36,54 +36,97 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var bcrypt = require("bcrypt");
+var dbAccess_1 = require("../../data/dbAccess");
 exports.default = {
-    hashPassword: function hashPassword(password) {
+    join: function join(userInfo) {
         return __awaiter(this, void 0, void 0, function () {
-            var saltRounds, hash, e_1;
+            var matchedUser, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        saltRounds = 10;
-                        _a.label = 1;
+                        _a.trys.push([0, 5, , 6]);
+                        return [4 /*yield*/, dbAccess_1.userDb.selectUserByEmail(userInfo.email)];
                     case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, bcrypt.hash(password, saltRounds)];
-                    case 2:
-                        hash = _a.sent();
-                        return [2 /*return*/, hash];
+                        matchedUser = _a.sent();
+                        if (!matchedUser.length) return [3 /*break*/, 2];
+                        return [2 /*return*/, 'Duplicate'];
+                    case 2: return [4 /*yield*/, dbAccess_1.userDb.createNewUser(userInfo)];
                     case 3:
+                        _a.sent();
+                        return [2 /*return*/, 'Success'];
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
                         e_1 = _a.sent();
                         throw e_1;
-                    case 4: return [2 /*return*/];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
     },
-    comparePassword: function comparePassword(inputPassword, hashedPassword) {
+    login: function login(loginInfo) {
         return __awaiter(this, void 0, void 0, function () {
-            var result, error_1;
+            var matchedUser, data, e_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 5, , 6]);
+                        return [4 /*yield*/, dbAccess_1.userDb.selectUserByEmail(loginInfo.email)];
+                    case 1:
+                        matchedUser = _a.sent();
+                        if (!matchedUser.length) return [3 /*break*/, 3];
+                        return [4 /*yield*/, dbAccess_1.userDb.matchPassword(loginInfo)];
+                    case 2:
+                        data = _a.sent();
+                        if (data)
+                            return [2 /*return*/, {
+                                    data: matchedUser[0],
+                                    message: 'Success',
+                                }];
+                        else
+                            return [2 /*return*/, { message: 'Password not matched' }];
+                        return [3 /*break*/, 4];
+                    case 3: return [2 /*return*/, { message: 'Email not matched' }];
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
+                        e_2 = _a.sent();
+                        throw e_2;
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    },
+    isEmailMatch: function isEmailMatch(email) {
+        return __awaiter(this, void 0, void 0, function () {
+            var e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, bcrypt.compare(inputPassword, hashedPassword)];
-                    case 1:
-                        result = _a.sent();
-                        return [2 /*return*/, result];
+                        return [4 /*yield*/, dbAccess_1.userDb.selectUserByEmail(email)];
+                    case 1: return [2 /*return*/, _a.sent()];
                     case 2:
-                        error_1 = _a.sent();
-                        throw error_1;
+                        e_3 = _a.sent();
+                        throw e_3;
                     case 3: return [2 /*return*/];
                 }
             });
         });
     },
-    getOneMonthAgo: function getOneMonthAgo() {
-        var currentTimeInSeoul = new Date();
-        currentTimeInSeoul.setMinutes(currentTimeInSeoul.getMinutes() + currentTimeInSeoul.getTimezoneOffset() + 540);
-        var oneMonthBefore = new Date();
-        oneMonthBefore.setMonth(currentTimeInSeoul.getMonth() - 1);
-        return (oneMonthBefore);
+    updatePassword: function updatePassword(userId, password) {
+        return __awaiter(this, void 0, void 0, function () {
+            var e_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, dbAccess_1.userDb.updatePassword(userId, password)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                    case 2:
+                        e_4 = _a.sent();
+                        throw e_4;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
     }
 };

@@ -15,7 +15,7 @@ let logDir = `${appRoot}/log`;
 declare module 'winston' {
     interface Logger {
         reportRequest(url: string, method: string): void;
-        reportResponse(url: string, method: string, result: string): void;
+        reportResponse(url: string, method: string, message: string): void;
         reportResponseErr(url: string, method: string, err: string): void;
         reportDbErr(table: string, method: string, err: string): void;
     }
@@ -57,8 +57,8 @@ logger.reportRequest = function (url: string, method: string): void {
     return;
 }
 
-logger.reportResponse = function (url: string, method: string, result: any): void {
-    this.info(`Send response to ${url} by ${method} : ${result}`);
+logger.reportResponse = function (url: string, method: string, message: any): void {
+    this.info(`Send response to ${url} by ${method} : ${message}`);
 }
 
 logger.reportResponseErr = function (url: string, method: string, err: string): void {

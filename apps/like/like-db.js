@@ -36,54 +36,56 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var bcrypt = require("bcrypt");
+var connection_1 = require("../../data/connection");
+var index_js_1 = require("../../shared/logger/index.js");
+var likeTable = 'LIKES_TB';
 exports.default = {
-    hashPassword: function hashPassword(password) {
+    insertLikedUser: function insertLikedUser(userId, bookId) {
         return __awaiter(this, void 0, void 0, function () {
-            var saltRounds, hash, e_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        saltRounds = 10;
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, bcrypt.hash(password, saltRounds)];
-                    case 2:
-                        hash = _a.sent();
-                        return [2 /*return*/, hash];
-                    case 3:
-                        e_1 = _a.sent();
-                        throw e_1;
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    },
-    comparePassword: function comparePassword(inputPassword, hashedPassword) {
-        return __awaiter(this, void 0, void 0, function () {
-            var result, error_1;
+            var result, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, bcrypt.compare(inputPassword, hashedPassword)];
+                        return [4 /*yield*/, (0, connection_1.default)(likeTable)
+                                .insert({
+                                'user_id': userId,
+                                'liked_book_id': bookId
+                            })];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, result];
                     case 2:
-                        error_1 = _a.sent();
-                        throw error_1;
+                        e_1 = _a.sent();
+                        index_js_1.default.reportDbErr(likeTable, 'INSERT', e_1.message);
+                        throw e_1;
                     case 3: return [2 /*return*/];
                 }
             });
         });
     },
-    getOneMonthAgo: function getOneMonthAgo() {
-        var currentTimeInSeoul = new Date();
-        currentTimeInSeoul.setMinutes(currentTimeInSeoul.getMinutes() + currentTimeInSeoul.getTimezoneOffset() + 540);
-        var oneMonthBefore = new Date();
-        oneMonthBefore.setMonth(currentTimeInSeoul.getMonth() - 1);
-        return (oneMonthBefore);
+    deleteLikedUser: function deleteLikedUser(userId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var result, e_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, (0, connection_1.default)(likeTable)
+                                .delete()
+                                .where({
+                                user_id: userId,
+                            })];
+                    case 1:
+                        result = _a.sent();
+                        return [2 /*return*/, result];
+                    case 2:
+                        e_2 = _a.sent();
+                        index_js_1.default.reportDbErr(likeTable, 'DELETE', e_2.message);
+                        throw e_2;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
     }
 };

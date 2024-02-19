@@ -1,10 +1,7 @@
-import users from './user-service';
-import books from './books-service';
-import category from './category-service';
-import like from './like-service';
-import cart from './cart-servcie';
-import order from './order-service';
+import users from '../apps/users/user-service';
+import like from '../apps/like/like-service';
+import order from '../apps/order/order-service';
 
 export {
-    users, books, category, like, cart, order
+    users, like, order
 };

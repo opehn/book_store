@@ -42,8 +42,8 @@ logger.reportRequest = function (url, method) {
     this.info("Received Request on ".concat(url, " by ").concat(method));
     return;
 };
-logger.reportResponse = function (url, method, result) {
-    this.info("Send response to ".concat(url, " by ").concat(method, " : ").concat(result));
+logger.reportResponse = function (url, method, message) {
+    this.info("Send response to ".concat(url, " by ").concat(method, " : ").concat(message));
 };
 logger.reportResponseErr = function (url, method, err) {
     this.error("Request on ".concat(url, " by ").concat(method, " failed | ").concat(err));
