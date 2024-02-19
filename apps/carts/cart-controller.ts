@@ -40,13 +40,12 @@ const addCart: RequestHandler = async function (req, res, next) {
 }
 
 const deleteCart: RequestHandler = async function (req, res, next) {
-    const { userId } = req.user as UserToken;
-    const bookId = parseInt(req.params.bookId);
+    const { cartId } = req.params;
+    const cartIdNumber = parseInt(cartId)
     let message: string;
 
-    //TODO : delete 함수 리턴값 확인
     try {
-        let data = await cartDb.deleteCartItems(userId, bookId);
+        let data = await cartDb.deleteCartItems(cartIdNumber);
         if (!data)
             message = 'Already deleted';
         else

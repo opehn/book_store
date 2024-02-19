@@ -101,20 +101,21 @@ var addCart = function (req, res, next) {
 };
 var deleteCart = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var userId, bookId, response, message, data, e_3;
+        var cartId, cartIdNumber, message, data, e_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    userId = req.user.userId;
-                    bookId = parseInt(req.params.bookId);
-                    response = {};
+                    cartId = req.params.cartId;
+                    console.log("cartId", cartId);
+                    cartIdNumber = parseInt(cartId);
+                    console.log(cartIdNumber);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, cart_db_1.default.deleteCartItems(userId, bookId)];
+                    return [4 /*yield*/, cart_db_1.default.deleteCartItems(cartIdNumber)];
                 case 2:
                     data = _a.sent();
-                    console.log("data", data);
+                    console.log("Data", data);
                     if (!data)
                         message = 'Already deleted';
                     else

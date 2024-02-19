@@ -97,7 +97,7 @@ exports.default = {
             });
         });
     },
-    deleteCartItems: function deleteCartItems(userId, bookId) {
+    deleteCartItems: function deleteCartItems(cartId) {
         return __awaiter(this, void 0, void 0, function () {
             var result, e_3;
             return __generator(this, function (_a) {
@@ -105,8 +105,7 @@ exports.default = {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, (0, connection_1.default)(cartTable).delete()
-                                .where({ 'user_id': userId })
-                                .andWhere({ 'book_id': bookId })];
+                                .where({ 'id': cartId })];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, result];

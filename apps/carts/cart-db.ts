@@ -43,11 +43,10 @@ export default {
             throw e;
         }
     },
-    deleteCartItems: async function deleteCartItems(userId: number, bookId: number) {
+    deleteCartItems: async function deleteCartItems(cartId: number) {
         try {
             let result = await knex(cartTable).delete()
-                .where({ 'user_id': userId })
-                .andWhere({ 'book_id': bookId });
+                .where({ 'id': cartId })
             return result;
 
         } catch (e: any) {

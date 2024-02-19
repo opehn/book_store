@@ -48,13 +48,11 @@ const verifyToken: RequestHandler = async function verifyToken(req, res, next) {
     }
     try {
         let decoded: any = jwt.verify(token, secretKey);
-        console.log("decoded", decoded);
         let userInfo: UserToken = {
             userId: parseInt(decoded.userId),
             email: decoded.email,
             name: decoded.name,
         }
-        console.log(userInfo.userId);
         req.user = userInfo;
         return next();
     } catch (e: any) {

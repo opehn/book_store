@@ -21,9 +21,9 @@ router.get('/',
             jwtUtil.verifyToken
         ],
         cartController.addCart)
-    .delete('/:bookId', /* 장바구니 삭제 */
+    .delete('/:cartId', /* 장바구니 삭제 */
         [
-            param('bookId').isInt().withMessage('BookId need to be int'),
+            param('cartId').isInt().withMessage('BookId need to be int'),
             jwtUtil.verifyToken
         ],
         cartController.deleteCart)

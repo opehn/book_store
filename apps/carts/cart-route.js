@@ -18,8 +18,8 @@ router.get('/', [
     jwt_1.default.validate,
     jwt_1.default.verifyToken
 ], cart_controller_1.default.addCart)
-    .delete('/:bookId', /* 장바구니 삭제 */ [
-    param('bookId').isInt().withMessage('BookId need to be int'),
+    .delete('/:cartId', /* 장바구니 삭제 */ [
+    param('cartId').isInt().withMessage('BookId need to be int'),
     jwt_1.default.verifyToken
 ], cart_controller_1.default.deleteCart);
 exports.default = router;
