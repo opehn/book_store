@@ -1,11 +1,11 @@
 import { RequestHandler } from 'express';
 import logger from '../../shared/logger';
 import categoryDb from './category-db';
-import { Response } from '../../shared/type'
+import { myResponse } from '../../shared/type'
 import util from '../../shared/lib/util'
 
 const getBookByCategory: RequestHandler = async function getGookByCategory(req, res, next) {
-    let response: Response = {};
+    let response: myResponse = {};
     try {
         let data = await categoryDb.getAllCategory();
         let message = util.makeMessage(data);

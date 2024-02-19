@@ -42,12 +42,11 @@ var util_1 = require("../../shared/lib/util");
 var jwt_1 = require("../../shared/lib/jwt");
 var join = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var userInfo, response, message, result, matchedUser, e_1;
+        var userInfo, result, message, matchedUser, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     userInfo = req.body;
-                    response = {};
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 6, , 7]);
@@ -94,7 +93,7 @@ var login = function (req, res, next) {
                 case 3:
                     if (_a.sent()) {
                         res.cookie("token", jwt_1.default.makeJwtToken(matchedUser[0].id, matchedUser[0].email, matchedUser[0].name));
-                        response = util_1.default.makeResponse(matchedUser, 'Success', null);
+                        response = util_1.default.makeResponse(null, 'Success', null);
                     }
                     else
                         response = util_1.default.makeResponse(null, 'Password not matched', null);

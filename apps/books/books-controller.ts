@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import logger from '../../shared/logger';
 import bookDb from './book-db';
-import { Book, Response } from '../../shared/type.js'
+import { Book, myResponse } from '../../shared/type.js'
 import util from '../../shared/lib/util';
 
 export interface GetAllBookParams {
@@ -27,7 +27,7 @@ function makeParams(query: any) {
 const getAllBooks: RequestHandler = async (req, res, next) => {
     let params: GetAllBookParams = makeParams(req.query);
     let bookData: Book[];
-    let response: Response = {};
+    let response: myResponse = {};
 
     if (params.categoryId) {
         try {
@@ -53,7 +53,7 @@ const getAllBooks: RequestHandler = async (req, res, next) => {
 
 const getBookDetail: RequestHandler = async (req, res, next) => {
     const { bookId } = req.params;
-    let response: Response = {};
+    let response: myResponse = {};
     try {
         const bookData = await bookDb.getBookById(parseInt(bookId));
         response = util.makeResponse(bookData, 'Success', null);

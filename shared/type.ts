@@ -1,7 +1,7 @@
-export interface Response {
+export interface myResponse {
     data?: any;
     message?: string | null;
-    errror?: string | null;
+    error?: string | null;
 }
 
 export interface UserToken {

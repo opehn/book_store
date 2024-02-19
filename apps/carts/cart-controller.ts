@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import logger from '../../shared/logger';
 import cartDb from './cart-db'
-import { Response } from '../../shared/type'
+import { myResponse } from '../../shared/type'
 import { UserToken } from '../../shared/type';
 import util from '../../shared/lib/util'
 import { Cart } from '../../shared/type';
@@ -9,7 +9,7 @@ import { Cart } from '../../shared/type';
 
 const getCartList: RequestHandler = async function (req, res, next) {
     let { userId } = req.user as UserToken;
-    let response: Response = {};
+    let response: myResponse = {};
     try {
         let data: Cart[] = await cartDb.selectCartByUser(userId);
         let message: string = util.makeMessage(data);
@@ -26,7 +26,7 @@ const addCart: RequestHandler = async function (req, res, next) {
     let { bookId, count } = req.body;
     let { userId } = req.user as UserToken;
     let sign = req.query.sign as string;
-    let response: Response = {};
+    let response: myResponse = {};
     try {
         let data = await cartDb.updateOrInsertCartItem(userId, bookId, count, sign);
         let message: string = util.makeMessage(data);
@@ -42,10 +42,9 @@ const addCart: RequestHandler = async function (req, res, next) {
 const deleteCart: RequestHandler = async function (req, res, next) {
     const { userId } = req.user as UserToken;
     const bookId = parseInt(req.params.bookId);
-    let response: Response = {};
     let message: string;
 
-    //TODO : delte 함수 리턴값 확인
+    //TODO : delete 함수 리턴값 확인
     try {
         let data = await cartDb.deleteCartItems(userId, bookId);
         if (!data)

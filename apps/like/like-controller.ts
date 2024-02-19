@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import logger from '../../shared/logger';
 import likeService from './like-service';
-import { Response } from '../../shared/type'
+import { myResponse } from '../../shared/type'
 import { UserToken } from '../../shared/type';
 import util from '../../shared/lib/util';
 import likeDb from './like-db'
@@ -10,7 +10,7 @@ const toggleLikeStatus: RequestHandler = async function (req, res, next) {
     const bookId: number = parseInt(req.params.bookId);
     let ifLiked: boolean = util.convertStringtoBoolean(req.query.liked as string);
     const { userId } = req.user as UserToken;
-    let response: Response = {};
+    let response: myResponse = {};
     let result;
 
     try {

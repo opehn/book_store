@@ -114,6 +114,7 @@ var deleteCart = function (req, res, next) {
                     return [4 /*yield*/, cart_db_1.default.deleteCartItems(userId, bookId)];
                 case 2:
                     data = _a.sent();
+                    console.log("data", data);
                     if (!data)
                         message = 'Already deleted';
                     else

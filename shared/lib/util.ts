@@ -1,3 +1,5 @@
+import { myResponse } from '../../shared/type';
+
 function isArrayNotEmpty<T>(arr: T[]) {
     if (arr.length)
         return true;
@@ -7,11 +9,14 @@ function isArrayNotEmpty<T>(arr: T[]) {
 
 export default {
     makeResponse: function makeResponse(data: any, message: string | null, err: string | null) {
-        return {
-            data: data,
-            message: message,
-            err: err
-        }
+        let response: myResponse = {};
+        if (data)
+            response.data = data;
+        if (message)
+            response.message = message;
+        if (err)
+            response.error = err;
+        return response;
     },
     convertStringtoBoolean: function convertStringtoBoolean(cur: string) {
         if (cur === 'true')

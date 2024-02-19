@@ -3,13 +3,13 @@ import logger from '../../shared/logger';
 import orderService from './order-service';
 import { UserOrder } from '../../shared/type';
 import orderDb from './order-db';
-import { Response } from '../../shared/type'
+import { myResponse } from '../../shared/type'
 import { UserToken } from '../../shared/type';
 import util from '../../shared/lib/util'
 import { Order } from '../../shared/type';
 
 const getOrderList: RequestHandler = async function (req, res, next) {
-    let response: Response = {};
+    let response: myResponse = {};
     let { userId } = req.user as UserToken;
 
     try {
@@ -26,7 +26,7 @@ const getOrderList: RequestHandler = async function (req, res, next) {
 const getOrderDetail: RequestHandler = async function (req, res, next) {
     let { userId } = req.user as UserToken;
     let orderId = parseInt(req.params.orderId);
-    let response: Response = {};
+    let response: myResponse = {};
 
     try {
         let data: UserOrder[] = await orderDb.selectOrderDetail(userId, orderId);
@@ -41,7 +41,7 @@ const getOrderDetail: RequestHandler = async function (req, res, next) {
 
 const orderPayment: RequestHandler = async function (req, res, next) {
     let { userId } = req.user as UserToken;
-    let response: Response = {};
+    let response: myResponse = {};
     let orderData: Order = req.body as Order;
 
     try {

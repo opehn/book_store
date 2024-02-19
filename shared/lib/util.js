@@ -8,11 +8,14 @@ function isArrayNotEmpty(arr) {
 }
 exports.default = {
     makeResponse: function makeResponse(data, message, err) {
-        return {
-            data: data,
-            message: message,
-            err: err
-        };
+        var response = {};
+        if (data)
+            response.data = data;
+        if (message)
+            response.message = message;
+        if (err)
+            response.error = err;
+        return response;
     },
     convertStringtoBoolean: function convertStringtoBoolean(cur) {
         if (cur === 'true')
