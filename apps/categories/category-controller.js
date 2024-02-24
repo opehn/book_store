@@ -39,9 +39,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var logger_1 = require("../../shared/logger");
 var category_db_1 = require("./category-db");
 var util_1 = require("../../shared/lib/util");
+function makeNewCategory(id, name) {
+    return { id: id, name: name };
+}
 var getBookByCategory = function getGookByCategory(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var response, data, message, e_1;
+        var response, data, item, message, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -52,9 +55,11 @@ var getBookByCategory = function getGookByCategory(req, res, next) {
                     return [4 /*yield*/, category_db_1.default.getAllCategory()];
                 case 2:
                     data = _a.sent();
+                    item = makeNewCategory(null, '전체');
+                    data.push(item);
                     message = util_1.default.makeMessage(data);
-                    response = util_1.default.makeResponse(null, message, null);
-                    res.status(200).json(response);
+                    //response = util.makeResponse(data, message, null);
+                    res.status(200).json(data);
                     return [3 /*break*/, 4];
                 case 3:
                     e_1 = _a.sent();

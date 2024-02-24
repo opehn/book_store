@@ -4,7 +4,7 @@ import logger from '../../shared/logger/index.js';
 const categoryTable = 'CATEGORY_TB';
 
 interface Category {
-    id: number,
+    id: number | null,
     name: string
 }
 

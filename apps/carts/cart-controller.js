@@ -106,16 +106,13 @@ var deleteCart = function (req, res, next) {
             switch (_a.label) {
                 case 0:
                     cartId = req.params.cartId;
-                    console.log("cartId", cartId);
                     cartIdNumber = parseInt(cartId);
-                    console.log(cartIdNumber);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, cart_db_1.default.deleteCartItems(cartIdNumber)];
                 case 2:
                     data = _a.sent();
-                    console.log("Data", data);
                     if (!data)
                         message = 'Already deleted';
                     else
