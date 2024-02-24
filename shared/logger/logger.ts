@@ -4,6 +4,7 @@ import appRoot = require('app-root-path');
 const { createLogger, format, transports } = winston;
 const { combine, timestamp, printf } = format;
 
+
 const logFormat = printf(({ timestamp, level, message }) => {
     const seoulTimestamp = new Date(timestamp).toLocaleString("ko-KR");
     return `${seoulTimestamp} [${level}] : ${message}`;
@@ -14,7 +15,7 @@ let logDir = `${appRoot}/log`;
 declare module 'winston' {
     interface Logger {
         reportRequest(url: string, method: string): void;
-        reportResponse(url: string, method: string, result: string): void;
+        reportResponse(url: string, method: string, message: string): void;
         reportResponseErr(url: string, method: string, err: string): void;
         reportDbErr(table: string, method: string, err: string): void;
     }
@@ -56,7 +57,7 @@ logger.reportRequest = function (url: string, method: string): void {
     return;
 }
 
-logger.reportResponse = function (url: string, method: string, message: string): void {
+logger.reportResponse = function (url: string, method: string, message: any): void {
     this.info(`Send response to ${url} by ${method} : ${message}`);
 }
 

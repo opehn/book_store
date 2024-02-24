@@ -12,8 +12,8 @@ export default {
     },
     comparePassword: async function comparePassword(inputPassword: string, hashedPassword: string) {
         try {
-            const match = await bcrypt.compare(inputPassword, hashedPassword);
-            return match;
+            const result = await bcrypt.compare(inputPassword, hashedPassword);
+            return result;
         } catch (error) {
             throw error;
         }

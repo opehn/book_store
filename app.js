@@ -6,14 +6,25 @@ var dotenv = require("dotenv");
 var index_1 = require("./shared/logger/index");
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
+var loggerMiddleware_1 = require("./middleware/loggerMiddleware");
 var result = dotenv.config();
+var cors = require('cors');
 if (result.error) {
     index_1.default.error('dotenv config error');
 }
 var app = express();
 exports.app = app;
+app.use(cors());
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:4000'); // 클라이언트의  도메인
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(loggerMiddleware_1.default.requestLog);
+app.use(loggerMiddleware_1.default.responseLog);
 var index_2 = require("./routes/index");
 app.use('/users', index_2.users);
 app.use('/books', index_2.books);

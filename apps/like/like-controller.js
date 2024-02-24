@@ -36,54 +36,43 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var bcrypt = require("bcrypt");
-exports.default = {
-    hashPassword: function hashPassword(password) {
-        return __awaiter(this, void 0, void 0, function () {
-            var saltRounds, hash, e_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        saltRounds = 10;
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, bcrypt.hash(password, saltRounds)];
-                    case 2:
-                        hash = _a.sent();
-                        return [2 /*return*/, hash];
-                    case 3:
-                        e_1 = _a.sent();
-                        throw e_1;
-                    case 4: return [2 /*return*/];
-                }
-            });
+var logger_1 = require("../../shared/logger");
+var util_1 = require("../../shared/lib/util");
+var like_db_1 = require("./like-db");
+var toggleLikeStatus = function (req, res, next) {
+    return __awaiter(this, void 0, void 0, function () {
+        var bookId, ifLiked, userId, response, result, e_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    bookId = parseInt(req.params.bookId);
+                    ifLiked = util_1.default.convertStringtoBoolean(req.query.liked);
+                    userId = req.user.userId;
+                    response = {};
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 6, , 7]);
+                    if (!ifLiked) return [3 /*break*/, 3];
+                    return [4 /*yield*/, like_db_1.default.deleteLikedUser(userId)];
+                case 2:
+                    result = _a.sent();
+                    return [3 /*break*/, 5];
+                case 3: return [4 /*yield*/, like_db_1.default.insertLikedUser(userId, bookId)];
+                case 4:
+                    result = _a.sent();
+                    _a.label = 5;
+                case 5:
+                    response = util_1.default.makeResponse(result, 'Success', null);
+                    res.status(200).json(response);
+                    return [3 /*break*/, 7];
+                case 6:
+                    e_1 = _a.sent();
+                    logger_1.default.reportResponseErr(req.url, req.method, e_1.message);
+                    res.status(500).json(util_1.default.makeResponse(null, 'Error', e_1.message));
+                    return [3 /*break*/, 7];
+                case 7: return [2 /*return*/];
+            }
         });
-    },
-    comparePassword: function comparePassword(inputPassword, hashedPassword) {
-        return __awaiter(this, void 0, void 0, function () {
-            var result, error_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, bcrypt.compare(inputPassword, hashedPassword)];
-                    case 1:
-                        result = _a.sent();
-                        return [2 /*return*/, result];
-                    case 2:
-                        error_1 = _a.sent();
-                        throw error_1;
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    },
-    getOneMonthAgo: function getOneMonthAgo() {
-        var currentTimeInSeoul = new Date();
-        currentTimeInSeoul.setMinutes(currentTimeInSeoul.getMinutes() + currentTimeInSeoul.getTimezoneOffset() + 540);
-        var oneMonthBefore = new Date();
-        oneMonthBefore.setMonth(currentTimeInSeoul.getMonth() - 1);
-        return (oneMonthBefore);
-    }
+    });
 };
+exports.default = toggleLikeStatus;
