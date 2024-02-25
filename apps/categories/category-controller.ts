@@ -13,8 +13,6 @@ const getBookByCategory: RequestHandler = async function getGookByCategory(req, 
     let response: myResponse = {};
     try {
         let data = await categoryDb.getAllCategory();
-        let item = makeNewCategory(null, '전체');
-        data.push(item);
         let message = util.makeMessage(data);
         //response = util.makeResponse(data, message, null);
         res.status(200).json(data);
