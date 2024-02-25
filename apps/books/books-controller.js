@@ -38,8 +38,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBookDetail = exports.getAllBooks = void 0;
 var logger_1 = require("../../shared/logger");
-var book_db_1 = require("./book-db");
 var util_1 = require("../../shared/lib/util");
+var book_integration_1 = require("./book-integration");
+var BookIntegration = (0, book_integration_1.getBookInstance)();
 function makeParams(query) {
     var limit = parseInt(query.limit);
     var offset = parseInt(query.offset);
@@ -62,7 +63,7 @@ var getAllBooks = function (req, res, next) { return __awaiter(void 0, void 0, v
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, book_db_1.default.getBookByCategory(params)];
+                return [4 /*yield*/, BookIntegration.getBookByCategory(params)];
             case 2:
                 bookData = _a.sent();
                 response = util_1.default.makeResponse(bookData, 'Success', null);
@@ -76,7 +77,7 @@ var getAllBooks = function (req, res, next) { return __awaiter(void 0, void 0, v
             case 4: return [3 /*break*/, 8];
             case 5:
                 _a.trys.push([5, 7, , 8]);
-                return [4 /*yield*/, book_db_1.default.getAllBooks(params.limit, params.offset)];
+                return [4 /*yield*/, BookIntegration.getBookNoCategory(params.limit, params.offset)];
             case 6:
                 bookData = _a.sent();
                 response = util_1.default.makeResponse(bookData, 'Success', null);
@@ -102,7 +103,7 @@ var getBookDetail = function (req, res, next) { return __awaiter(void 0, void 0,
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, book_db_1.default.getBookById(parseInt(bookId))];
+                return [4 /*yield*/, BookIntegration.getBookDetail(parseInt(bookId))];
             case 2:
                 bookData = _a.sent();
                 response = util_1.default.makeResponse(bookData, 'Success', null);

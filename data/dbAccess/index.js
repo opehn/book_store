@@ -1,10 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.orderDb = exports.cartDb = exports.likeDb = exports.categoryDb = exports.bookDb = exports.userDb = void 0;
+exports.orderDb = exports.cartDb = exports.likeDb = exports.categoryDb = exports.userDb = void 0;
 var user_db_1 = require("../../apps/users/user-db");
 exports.userDb = user_db_1.default;
-var book_db_1 = require("../../apps/books/book-db");
-exports.bookDb = book_db_1.default;
 var category_db_1 = require("../../apps/categories/category-db");
 exports.categoryDb = category_db_1.default;
 var like_db_1 = require("../../apps/like/like-db");
