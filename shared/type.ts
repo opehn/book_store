@@ -18,9 +18,9 @@ export interface LoginInfo {
 export interface UserInfo {
     email: string,
     password: string,
-    name: string,
-    address: string,
-    contact: string,
+    //name: string,
+    //address: string,
+    //contact: string,
 }
 
 export interface Book {
