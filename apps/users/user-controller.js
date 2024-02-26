@@ -67,6 +67,7 @@ var join = function (req, res, next) {
                 case 6:
                     e_1 = _a.sent();
                     logger_1.default.reportResponseErr(req.url, req.method, e_1.message);
+                    console.log(e_1);
                     res.status(500).json(util_1.default.makeResponse(null, 'Error', e_1.message));
                     return [3 /*break*/, 7];
                 case 7: return [2 /*return*/];

@@ -13,14 +13,22 @@ if (result.error) {
 
 let app = express();
 
-app.use(cors());
+//app.use(cors());
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:4000'); // 클라이언트의  도메인
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-})
+app.use(cors({
+    origin: 'http://localhost:4000', // 허용할 출처
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // 허용할 HTTP 메서드
+    allowedHeaders: ['Content-Type', 'Authorization'], // 허용할 헤더
+    credentials: true
+}));
+
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', 'http://localhost:4000'); // 클라이언트의  도메인
+//     res.header('Access-Control-Allow-Credentials', 'true');
+//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, application/json');
+//     next();
+// })
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(log.requestLog);
@@ -37,6 +45,10 @@ app.use('/likes', like);
 app.use('/carts', cart);
 app.use('/orders', order)
 
+app.options('/users/join', (req, res) => {
+    res.header('Access-Control-Allow-Methods', 'POST'); // 허용되는 HTTP 메서드
+    res.send();
+});
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), () => {

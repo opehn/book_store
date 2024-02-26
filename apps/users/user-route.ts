@@ -10,7 +10,6 @@ router.post('/join',
             .notEmpty().withMessage('No email')
             .isEmail().withMessage(`Wrong email`),
         body('password').notEmpty().withMessage('No password'),
-        body('name').notEmpty().withMessage('No name'),
         jwtUtil.validate
     ], userController.join)
 

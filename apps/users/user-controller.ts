@@ -6,7 +6,6 @@ import { myResponse, UserInfo, UserToken } from '../../shared/type'
 import util from '../../shared/lib/util'
 import jwtUtil from '../../shared/lib/jwt'
 
-
 const join: RequestHandler = async function (req, res, next) {
     const userInfo: UserInfo = req.body;
     let result;
@@ -22,6 +21,7 @@ const join: RequestHandler = async function (req, res, next) {
         res.status(200).json(util.makeResponse(null, message, null));
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
+        console.log(e);
         res.status(500).json(util.makeResponse(null, 'Error', e.message));
     }
 }

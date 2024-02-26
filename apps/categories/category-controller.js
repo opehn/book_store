@@ -44,7 +44,7 @@ function makeNewCategory(id, name) {
 }
 var getBookByCategory = function getGookByCategory(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var response, data, item, message, e_1;
+        var response, data, message, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -55,8 +55,6 @@ var getBookByCategory = function getGookByCategory(req, res, next) {
                     return [4 /*yield*/, category_db_1.default.getAllCategory()];
                 case 2:
                     data = _a.sent();
-                    item = makeNewCategory(null, '전체');
-                    data.push(item);
                     message = util_1.default.makeMessage(data);
                     //response = util.makeResponse(data, message, null);
                     res.status(200).json(data);

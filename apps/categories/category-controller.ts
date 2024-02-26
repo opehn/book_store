@@ -6,7 +6,6 @@ import util from '../../shared/lib/util'
 
 function makeNewCategory(id: number | null, name: string) {
     return { id: id, name: name };
-
 }
 
 const getBookByCategory: RequestHandler = async function getGookByCategory(req, res, next) {

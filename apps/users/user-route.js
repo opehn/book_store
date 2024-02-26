@@ -10,7 +10,6 @@ router.post('/join', [
         .notEmpty().withMessage('No email')
         .isEmail().withMessage("Wrong email"),
     (0, express_validator_1.body)('password').notEmpty().withMessage('No password'),
-    (0, express_validator_1.body)('name').notEmpty().withMessage('No name'),
     jwt_1.default.validate
 ], user_controller_1.default.join)
     .post('/login', [
