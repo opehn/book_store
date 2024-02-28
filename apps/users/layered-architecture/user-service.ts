@@ -87,10 +87,11 @@ export class UserService {
         }
     }
 
-    async updatePassword(userId: number, newPassword: string) {
+    async updatePassword(email: string, newPassword: string) {
         try {
-            let hashedPassword = await this.hashPassword(newPassword);
-            let result = await this.userRepository.updatePassword(userId, hashedPassword);
+            const userId = await this.isEmailMatch(email);
+            const hashedPassword = await this.hashPassword(newPassword);
+            const result = await this.userRepository.updatePassword(userId, hashedPassword);
             return result;
         } catch (e: any) {
             logger.reportDbErr(userTable, 'UPDATE', e.message);

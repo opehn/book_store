@@ -53,11 +53,10 @@ const matchEmailForReset: RequestHandler = async function (req, res, next) {
 }
 
 const reset: RequestHandler = async function (req, res, next) {
-    const { password } = req.body;
-    let { userId } = req.user as UserToken;
+    const { email, password } = req.body;
     let response: myResponse = {};
     try {
-        let result = await userService.updatePassword(userId, password);
+        let result = await userService.updatePassword(email, password);
         if (result)
             response = util.makeResponse(null, 'Success', null);
         else
