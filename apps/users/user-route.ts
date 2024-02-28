@@ -33,7 +33,6 @@ router.post('/reset',
         [
             body('password').notEmpty().withMessage('No password'),
             jwtUtil.validate,
-            jwtUtil.verifyToken,
         ], userController.reset)
 
 export default router;

@@ -56,7 +56,6 @@ const reset: RequestHandler = async function (req, res, next) {
     const { password } = req.body;
     let { userId } = req.user as UserToken;
     let response: myResponse = {};
-    console.log(req.user);
     try {
         let result = await userService.updatePassword(userId, password);
         if (result)
