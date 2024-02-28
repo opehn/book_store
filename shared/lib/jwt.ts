@@ -27,7 +27,6 @@ const validate: RequestHandler = async function validate(req, res, next) {
 
     if (!err.isEmpty()) {
         //TODO : err 객체 정의 보고 message에 해당하는 부분 넣기
-        console.log(req.body);
         logger.reportResponseErr(req.url, req.method, "error");
         return res.status(401).json(err.array())
     } else {

@@ -24,11 +24,14 @@ const login: RequestHandler = async function (req, res, next) {
     const loginInfo = req.body;
     try {
         let response: myResponse = {};
+        let token;
         const result = await userService.login(loginInfo);
         response = util.makeResponse(null, result.message, null);
-        if (result.userId)
-            res.cookie("token", jwtUtil.makeJwtToken(result.userId, loginInfo.email, loginInfo.name));
-        res.status(200).json(response);
+        if (result.userId) {
+            token = jwtUtil.makeJwtToken(result.userId, loginInfo.email, loginInfo.name);
+            res.cookie("token", token);
+        }
+        res.status(200).json({ ...response, token: token });
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
         res.status(500).json(util.makeResponse(null, 'Error', e.message));
