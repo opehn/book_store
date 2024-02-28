@@ -4,7 +4,7 @@ var express = require("express");
 var router = express.Router();
 var express_validator_1 = require("express-validator");
 var jwt_1 = require("../../shared/lib/jwt");
-var user_controller_1 = require("./user-controller");
+var user_controller_1 = require("./layered-architecture/user-controller");
 router.post('/join', [
     (0, express_validator_1.body)('email')
         .notEmpty().withMessage('No email')
@@ -23,7 +23,7 @@ router.post('/reset', [
     (0, express_validator_1.body)('email')
         .notEmpty().withMessage('No email')
         .isEmail().withMessage("Wrong email"),
-    jwt_1.default.validate
+    jwt_1.default.validate,
 ], user_controller_1.default.matchEmailForReset)
     .put('/reset', [
     (0, express_validator_1.body)('password').notEmpty().withMessage('No password'),

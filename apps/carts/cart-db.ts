@@ -17,6 +17,7 @@ export default {
             throw e;
         }
     },
+
     updateOrInsertCartItem: async function updateOrInsertCartItem(userId: number, bookId: number, count: number, sign: string) {
         try {
             let queryString: string;
@@ -43,6 +44,14 @@ export default {
             throw e;
         }
     },
+
+    deleteCartByUserIdAndBookId: async function deleteCart(userId: number, bookIds: number[]) {
+        await knex(cartTable)
+            .delete()
+            .where({ user_id: userId })
+            .whereIn('book_id', bookIds);
+    },
+
     deleteCartItems: async function deleteCartItems(cartId: number) {
         try {
             let result = await knex(cartTable).delete()

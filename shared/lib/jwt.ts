@@ -16,8 +16,8 @@ function makeJwtOption(expireTime: string, issuer: string) {
     return { expiresIn: expireTime, issuer: issuer }
 }
 
-function makeJwtToken(userId: string, email: string, name: string) {
-    let user: UserToken = makeUser(parseInt(userId), email, name);
+function makeJwtToken(userId: number, email: string, name: string) {
+    let user: UserToken = makeUser(userId, email, name);
     let opt = makeJwtOption('30m', 'Anna');
     return jwt.sign(user, process.env.PRIVATE_KEY as any, opt);
 }
@@ -48,7 +48,9 @@ const verifyToken: RequestHandler = async function verifyToken(req, res, next) {
     }
     try {
         let decoded: any = jwt.verify(token, secretKey);
+        console.log("decoded : ", decoded);
         let userInfo: UserToken = {
+
             userId: parseInt(decoded.userId),
             email: decoded.email,
             name: decoded.name,

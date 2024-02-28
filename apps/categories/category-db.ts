@@ -16,5 +16,6 @@ export default {
             logger.reportDbErr(categoryTable, 'SELECT', e.message);
             throw e;
         }
-    }
+    },
+
 }

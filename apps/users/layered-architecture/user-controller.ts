@@ -1,23 +1,17 @@
 import { RequestHandler } from 'express';
-import logger from '../../shared/logger';
-import userDb from './user-db';
+import logger from '../../../shared/logger';
 import jwt = require('jsonwebtoken');
-import { myResponse, UserInfo, UserToken } from '../../shared/type'
-import util from '../../shared/lib/util'
-import jwtUtil from '../../shared/lib/jwt'
+import { myResponse, UserInfo, UserToken } from '../../../shared/type'
+import util from '../../../shared/lib/util'
+import jwtUtil from '../../../shared/lib/jwt'
+import { getServiceInstance, UserService } from './user-service';
+
+const userService: UserService = getServiceInstance();
 
 const join: RequestHandler = async function (req, res, next) {
     const userInfo: UserInfo = req.body;
-    let result;
-    let message: string;
     try {
-        let matchedUser = await userDb.selectUserByEmail(userInfo.email);
-        if (util.isArrayNotEmpty(matchedUser))
-            message = 'Duplicate';
-        else {
-            result = await userDb.createNewUser(userInfo);
-            message = util.makeMessage(result);
-        }
+        const message = await userService.join(userInfo);
         res.status(200).json(util.makeResponse(null, message, null));
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
@@ -26,22 +20,14 @@ const join: RequestHandler = async function (req, res, next) {
     }
 }
 
-
 const login: RequestHandler = async function (req, res, next) {
     const loginInfo = req.body;
     try {
         let response: myResponse = {};
-        let matchedUser = await userDb.selectUserByEmail(loginInfo.email);
-        if (util.isArrayNotEmpty(matchedUser)) {
-            if (await userDb.matchPassword(loginInfo)) {
-                res.cookie("token", jwtUtil.makeJwtToken(matchedUser[0].id, matchedUser[0].email, matchedUser[0].name));
-                response = util.makeResponse(null, 'Success', null);
-            }
-            else
-                response = util.makeResponse(null, 'Password not matched', null);
-        } else {
-            response = util.makeResponse(null, 'Email not matched', null);
-        }
+        const result = await userService.login(loginInfo);
+        response = util.makeResponse(null, result.message, null);
+        if (result.userId)
+            res.cookie("token", jwtUtil.makeJwtToken(result.userId, loginInfo.email, loginInfo.name));
         res.status(200).json(response);
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
@@ -51,14 +37,15 @@ const login: RequestHandler = async function (req, res, next) {
 
 const matchEmailForReset: RequestHandler = async function (req, res, next) {
     const { email } = req.body;
-    let response: myResponse = {};
+    let message: string;
+
     try {
-        let matchedUser = await userDb.selectUserByEmail(email);
-        if (util.isArrayNotEmpty(matchedUser)) {
-            response.message = 'Success';
-            res.cookie("token", jwtUtil.makeJwtToken(matchedUser[0].id, matchedUser[0].email, matchedUser[0].name));
-            res.status(200).json(response.message);
-        }
+        const isValidEmail = await userService.isEmailMatch(email);
+        if (isValidEmail)
+            message = 'Success';
+        else
+            message = 'Failed';
+        res.status(200).json(util.makeResponse(null, message, null));
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
         res.status(500).json(util.makeResponse(null, 'Error', e.message));
@@ -69,13 +56,13 @@ const reset: RequestHandler = async function (req, res, next) {
     const { password } = req.body;
     let { userId } = req.user as UserToken;
     let response: myResponse = {};
+    console.log(req.user);
     try {
-        let result = await userDb.updatePassword(userId, password);
+        let result = await userService.updatePassword(userId, password);
         if (result)
             response = util.makeResponse(null, 'Success', null);
-        //TODOV 
         else
-            response = util.makeResponse(null, '?', null);
+            response = util.makeResponse(null, 'Failed', null);
         res.status(200).json(response);
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);

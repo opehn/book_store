@@ -50,7 +50,7 @@ function makeJwtOption(expireTime, issuer) {
     return { expiresIn: expireTime, issuer: issuer };
 }
 function makeJwtToken(userId, email, name) {
-    var user = makeUser(parseInt(userId), email, name);
+    var user = makeUser(userId, email, name);
     var opt = makeJwtOption('30m', 'Anna');
     return jwt.sign(user, process.env.PRIVATE_KEY, opt);
 }
@@ -87,6 +87,7 @@ var verifyToken = function verifyToken(req, res, next) {
             }
             try {
                 decoded = jwt.verify(token, secretKey);
+                console.log("decoded : ", decoded);
                 userInfo = {
                     userId: parseInt(decoded.userId),
                     email: decoded.email,

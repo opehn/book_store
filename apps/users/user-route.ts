@@ -2,7 +2,7 @@ import * as express from 'express';
 const router = express.Router();
 import { body } from 'express-validator';
 import jwtUtil from '../../shared/lib/jwt';
-import userController from './user-controller';
+import userController from './layered-architecture/user-controller';
 
 router.post('/join',
     [
@@ -27,7 +27,7 @@ router.post('/reset',
         body('email')
             .notEmpty().withMessage('No email')
             .isEmail().withMessage(`Wrong email`),
-        jwtUtil.validate
+        jwtUtil.validate,
     ], userController.matchEmailForReset)
     .put('/reset',
         [
