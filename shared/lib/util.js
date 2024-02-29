@@ -29,5 +29,11 @@ exports.default = {
             return 'Success';
         else
             return 'No data';
+    },
+    makeCode: function makeCode(result) {
+        if (result)
+            return 'Success';
+        else
+            return 'Failed';
     }
 };
