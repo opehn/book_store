@@ -3,7 +3,7 @@ import logger from '../../../shared/logger';
 import { myResponse } from '../../../shared/type'
 import { UserToken } from '../../../shared/type';
 import util from '../../../shared/lib/util'
-import { Cart } from '../../../shared/type';
+import { Cart } from '../types';
 import { getServiceInstance } from './cart-service';
 
 const cartService = getServiceInstance();

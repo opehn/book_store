@@ -1,4 +1,4 @@
-import { LoginInfo, UserInfo } from '../../../shared/type'
+import { LoginInfo, UserInfo } from '../types'
 import logger from '../../../shared/logger/index.js';
 import { UserRepository, getRepoInstance } from './user-db';
 import bcrypt = require('bcrypt');

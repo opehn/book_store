@@ -1,7 +1,8 @@
 import { RequestHandler } from 'express';
 import logger from '../../../shared/logger';
 import jwt = require('jsonwebtoken');
-import { myResponse, UserInfo, UserToken } from '../../../shared/type'
+import { myResponse, UserToken } from '../../../shared/type'
+import { UserInfo } from '../types';
 import util from '../../../shared/lib/util'
 import jwtUtil from '../../../middleware/jwt'
 import { getServiceInstance, UserService } from './user-service';

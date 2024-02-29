@@ -1,6 +1,6 @@
 import knex from '../../../data/connection';
 import logger from '../../../shared/logger/index.js';
-import { Cart } from '../../../shared/type';
+import { Cart } from '../types';
 const cartTable = 'CARTITEMS_TB';
 
 export class CartRepository {

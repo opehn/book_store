@@ -1,11 +1,10 @@
 import { RequestHandler } from 'express';
 import logger from '../../../shared/logger';
 import { OrderService, getServiceInstance } from './order-service';
-import { UserOrder } from '../../../shared/type';
+import { UserOrder, Order } from '../types';
 import { myResponse } from '../../../shared/type'
 import { UserToken } from '../../../shared/type';
 import util from '../../../shared/lib/util'
-import { Order } from '../../../shared/type';
 
 const orderService = getServiceInstance();
 

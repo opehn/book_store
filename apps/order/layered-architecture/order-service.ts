@@ -1,11 +1,9 @@
-import { BookItem, Order } from '../../../shared/type'
+import { BookItem, Order, OrderedBookItem } from '../types'
 import { OrderRepository, getRepoInstance } from './order-db';
 import { Logger } from 'winston';
 import logger from '../../../shared/logger/index';
 import knex from '../../../data/connection';
 import { Knex } from 'knex';
-import { OrderedBookItem } from '../type';
-import { order } from '../../../routes';
 
 export class OrderService {
     private orderRepository: OrderRepository;

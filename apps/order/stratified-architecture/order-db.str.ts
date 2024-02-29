@@ -7,7 +7,7 @@ const orderTable = 'ORDERS_TB';
 const orderBookTable = 'ORDERED_BOOKS_TB';
 const deliveryTable = 'DELIVERY_TB';
 const cartTable = 'CARTITEMS_TB';
-import { OrderedBookItem } from '../type';
+import { OrderedBookItem } from '../types';
 
 type OrderRepositoryDeps = {
     knex: Knex;

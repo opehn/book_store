@@ -1,13 +1,13 @@
 import knex from '../../../data/connection';
 import logger from '../../../shared/logger/index.js';
-import { UserOrder, Order } from '../../../shared/type';
+import { UserOrder, Order } from '../types';
 import { Knex } from 'knex';
 import { Logger } from 'winston';
 const orderTable = 'ORDERS_TB';
 const orderBookTable = 'ORDERED_BOOKS_TB';
 const deliveryTable = 'DELIVERY_TB';
 const cartTable = 'CARTITEMS_TB';
-import { OrderedBookItem } from '../type';
+import { OrderedBookItem } from '../types';
 
 
 //TODO : delete if not required

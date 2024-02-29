@@ -4,7 +4,7 @@ import { Logger } from 'winston';
 import logger from '../../../shared/logger/index';
 import knex from '../../../data/connection';
 import { Knex } from 'knex';
-import { OrderedBookItem } from '../type';
+import { OrderedBookItem } from '../types';
 import { order } from '../../../routes';
 
 export class OrderService {

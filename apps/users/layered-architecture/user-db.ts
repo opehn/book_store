@@ -1,7 +1,7 @@
 import knex from '../../../data/connection';
 import logger from '../../../shared/logger/index.js';
 import dbUtil from '../../../data/dbUtil.js';
-import { LoginInfo, UserInfo } from '../../../shared/type'
+import { LoginInfo, UserInfo } from '../types'
 const userTable = 'USERS_TB';
 
 export class UserRepository {

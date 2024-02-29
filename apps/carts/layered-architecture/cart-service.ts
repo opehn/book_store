@@ -1,5 +1,5 @@
 import { CartRepository, getRepoInstance } from "./cart-db";
-import { Cart } from "../../../shared/type";
+import { Cart } from "../types";
 
 export class CartService {
     private cartRepository;
