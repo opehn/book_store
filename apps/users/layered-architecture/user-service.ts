@@ -56,32 +56,35 @@ export class UserService {
         }
     }
 
-    async join(userInfo: UserInfo): Promise<string> {
+    async join(userInfo: UserInfo): Promise<any> {
         try {
             const isUserDuplicate = await this.isEmailMatch(userInfo.email);
             if (isUserDuplicate) {
-                return 'Duplicate';
+                return {
+                    message: '중복된 이메일입니다',
+                    err: 'Success'
+                };
             } else {
                 const hash = await this.hashPassword(userInfo.password);
                 userInfo.password = hash;
                 await this.userRepository.insertUser(userInfo);
-                return 'Success';
+                return { err: 'Success' };
             }
         } catch (e) {
             throw e;
         }
     }
 
-    async login(loginInfo: LoginInfo) {
+    async login(loginInfo: LoginInfo): Promise<any> {
         try {
             const isValidUser: number = await this.isEmailMatch(loginInfo.email);
             const isValidPassword: boolean = await this.isPasswordMatch(loginInfo);
             if (isValidUser && isValidPassword)
-                return { userId: isValidUser, message: 'Success' };
+                return { userId: isValidUser };
             else if (isValidUser)
-                return { userId: null, message: 'Password not matched' };
+                return { userId: null, message: '패스워드가 일치하지 않습니다' };
             else
-                return { userId: null, message: 'Email not matched' };
+                return { userId: null, message: '이메일이 일치하지 않습니다' };
         } catch (e) {
             throw e;
         }

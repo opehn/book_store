@@ -2,46 +2,46 @@ import { RequestHandler } from 'express';
 import logger from '../../../shared/logger';
 import { OrderService, getServiceInstance } from './order-service';
 import { UserOrder, Order } from '../types';
-import { myResponse } from '../../../shared/type'
+import { MyResponse } from '../../../shared/type'
 import { UserToken } from '../../../shared/type';
 import util from '../../../shared/lib/util'
 
-const orderService = getServiceInstance();
+const orderService: OrderService = getServiceInstance();
 
 const getOrderList: RequestHandler = async function (req, res, next) {
-    let response: myResponse = {};
+    let response: MyResponse = {};
     let { userId } = req.user as UserToken;
 
     try {
-        let data: UserOrder[] = await orderService.getOrderList(userId);
-        let message = util.makeMessage(data);
-        response = util.makeResponse(data, message, null);
+        const data: UserOrder[] = await orderService.getOrderList(userId);
+        const errCode = util.makeCodeByArray(data);
+        response = util.makeResponse(data, null, errCode);
         res.status(200).json(response);
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
-        res.status(500).json(util.makeResponse(null, 'Error', e.message));
+        res.status(500).json({ error: 'Failed' });
     }
 }
 
 const getOrderDetail: RequestHandler = async function (req, res, next) {
     let { userId } = req.user as UserToken;
     let orderId = parseInt(req.params.orderId);
-    let response: myResponse = {};
+    let response: MyResponse = {};
 
     try {
-        let data: UserOrder[] = await orderService.getOrderDetail(userId, orderId);
-        let message: string = util.makeMessage(data);
-        response = util.makeResponse(data, message, null);
+        const data: UserOrder[] = await orderService.getOrderDetail(userId, orderId);
+        const errCode: string = util.makeCodeByArray(data);
+        response = util.makeResponse(data, null, errCode);
         res.status(200).json(response);
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
-        res.status(500).json(util.makeResponse(null, 'Error', e.message));
+        res.status(500).json({ error: 'Failed' });
     }
 }
 
 const orderPayment: RequestHandler = async function (req, res, next) {
     let { userId } = req.user as UserToken;
-    let response: myResponse = {};
+    let response: MyResponse = {};
     let orderData: Order = req.body as Order;
 
     try {
@@ -50,7 +50,7 @@ const orderPayment: RequestHandler = async function (req, res, next) {
         res.status(200).json(response);
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
-        res.status(500).json(util.makeResponse(null, 'Error', e.message));
+        res.status(500).json({ error: 'Failed' });
     }
 }
 

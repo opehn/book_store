@@ -1,4 +1,4 @@
-import { myResponse } from '../../shared/type';
+import { MyResponse } from '../../shared/type';
 
 function isArrayNotEmpty<T>(arr: T[]) {
     if (arr.length)
@@ -9,8 +9,8 @@ function isArrayNotEmpty<T>(arr: T[]) {
 
 export default {
     makeResponse: function makeResponse(data: any, message: string | null, err: string | null) {
-        let response: myResponse = {};
-        if (data)
+        let response: MyResponse = {};
+        if (data && data.length)
             response.data = data;
         if (message)
             response.message = message;
@@ -24,14 +24,16 @@ export default {
         else
             return false;
     },
+
     isArrayNotEmpty: isArrayNotEmpty,
-    makeMessage: function makeMessage<T>(data: T[]): string {
+
+    makeCodeByArray: function makeCodeByArray<T>(data: T[]): string {
         if (isArrayNotEmpty(data))
             return 'Success';
         else
             return 'No data';
     },
-    makeCode: function makeCode(result: number) {
+    makeCodeByNumber: function makeCode(result: number) {
         if (result)
             return 'Success'
         else

@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import logger from '../../shared/logger';
-import { myResponse } from '../../shared/type.js'
+import { MyResponse } from '../../shared/type.js'
 import util from '../../shared/lib/util';
 import { getBookInstance } from './book-integration';
 import { BookDTO, BookDetailDTO, GetBookParams } from './types';
@@ -23,39 +23,39 @@ function makeParams(query: any) {
 const getAllBooks: RequestHandler = async (req, res, next) => {
     let params: GetBookParams = makeParams(req.query);
     let bookData: BookDTO[];
-    let response: myResponse = {};
+    let response: MyResponse = {};
 
     if (params.categoryId) {
         try {
             bookData = await BookIntegration.getBookByCategory(params);
-            response = util.makeResponse(bookData, 'Success', null);
+            response = util.makeResponse(bookData, null, 'Success');
             res.status(200).json(response);
         } catch (e: any) {
             logger.reportResponseErr(req.url, req.method, e.message);
-            res.status(500).json({ message: 'Server Error' });
+            res.status(500).json(util.makeResponse(null, null, 'Failed'));
         }
     } else {
         try {
             bookData = await BookIntegration.getBookNoCategory(params.limit, params.offset);
-            response = util.makeResponse(bookData, 'Success', null);
+            response = util.makeResponse(bookData, null, 'Success');
             res.status(200).json(response);
         } catch (e: any) {
             logger.reportResponseErr(req.url, req.method, e.messsage);
-            res.status(500).json(util.makeResponse(null, 'Error', e.message));
+            res.status(500).json({ error: 'Failed' });
         }
     }
 }
 
 const getBookDetail: RequestHandler = async (req, res, next) => {
     const { bookId } = req.params;
-    let response: myResponse = {};
+    let response: MyResponse = {};
     try {
         const bookData = await BookIntegration.getBookDetail(parseInt(bookId));
-        response = util.makeResponse(bookData, 'Success', null);
+        response = util.makeResponse(bookData, null, 'Success');
         res.status(200).json(response);
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
-        res.status(500).json(util.makeResponse(null, 'Error', e.message));
+        res.status(500).json({ error: 'Failed' });
     }
 }
 

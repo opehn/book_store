@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express';
 import logger from '../../../shared/logger';
-import jwt = require('jsonwebtoken');
-import { myResponse, UserToken } from '../../../shared/type'
+import { MyResponse, UserToken } from '../../../shared/type'
 import { UserInfo } from '../types';
 import util from '../../../shared/lib/util'
 import jwtUtil from '../../../middleware/jwt'
@@ -12,64 +11,56 @@ const userService: UserService = getServiceInstance();
 const join: RequestHandler = async function (req, res, next) {
     const userInfo: UserInfo = req.body;
     try {
-        const message = await userService.join(userInfo);
-        res.status(200).json(util.makeResponse(null, message, null));
+        const result = await userService.join(userInfo);
+        res.status(200).json(util.makeResponse(null, result.message, result.err));
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
-        res.status(500).json(util.makeResponse(null, 'Error', e.message));
+        res.status(500).json({ error: 'Failed' });
     }
 }
 
 const login: RequestHandler = async function (req, res, next) {
     const loginInfo = req.body;
     try {
-        let response: myResponse = {};
+        let response: MyResponse = {};
         let token;
         const result = await userService.login(loginInfo);
-        response = util.makeResponse(null, result.message, null);
         if (result.userId) {
             token = jwtUtil.makeJwtToken(result.userId, loginInfo.email, loginInfo.name);
             res.cookie("token", token);
         }
+        response = util.makeResponse(null, result.message, 'Success');
         res.status(200).json({ ...response, token: token });
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
-        res.status(500).json(util.makeResponse(null, 'Error', e.message));
+        res.status(500).json({ error: 'Failed' });
     }
 }
 
 const matchEmailForReset: RequestHandler = async function (req, res, next) {
     const { email } = req.body;
-    let message: string;
 
     try {
         const isValidEmail = await userService.isEmailMatch(email);
-        if (isValidEmail)
-            message = 'Success';
-        else
-            message = 'Failed';
-        res.status(200).json(util.makeResponse(null, message, null));
+        const errCode = util.makeCodeByNumber(isValidEmail)
+        res.status(200).json(util.makeResponse(null, null, errCode));
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
-        res.status(500).json(util.makeResponse(null, 'Error', e.message));
+        res.status(500).json({ error: 'Failed' });
     }
 }
 
 const reset: RequestHandler = async function (req, res, next) {
     const { password } = req.body;
     const { email } = req.user as UserToken;
-    console.log(email, password);
-    let response: myResponse = {};
+
     try {
-        let result = await userService.updatePassword(email, password);
-        if (result)
-            response = util.makeResponse(null, 'Success', null);
-        else
-            response = util.makeResponse(null, 'Failed', null);
-        res.status(200).json(response);
+        const result = await userService.updatePassword(email, password);
+        const errCode = util.makeCodeByNumber(result);
+        res.status(200).json({ err: errCode });
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
-        res.status(500).json(util.makeResponse(null, 'Error', e.message));
+        res.status(500).json({ error: 'Failed' });
     }
 }
 
