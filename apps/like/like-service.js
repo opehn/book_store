@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var dbAccess_1 = require("../../data/dbAccess");
+var like_db_1 = require("./like-db");
 exports.default = {
     toggleLikeStatus: function toggleLikeStatus(userId, bookId, liked) {
         return __awaiter(this, void 0, void 0, function () {
@@ -46,9 +46,9 @@ exports.default = {
                     case 0:
                         _a.trys.push([0, 5, , 6]);
                         if (!liked) return [3 /*break*/, 2];
-                        return [4 /*yield*/, dbAccess_1.likeDb.deleteLikedUser(userId)];
+                        return [4 /*yield*/, like_db_1.default.deleteLikedUser(userId)];
                     case 1: return [2 /*return*/, _a.sent()];
-                    case 2: return [4 /*yield*/, dbAccess_1.likeDb.insertLikedUser(userId, bookId)];
+                    case 2: return [4 /*yield*/, like_db_1.default.insertLikedUser(userId, bookId)];
                     case 3: return [2 /*return*/, _a.sent()];
                     case 4: return [3 /*break*/, 6];
                     case 5:

@@ -28,5 +28,6 @@ router.post('/reset', [
     .put('/reset', [
     (0, express_validator_1.body)('password').notEmpty().withMessage('No password'),
     jwt_1.default.validate,
+    jwt_1.default.verifyToken
 ], user_controller_1.default.reset);
 exports.default = router;

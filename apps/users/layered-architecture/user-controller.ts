@@ -15,7 +15,6 @@ const join: RequestHandler = async function (req, res, next) {
         res.status(200).json(util.makeResponse(null, message, null));
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
-        console.log(e);
         res.status(500).json(util.makeResponse(null, 'Error', e.message));
     }
 }
@@ -56,7 +55,9 @@ const matchEmailForReset: RequestHandler = async function (req, res, next) {
 }
 
 const reset: RequestHandler = async function (req, res, next) {
-    const { email, password } = req.body;
+    const { password } = req.body;
+    const { email } = req.user as UserToken;
+    console.log(email, password);
     let response: myResponse = {};
     try {
         let result = await userService.updatePassword(email, password);

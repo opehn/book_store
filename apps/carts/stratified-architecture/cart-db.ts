@@ -1,10 +1,10 @@
-import knex from '../../data/connection';
-import logger from '../../shared/logger/index.js';
-import { Cart } from '../../shared/type';
+import knex from '../../../data/connection';
+import logger from '../../../shared/logger/index.js';
+import { Cart } from '../../../shared/type';
 const cartTable = 'CARTITEMS_TB';
 
-export default {
-    selectCartByUser: async function selectCartByUser(userId: number): Promise<Cart[]> {
+export class CartRepository {
+    async selectCartByUser(userId: number): Promise<Cart[]> {
         try {
             let result = await knex('CARTITEMS_TB as ct')
                 .select('ct.id', 'ct.book_id', 'bt.title', 'bt.summary',
@@ -16,9 +16,9 @@ export default {
             logger.reportDbErr(cartTable, 'INSERT', e.message);
             throw e;
         }
-    },
+    }
 
-    updateOrInsertCartItem: async function updateOrInsertCartItem(userId: number, bookId: number, count: number, sign: string) {
+    async updateOrInsertCartItem(userId: number, bookId: number, count: number, sign: string) {
         try {
             let queryString: string;
             if (sign === 'plus')
@@ -43,16 +43,16 @@ export default {
             logger.reportDbErr(cartTable, 'INSERT', e.message);
             throw e;
         }
-    },
+    }
 
-    deleteCartByUserIdAndBookId: async function deleteCart(userId: number, bookIds: number[]) {
+    async deleteCart(userId: number, bookIds: number[]) {
         await knex(cartTable)
             .delete()
             .where({ user_id: userId })
             .whereIn('book_id', bookIds);
-    },
+    }
 
-    deleteCartItems: async function deleteCartItems(cartId: number) {
+    async deleteCartItems(cartId: number) {
         try {
             let result = await knex(cartTable).delete()
                 .where({ 'id': cartId })
@@ -63,4 +63,8 @@ export default {
             throw e;
         }
     }
+}
+
+export function getRepoInstance() {
+    return new CartRepository();
 }

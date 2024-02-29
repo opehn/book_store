@@ -2,7 +2,7 @@ import express = require('express');
 const router = express.Router();
 const { body, param, query } = require('express-validator');
 import jwtUtil from '../../shared/lib/jwt';
-import cartController from './cart-controller';
+import cartController from './layered-architecture/cart-controller';
 
 /* 전체 조회 */
 router.get('/',

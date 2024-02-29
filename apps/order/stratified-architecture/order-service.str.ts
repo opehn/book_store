@@ -1,6 +1,5 @@
 import { BookItem, Order } from '../../../shared/type'
 import { OrderRepository, getRepoInstance } from './order-db.str';
-import cartDb from '../../carts/cart-db'
 import { Logger } from 'winston';
 import logger from '../../../shared/logger/index';
 import knex from '../../../data/connection';

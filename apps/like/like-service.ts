@@ -1,4 +1,4 @@
-import { likeDb } from '../../data/dbAccess';
+import likeDb from './like-db';
 
 export default {
     toggleLikeStatus: async function toggleLikeStatus(userId: number, bookId: number, liked: boolean) {

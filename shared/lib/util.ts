@@ -30,5 +30,12 @@ export default {
             return 'Success';
         else
             return 'No data';
+    },
+    makeCode: function makeCode(result: number) {
+        if (result)
+            return 'Success'
+        else
+            return 'Failed'
     }
+
 }

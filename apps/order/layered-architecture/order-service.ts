@@ -1,6 +1,5 @@
 import { BookItem, Order } from '../../../shared/type'
 import { OrderRepository, getRepoInstance } from './order-db';
-import cartDb from '../../carts/cart-db'
 import { Logger } from 'winston';
 import logger from '../../../shared/logger/index';
 import knex from '../../../data/connection';
@@ -57,7 +56,7 @@ export class OrderService {
                 let result = await this.orderRepository.insertOrderedBook(newItems)
 
                 //deleteCart
-                let result2 = await cartDb.deleteCartByUserIdAndBookId(userId, bookIds);
+                let result2 = await this.orderRepository.deleteCart(userId, bookIds);
 
                 trx.commit;
             })

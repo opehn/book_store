@@ -1,6 +1,5 @@
 import { OrderRepository, getRepoInstance } from './order-db.str';
 import { OrderService, getServiceInstance } from './order-service.str';
-import cartDb from '../../carts/cart-db'
 import logger from '../../../shared/logger/index';
 import knex from '../../../data/connection';
 import { Order } from '../../../shared/type'
@@ -34,7 +33,7 @@ export default {
                 let result = await orderRepository.insertOrderedBook(newItems)
 
                 //deleteCart
-                let result2 = await cartDb.deleteCartByUserIdAndBookId(userId, bookIds);
+                let result2 = await orderRepository.deleteCart(userId, bookIds);
 
                 trx.commit;
             })

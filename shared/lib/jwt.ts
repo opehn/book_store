@@ -50,7 +50,6 @@ const verifyToken: RequestHandler = async function verifyToken(req, res, next) {
         let decoded: any = jwt.verify(token, secretKey);
         console.log("decoded : ", decoded);
         let userInfo: UserToken = {
-
             userId: parseInt(decoded.userId),
             email: decoded.email,
             name: decoded.name,

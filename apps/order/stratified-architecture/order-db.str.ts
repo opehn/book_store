@@ -6,7 +6,7 @@ import { Logger } from 'winston';
 const orderTable = 'ORDERS_TB';
 const orderBookTable = 'ORDERED_BOOKS_TB';
 const deliveryTable = 'DELIVERY_TB';
-const cartItemsTable = 'CARTITEMS_TB';
+const cartTable = 'CARTITEMS_TB';
 import { OrderedBookItem } from '../type';
 
 type OrderRepositoryDeps = {
@@ -90,50 +90,12 @@ class OrderRepository {
         return result;
     }
 
-    // async insertOrderAndDeleteCart(userId: number, orderData: Order, bookIds: number[]): Promise<void> {
-    //     try {
-    //         //insertDelivery
-    //         await knex.transaction(async trx => {
-    //             const deliveryId = await trx(deliveryTable)
-    //                 .insert({
-    //                     receiver: orderData.delivery.receiver,
-    //                     contact: orderData.delivery.contact,
-    //                     address: orderData.delivery.address,
-    //                     user_id: userId
-    //                 })
-
-    //             //insertOrder
-    //             const orderId = await trx(orderTable)
-    //                 .insert({
-    //                     user_id: userId,
-    //                     delivery_id: deliveryId[0],
-    //                     book_title: orderData.bookTitle,
-    //                     total_price: orderData.totalPrice,
-    //                     total_count: orderData.totalCount
-    //                 })
-
-    //             let newItems = orderData.items.map((cur: any) => ({
-    //                 'book_id': cur.bookId,
-    //                 'count': cur.count,
-    //                 'order_id': orderId
-    //             }));
-
-    //             //insertOrderedBook
-    //             await trx(orderBookTable)
-    //                 .insert(newItems);
-
-    //             //deleteCart
-    //             await trx(cartItemsTable)
-    //                 .delete()
-    //                 .where({ user_id: userId })
-    //                 .whereIn('book_id', bookIds);
-    //             trx.commit;
-    //         })
-    //     } catch (e: any) {
-    //         logger.reportDbErr('Mutiple Table', 'Transaction', e.message);
-    //         throw e;
-    //     }
-    // }
+    async deleteCart(userId: number, bookIds: number[]) {
+        await knex(cartTable)
+            .delete()
+            .where({ user_id: userId })
+            .whereIn('book_id', bookIds);
+    }
 
 }
 

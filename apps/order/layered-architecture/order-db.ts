@@ -6,7 +6,7 @@ import { Logger } from 'winston';
 const orderTable = 'ORDERS_TB';
 const orderBookTable = 'ORDERED_BOOKS_TB';
 const deliveryTable = 'DELIVERY_TB';
-const cartItemsTable = 'CARTITEMS_TB';
+const cartTable = 'CARTITEMS_TB';
 import { OrderedBookItem } from '../type';
 
 
@@ -24,6 +24,8 @@ class OrderRepository {
         this.knex = knex;
         this.logger = logger;
     }
+
+
 
     async selectOrderByUserId(userId: number): Promise<UserOrder[]> {
         try {
@@ -90,6 +92,13 @@ class OrderRepository {
             .where({ order_id: orderId })
             .join('BOOKS_TB as bt', 'id', 'ot.book_id')
         return result;
+    }
+
+    async deleteCart(userId: number, bookIds: number[]) {
+        await knex(cartTable)
+            .delete()
+            .where({ user_id: userId })
+            .whereIn('book_id', bookIds);
     }
 }
 

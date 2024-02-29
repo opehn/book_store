@@ -4,7 +4,7 @@ var express = require("express");
 var router = express.Router();
 var _a = require('express-validator'), body = _a.body, param = _a.param, query = _a.query;
 var jwt_1 = require("../../shared/lib/jwt");
-var cart_controller_1 = require("./cart-controller");
+var cart_controller_1 = require("./layered-architecture/cart-controller");
 /* 전체 조회 */
 router.get('/', [
     jwt_1.default.verifyToken
