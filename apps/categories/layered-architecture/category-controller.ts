@@ -15,7 +15,7 @@ const getAllCategory: RequestHandler = async function getAllCategory(req, res, n
         res.status(200).json(data);
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
-        res.status(500).json(util.makeResponse(null, 'Error', e.message));
+        res.status(500).json(util.makeResponse(null, 'Failed', e.message));
     }
 };
 

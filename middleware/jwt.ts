@@ -1,8 +1,8 @@
 import { validationResult } from 'express-validator';
 import { RequestHandler } from 'express';
-import logger from '../logger';
+import logger from '../shared/logger';
 import jwt = require('jsonwebtoken');
-import { UserToken } from '../type';
+import { UserToken } from '../shared/type';
 
 function makeUser(userId: number, email: string, name: string): UserToken {
     return {
@@ -48,7 +48,6 @@ const verifyToken: RequestHandler = async function verifyToken(req, res, next) {
     }
     try {
         let decoded: any = jwt.verify(token, secretKey);
-        console.log("decoded : ", decoded);
         let userInfo: UserToken = {
             userId: parseInt(decoded.userId),
             email: decoded.email,

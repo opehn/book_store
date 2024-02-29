@@ -3,8 +3,8 @@ import logger from '../../shared/logger/index.js';
 
 const likeTable = 'LIKES_TB';
 
-export default {
-    insertLikedUser: async function insertLikedUser(userId: number, bookId: number) {
+export class LikeRepository {
+    async insertLikedUser(userId: number, bookId: number) {
         try {
             const result = await knex(likeTable)
                 .insert({
@@ -16,8 +16,9 @@ export default {
             logger.reportDbErr(likeTable, 'INSERT', e.message);
             throw e;
         }
-    },
-    deleteLikedUser: async function deleteLikedUser(userId: number) {
+    }
+
+    async deleteLikedUser(userId: number) {
         try {
             const result = await knex(likeTable)
                 .delete()
@@ -30,4 +31,8 @@ export default {
             throw e;
         }
     }
+}
+
+export function getRepoInstance() {
+    return new LikeRepository();
 }

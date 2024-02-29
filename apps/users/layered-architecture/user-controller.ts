@@ -3,7 +3,7 @@ import logger from '../../../shared/logger';
 import jwt = require('jsonwebtoken');
 import { myResponse, UserInfo, UserToken } from '../../../shared/type'
 import util from '../../../shared/lib/util'
-import jwtUtil from '../../../shared/lib/jwt'
+import jwtUtil from '../../../middleware/jwt'
 import { getServiceInstance, UserService } from './user-service';
 
 const userService: UserService = getServiceInstance();

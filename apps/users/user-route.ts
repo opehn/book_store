@@ -1,7 +1,7 @@
 import * as express from 'express';
 const router = express.Router();
 import { body } from 'express-validator';
-import jwtUtil from '../../shared/lib/jwt';
+import jwtUtil from '../../middleware/jwt';
 import userController from './layered-architecture/user-controller';
 
 router.post('/join',
