@@ -10,9 +10,9 @@ export class LikeService {
     async toggleLikeStatus(userId: number, bookId: number, liked: boolean): Promise<number | number[]> {
         try {
             if (liked)
-                return await this.likeRepository.deleteLikedUser(userId);
-            else
                 return await this.likeRepository.insertLikedUser(userId, bookId);
+            else
+                return await this.likeRepository.deleteLikedUser(userId);
         } catch (e) {
             throw e;
         }

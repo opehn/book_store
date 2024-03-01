@@ -14,5 +14,6 @@ router.get('/', [
 router.get('/:bookId', [
     param('bookId').notEmpty().withMessage('No bookId'),
     jwt_1.default.validate,
+    jwt_1.default.verifyToken
 ], books_controller_1.getBookDetail);
 exports.default = router;

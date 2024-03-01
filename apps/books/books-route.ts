@@ -16,6 +16,7 @@ router.get('/:bookId',
     [
         param('bookId').notEmpty().withMessage('No bookId'),
         jwtUtil.validate,
+        jwtUtil.verifyToken
     ], getBookDetail);
 
 export default router;

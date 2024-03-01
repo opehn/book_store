@@ -94,16 +94,17 @@ var getAllBooks = function (req, res, next) { return __awaiter(void 0, void 0, v
 }); };
 exports.getAllBooks = getAllBooks;
 var getBookDetail = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var bookId, response, bookData, e_3;
+    var bookId, userId, response, bookData, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 bookId = req.params.bookId;
+                userId = req.user.userId;
                 response = {};
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, BookIntegration.getBookDetail(parseInt(bookId))];
+                return [4 /*yield*/, BookIntegration.getBookDetail(parseInt(bookId), userId)];
             case 2:
                 bookData = _a.sent();
                 response = util_1.default.makeResponse(bookData, null, 'Success');

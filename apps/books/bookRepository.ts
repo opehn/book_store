@@ -36,13 +36,17 @@ class BookRepository {
         }
     }
 
-    async selectBookById(bookId: number): Promise<any> {
+    async selectBookById(bookId: number, userId: number): Promise<any> {
         try {
             const result = await knex('BOOKS_TB as bt')
-                .select('bt.id', 'title', 'img', 'ct.id', 'form', 'isbn', 'summary', 'detail', 'author', 'pages',
-                    'contents', 'price', 'likes', 'pub_date')
-                .join('CATEGORY_TB as ct', 'bt.category_id', '=', 'ct.id')
-                .where('bt.id', bookId);
+                .select('bt.*', 'ct.name AS category_name')
+                .count('lt.liked_book_id as likes')
+                .leftJoin('LIKES_TB as lt', function () {
+                    this.on('bt.id', 'lt.liked_book_id').andOn('lt.user_id', '=', knex.raw('?', [userId]));
+                })
+                .join('CATEGORY_TB as ct', 'bt.category_id', 'ct.id')
+                .where('bt.id', bookId)
+                .groupBy('bt.id', 'ct.id');
             return result;
         } catch (e: any) {
             logger.reportDbErr(bookTable, 'SELECT', e.message);

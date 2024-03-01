@@ -4,6 +4,7 @@ import { MyResponse } from '../../shared/type.js'
 import util from '../../shared/lib/util';
 import { getBookInstance } from './book-integration';
 import { BookDTO, BookDetailDTO, GetBookParams } from './types';
+import { UserToken } from '../../shared/type.js';
 
 const BookIntegration = getBookInstance();
 
@@ -48,9 +49,10 @@ const getAllBooks: RequestHandler = async (req, res, next) => {
 
 const getBookDetail: RequestHandler = async (req, res, next) => {
     const { bookId } = req.params;
+    const { userId } = req.user as UserToken;
     let response: MyResponse = {};
     try {
-        const bookData = await BookIntegration.getBookDetail(parseInt(bookId));
+        const bookData = await BookIntegration.getBookDetail(parseInt(bookId), userId);
         response = util.makeResponse(bookData, null, 'Success');
         res.status(200).json(response);
     } catch (e: any) {

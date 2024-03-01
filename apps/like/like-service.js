@@ -50,9 +50,9 @@ var LikeService = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 5, , 6]);
                         if (!liked) return [3 /*break*/, 2];
-                        return [4 /*yield*/, this.likeRepository.deleteLikedUser(userId)];
+                        return [4 /*yield*/, this.likeRepository.insertLikedUser(userId, bookId)];
                     case 1: return [2 /*return*/, _a.sent()];
-                    case 2: return [4 /*yield*/, this.likeRepository.insertLikedUser(userId, bookId)];
+                    case 2: return [4 /*yield*/, this.likeRepository.deleteLikedUser(userId)];
                     case 3: return [2 /*return*/, _a.sent()];
                     case 4: return [3 /*break*/, 6];
                     case 5:

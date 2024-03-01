@@ -32,10 +32,10 @@ export class BookIntegration {
         }
     }
 
-    async getBookDetail(bookId: number): Promise<BookDetailDTO[]> {
+    async getBookDetail(bookId: number, userId: number): Promise<BookDetailDTO[]> {
         try {
-            const data = await this.BookRepository.selectBookById(bookId);
-            const dto: BookDetailDTO[] = await this.BookRepository.selectBookById(bookId);
+            const data = await this.BookRepository.selectBookById(bookId, userId);
+            const dto: BookDetailDTO[] = await this.BookRepository.selectBookById(bookId, userId);
             return dto;
         } catch (e) {
             throw (e);
