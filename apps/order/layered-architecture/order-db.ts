@@ -1,6 +1,6 @@
 import knex from '../../../data/connection';
 import logger from '../../../shared/logger/index.js';
-import { UserOrder, Order } from '../types';
+import { UserOrder, Order, OrderDetail } from '../types';
 import { Knex } from 'knex';
 import { Logger } from 'winston';
 const orderTable = 'ORDERS_TB';
@@ -28,13 +28,13 @@ class OrderRepository {
         try {
             let orderList = await knex('ORDERS_TB as ot')
                 .select(
-                    'created_at', 'book_title', 'total_count', 'total_price',
-                    'delivery_id', 'address', 'receiver', 'contact'
+                    'ot.id', 'created_at', 'book_title', 'total_quantity',
+                    'total_price', 'delivery_id', 'address', 'receiver', 'contact'
                 ).where('ot.user_id', userId)
                 .join('DELIVERY_TB as dt', 'dt.id', 'ot.delivery_id');
             return orderList;
         } catch (e: any) {
-            logger.reportDbErr(orderTable, 'select', e.message);
+            logger.reportDbErr(orderTable, 'SELECT', e.message);
             throw e;
         }
     }
@@ -47,11 +47,11 @@ class OrderRepository {
                     delivery_id: deliveryId,
                     book_title: orderData.bookTitle,
                     total_price: orderData.totalPrice,
-                    total_count: orderData.totalQuantity
+                    total_quantity: orderData.totalQuantity
                 })
             return orderId;
         } catch (e: any) {
-            logger.reportDbErr(orderTable, 'select', e.message);
+            logger.reportDbErr(orderTable, 'INSERT', e.message);
             throw e;
         }
     }
@@ -67,7 +67,7 @@ class OrderRepository {
                 })
             return deliveryId;
         } catch (e: any) {
-            logger.reportDbErr(orderTable, 'SELECT', e.message);
+            logger.reportDbErr(orderTable, 'INSERT', e.message);
             throw e;
         }
     }
@@ -81,9 +81,9 @@ class OrderRepository {
         }
     }
 
-    async selectOrderDetail(userId: number, orderId: number) {
+    async selectOrderDetail(userId: number, orderId: number): Promise<OrderDetail[]> {
         let result = await knex('ORDERED_BOOKS_TB as ot')
-            .select('ot.book_id', 'title', 'author', 'price', 'count')
+            .select('ot.book_id', 'title', 'author', 'price', 'quantity')
             .where({ order_id: orderId })
             .join('BOOKS_TB as bt', 'id', 'ot.book_id')
         return result;

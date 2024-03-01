@@ -3,7 +3,7 @@ import logger from '../../../shared/logger';
 import { MyResponse } from '../../../shared/type'
 import { UserToken } from '../../../shared/type';
 import util from '../../../shared/lib/util'
-import { Cart } from '../types';
+import { CartDTO } from '../types';
 import { getServiceInstance } from './cart-service';
 
 const cartService = getServiceInstance();
@@ -12,7 +12,7 @@ const getCartList: RequestHandler = async function (req, res, next) {
     const { userId } = req.user as UserToken;
     let response: MyResponse = {};
     try {
-        let data: Cart[] = await cartService.getCartList(userId);
+        let data: CartDTO[] = await cartService.getCartList(userId);
         let errCode: string = util.makeCodeByArray(data);
         response = util.makeResponse(data, null, errCode);
         res.status(200).json(response);

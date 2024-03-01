@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import logger from '../../../shared/logger';
 import { OrderService, getServiceInstance } from './order-service';
-import { UserOrder, Order } from '../types';
+import { Order, OrderDTO, OrderDetailDTO } from '../types';
 import { MyResponse } from '../../../shared/type'
 import { UserToken } from '../../../shared/type';
 import util from '../../../shared/lib/util'
@@ -13,7 +13,7 @@ const getOrderList: RequestHandler = async function (req, res, next) {
     let { userId } = req.user as UserToken;
 
     try {
-        const data: UserOrder[] = await orderService.getOrderList(userId);
+        const data: OrderDTO[] = await orderService.getOrderList(userId);
         const errCode = util.makeCodeByArray(data);
         response = util.makeResponse(data, null, errCode);
         res.status(200).json(response);
@@ -29,7 +29,7 @@ const getOrderDetail: RequestHandler = async function (req, res, next) {
     let response: MyResponse = {};
 
     try {
-        const data: UserOrder[] = await orderService.getOrderDetail(userId, orderId);
+        const data: OrderDetailDTO[] = await orderService.getOrderDetail(userId, orderId);
         const errCode: string = util.makeCodeByArray(data);
         response = util.makeResponse(data, null, errCode);
         res.status(200).json(response);

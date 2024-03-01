@@ -1,4 +1,4 @@
-import { BookItem, Order, OrderedBookItem } from '../types'
+import { BookItem, Order, OrderedBookItem, UserOrder, OrderDTO, OrderDetail, OrderDetailDTO } from '../types'
 import { OrderRepository, getRepoInstance } from './order-db';
 import { Logger } from 'winston';
 import logger from '../../../shared/logger/index';
@@ -16,10 +16,41 @@ export class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    async getOrderList(userId: number) {
+    async toOrderDTO(data: UserOrder[]): Promise<OrderDTO[]> {
+        const dto: OrderDTO[] = data.map((cur) => {
+            return {
+                id: cur.id,
+                createdAt: cur.created_at,
+                address: cur.address,
+                receiver: cur.receiver,
+                contact: cur.contact,
+                bookTitle: cur.book_title,
+                totalQuantity: cur.total_quantity,
+                totalPrice: cur.total_price
+            }
+        })
+        return dto;
+    }
+
+    async toOrderDetailDTO(data: OrderDetail[]): Promise<OrderDetailDTO[]> {
+        const dto: OrderDetailDTO[] = data.map((cur) => {
+            return {
+                id: cur.book_id,
+                title: cur.title,
+                author: cur.author,
+                price: cur.price,
+                quantity: cur.quantity,
+            }
+        })
+        return dto;
+    }
+
+    async getOrderList(userId: number): Promise<OrderDTO[]> {
         try {
-            let result = await this.orderRepository.selectOrderByUserId(userId);
-            return result;
+            const data = await this.orderRepository.selectOrderByUserId(userId);
+            const dto = await this.toOrderDTO(data);
+
+            return dto;
         } catch (e) {
             throw e;
         }
@@ -44,9 +75,9 @@ export class OrderService {
                 const orderId = await this.orderRepository.insertOrder(userId, orderData, deliveryId[0]);
 
                 let newItems: OrderedBookItem[] = orderData.items.map((cur: any) => ({
-                    'bookId': cur.bookId,
+                    'book_id': cur.book_id,
                     'quantity': cur.quantity,
-                    'orderId': orderId[0]
+                    'order_id': orderId[0]
                 }));
 
                 //insertOrderedBook
@@ -63,10 +94,12 @@ export class OrderService {
         }
     }
 
-    async getOrderDetail(userId: number, orderId: number) {
+    async getOrderDetail(userId: number, orderId: number): Promise<OrderDetailDTO[]> {
         try {
-            let result = await this.orderRepository.selectOrderDetail(userId, orderId);
-            return result;
+            const data = await this.orderRepository.selectOrderDetail(userId, orderId);
+            const dto = this.toOrderDetailDTO(data);
+
+            return dto;
         } catch (e) {
             throw e;
         }

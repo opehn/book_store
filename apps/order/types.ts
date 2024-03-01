@@ -1,7 +1,35 @@
+export type OrderDTO = {
+    id: number;
+    createdAt: string;
+    address: string;
+    receiver: string;
+    contact: string;
+    bookTitle: string;
+    totalQuantity: number;
+    totalPrice: number;
+}
+
+export type OrderDetailDTO = {
+    id: number;
+    title: string;
+    author: string;
+    price: number;
+    quantity: number;
+}
+
+export type OrderDetail = {
+    book_id: number;
+    title: string;
+    author: string;
+    price: number;
+    quantity: number;
+}
+
+
 export type OrderedBookItem = {
-    bookId: number,
+    book_id: number,
     quantity: number,
-    orderId: number
+    order_id: number
 }
 
 export interface BookItem {
@@ -16,6 +44,7 @@ export interface DeliveryDetails {
 }
 
 export interface UserOrder {
+    id: number,
     created_at: string,
     book_title: string,
     total_quantity: number,

@@ -1,5 +1,6 @@
 import { CartRepository, getRepoInstance } from "./cart-db";
-import { Cart } from "../types";
+import { Cart, CartDTO } from "../types";
+
 
 export class CartService {
     private cartRepository;
@@ -8,16 +9,31 @@ export class CartService {
         this.cartRepository = cartRepository;
     }
 
-    async getCartList(userId: number): Promise<Cart[]> {
+    async toCartDTO(data: Cart[]): Promise<CartDTO[]> {
+        const dto: CartDTO[] = data.map((cur: any) => {
+            return {
+                id: cur.id,
+                bookId: cur.book_id,
+                title: cur.title,
+                summary: cur.summary,
+                quantity: cur.quantity,
+                price: cur.quantity
+            }
+        })
+        return dto;
+    }
+
+    async getCartList(userId: number): Promise<CartDTO[]> {
         try {
-            const result: Cart[] = await this.cartRepository.selectCartByUser(userId);
-            return result;
+            const data: Cart[] = await this.cartRepository.selectCartByUser(userId);
+            const dto = this.toCartDTO(data);
+            return dto;
         } catch (e) {
             throw e;
         }
     }
 
-    async addCart(userId: number, bookId: number, count: number, sign: string) {
+    async addCart(userId: number, bookId: number, count: number, sign: string): Promise<number> {
         try {
             const result = await this.cartRepository.updateOrInsertCartItem(userId, bookId, count, sign);
             if (result.affectedRows > 0)
@@ -29,7 +45,7 @@ export class CartService {
         }
     }
 
-    async deleteCart(cartId: number) {
+    async deleteCart(cartId: number): Promise<number> {
         try {
             const result = await this.cartRepository.deleteCartItems(cartId);
             return result;
