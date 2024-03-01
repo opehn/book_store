@@ -26,7 +26,7 @@ const addCart: RequestHandler = async function (req, res, next) {
     const { bookId, count } = req.body;
     const { userId } = req.user as UserToken;
     const sign = req.query.sign as string;
-    let response: MyResponse = {};
+
     try {
         const result = await cartService.addCart(userId, bookId, count, sign);
         let errCode: string = util.makeCodeByNumber(result);

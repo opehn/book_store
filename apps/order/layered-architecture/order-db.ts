@@ -9,7 +9,6 @@ const deliveryTable = 'DELIVERY_TB';
 const cartTable = 'CARTITEMS_TB';
 import { OrderedBookItem } from '../types';
 
-
 //TODO : delete if not required
 type OrderRepositoryDeps = {
     knex: Knex;
@@ -24,8 +23,6 @@ class OrderRepository {
         this.knex = knex;
         this.logger = logger;
     }
-
-
 
     async selectOrderByUserId(userId: number): Promise<UserOrder[]> {
         try {
@@ -50,7 +47,7 @@ class OrderRepository {
                     delivery_id: deliveryId,
                     book_title: orderData.bookTitle,
                     total_price: orderData.totalPrice,
-                    total_count: orderData.totalCount
+                    total_count: orderData.totalQuantity
                 })
             return orderId;
         } catch (e: any) {
@@ -82,9 +79,7 @@ class OrderRepository {
             logger.reportDbErr(orderBookTable, 'INSERT', e.message);
             throw e;
         }
-
     }
-
 
     async selectOrderDetail(userId: number, orderId: number) {
         let result = await knex('ORDERED_BOOKS_TB as ot')

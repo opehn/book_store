@@ -9,7 +9,7 @@ function isArrayNotEmpty(arr) {
 exports.default = {
     makeResponse: function makeResponse(data, message, err) {
         var response = {};
-        if (data)
+        if (data && data.length)
             response.data = data;
         if (message)
             response.message = message;
@@ -24,13 +24,13 @@ exports.default = {
             return false;
     },
     isArrayNotEmpty: isArrayNotEmpty,
-    makeMessage: function makeMessage(data) {
+    makeCodeByArray: function makeCodeByArray(data) {
         if (isArrayNotEmpty(data))
             return 'Success';
         else
             return 'No data';
     },
-    makeCode: function makeCode(result) {
+    makeCodeByNumber: function makeCode(result) {
         if (result)
             return 'Success';
         else

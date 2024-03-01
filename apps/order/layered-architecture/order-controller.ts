@@ -41,13 +41,11 @@ const getOrderDetail: RequestHandler = async function (req, res, next) {
 
 const orderPayment: RequestHandler = async function (req, res, next) {
     let { userId } = req.user as UserToken;
-    let response: MyResponse = {};
     let orderData: Order = req.body as Order;
 
     try {
         await orderService.handlePayment(userId, orderData);
-        response = util.makeResponse(null, 'Success', null)
-        res.status(200).json(response);
+        res.status(200).json({ error: 'Success' });
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
         res.status(500).json({ error: 'Failed' });

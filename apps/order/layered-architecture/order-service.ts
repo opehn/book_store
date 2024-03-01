@@ -37,24 +37,23 @@ export class OrderService {
     async handlePayment(userId: number, orderData: Order): Promise<void> {
         try {
             const bookIds = this.makeBookIds(orderData);
-            await knex.transaction(async trx => {
+            await this.knex.transaction(async trx => {
                 const deliveryId = await this.orderRepository.intsertDelivery(userId, orderData);
-                console.log(deliveryId);
 
                 //insertOrder
                 const orderId = await this.orderRepository.insertOrder(userId, orderData, deliveryId[0]);
 
                 let newItems: OrderedBookItem[] = orderData.items.map((cur: any) => ({
-                    'book_id': cur.bookId,
-                    'count': cur.count,
-                    'order_id': orderId[0]
+                    'bookId': cur.bookId,
+                    'quantity': cur.quantity,
+                    'orderId': orderId[0]
                 }));
 
                 //insertOrderedBook
-                let result = await this.orderRepository.insertOrderedBook(newItems)
+                await this.orderRepository.insertOrderedBook(newItems)
 
                 //deleteCart
-                let result2 = await this.orderRepository.deleteCart(userId, bookIds);
+                await this.orderRepository.deleteCart(userId, bookIds);
 
                 trx.commit;
             })

@@ -66,13 +66,13 @@ var getAllBooks = function (req, res, next) { return __awaiter(void 0, void 0, v
                 return [4 /*yield*/, BookIntegration.getBookByCategory(params)];
             case 2:
                 bookData = _a.sent();
-                response = util_1.default.makeResponse(bookData, 'Success', null);
+                response = util_1.default.makeResponse(bookData, null, 'Success');
                 res.status(200).json(response);
                 return [3 /*break*/, 4];
             case 3:
                 e_1 = _a.sent();
                 logger_1.default.reportResponseErr(req.url, req.method, e_1.message);
-                res.status(500).json({ message: 'Server Error' });
+                res.status(500).json(util_1.default.makeResponse(null, null, 'Failed'));
                 return [3 /*break*/, 4];
             case 4: return [3 /*break*/, 8];
             case 5:
@@ -80,13 +80,13 @@ var getAllBooks = function (req, res, next) { return __awaiter(void 0, void 0, v
                 return [4 /*yield*/, BookIntegration.getBookNoCategory(params.limit, params.offset)];
             case 6:
                 bookData = _a.sent();
-                response = util_1.default.makeResponse(bookData, 'Success', null);
+                response = util_1.default.makeResponse(bookData, null, 'Success');
                 res.status(200).json(response);
                 return [3 /*break*/, 8];
             case 7:
                 e_2 = _a.sent();
                 logger_1.default.reportResponseErr(req.url, req.method, e_2.messsage);
-                res.status(500).json(util_1.default.makeResponse(null, 'Error', e_2.message));
+                res.status(500).json({ error: 'Failed' });
                 return [3 /*break*/, 8];
             case 8: return [2 /*return*/];
         }
@@ -106,13 +106,13 @@ var getBookDetail = function (req, res, next) { return __awaiter(void 0, void 0,
                 return [4 /*yield*/, BookIntegration.getBookDetail(parseInt(bookId))];
             case 2:
                 bookData = _a.sent();
-                response = util_1.default.makeResponse(bookData, 'Success', null);
+                response = util_1.default.makeResponse(bookData, null, 'Success');
                 res.status(200).json(response);
                 return [3 /*break*/, 4];
             case 3:
                 e_3 = _a.sent();
                 logger_1.default.reportResponseErr(req.url, req.method, e_3.message);
-                res.status(500).json(util_1.default.makeResponse(null, 'Error', e_3.message));
+                res.status(500).json({ error: 'Failed' });
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }

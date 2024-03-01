@@ -42,7 +42,7 @@ var util_1 = require("../../shared/lib/util");
 var likeService = (0, like_service_1.getServiceInstance)();
 var toggleLikeStatus = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var bookId, liked, userId, response, result, result_1, e_1;
+        var bookId, liked, userId, response, result, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -55,15 +55,14 @@ var toggleLikeStatus = function (req, res, next) {
                     _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, likeService.toggleLikeStatus(userId, bookId, liked)];
                 case 2:
-                    result_1 = _a.sent();
-                    console.log("res : ", result_1);
-                    response = util_1.default.makeResponse(result_1, null, 'Success');
+                    result = _a.sent();
+                    response = util_1.default.makeResponse(null, null, 'Success');
                     res.status(200).json(response);
                     return [3 /*break*/, 4];
                 case 3:
                     e_1 = _a.sent();
                     logger_1.default.reportResponseErr(req.url, req.method, e_1.message);
-                    res.status(500).json(util_1.default.makeResponse(null, null, 'Failed'));
+                    res.status(500).json({ error: 'Failed' });
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }

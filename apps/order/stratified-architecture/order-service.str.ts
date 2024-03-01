@@ -1,4 +1,4 @@
-import { BookItem, Order } from '../../../shared/type'
+import { BookItem, Order } from '../types'
 import { OrderRepository, getRepoInstance } from './order-db.str';
 import { Logger } from 'winston';
 import logger from '../../../shared/logger/index';
@@ -29,9 +29,9 @@ export class OrderService {
 
     makeBookItems(orderData: Order, orderId: number): OrderedBookItem[] {
         let newItems: OrderedBookItem[] = orderData.items.map((cur: any) => ({
-            'book_id': cur.bookId,
-            'count': cur.count,
-            'order_id': orderId
+            'bookId': cur.bookId,
+            'quantity': cur.count,
+            'orderId': orderId
         }));
         return newItems;
 

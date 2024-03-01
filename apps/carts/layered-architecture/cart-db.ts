@@ -8,7 +8,7 @@ export class CartRepository {
         try {
             let result = await knex('CARTITEMS_TB as ct')
                 .select('ct.id', 'ct.book_id', 'bt.title', 'bt.summary',
-                    'bt.img', 'bt.price', 'ct.count')
+                    'bt.img', 'bt.price', 'ct.quantity')
                 .join('BOOKS_TB as bt', 'bt.id', '=', 'ct.book_id')
                 .where({ 'ct.user_id': userId });
             return result;
@@ -18,25 +18,25 @@ export class CartRepository {
         }
     }
 
-    async updateOrInsertCartItem(userId: number, bookId: number, count: number, sign: string): Promise<any> {
+    async updateOrInsertCartItem(userId: number, bookId: number, quantity: number, sign: string): Promise<any> {
         try {
             let queryString: string;
             if (sign === 'plus')
                 queryString =
-                    'INSERT INTO CARTITEMS_TB (book_id, count, user_id)\
+                    'INSERT INTO CARTITEMS_TB (book_id, quantity, user_id)\
                 VALUES (?, ?, ?)\
-                ON DUPLICATE KEY UPDATE count = count + VALUES(count)'
+                ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)'
             else
                 queryString =
-                    'INSERT INTO CARTITEMS_TB (book_id, count, user_id)\
+                    'INSERT INTO CARTITEMS_TB (book_id, quantity, user_id)\
                 VALUES (?, ?, ?)\
-                ON DUPLICATE KEY UPDATE count = CASE\
-                WHEN count > 0 THEN count - VALUES(count)\
-                ELSE count\
+                ON DUPLICATE KEY UPDATE quantity = CASE\
+                WHEN quantity > 0 THEN quantity - VALUES(quantity)\
+                ELSE quantity\
                 END'
 
             let result = await knex.raw(
-                queryString, [bookId, count, userId]
+                queryString, [bookId, quantity, userId]
             );
             return result;
         } catch (e: any) {

@@ -5,7 +5,7 @@ var router = express.Router();
 var express_validator = require("express-validator");
 var param = express_validator.param, query = express_validator.query;
 var books_controller_1 = require("./books-controller");
-var jwt_1 = require("../../shared/lib/jwt");
+var jwt_1 = require("../../middleware/jwt");
 router.get('/', [
     query('limit').notEmpty().withMessage('No limit'),
     query('offset').notEmpty().withMessage('No offset'),

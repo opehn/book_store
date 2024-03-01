@@ -2,7 +2,7 @@ import { OrderRepository, getRepoInstance } from './order-db.str';
 import { OrderService, getServiceInstance } from './order-service.str';
 import logger from '../../../shared/logger/index';
 import knex from '../../../data/connection';
-import { Order } from '../../../shared/type'
+import { Order } from '../types'
 
 const orderService = getServiceInstance();
 const orderRepository = getRepoInstance();

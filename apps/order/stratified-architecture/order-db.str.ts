@@ -1,6 +1,6 @@
 import knex from '../../../data/connection';
 import logger from '../../../shared/logger/index.js';
-import { UserOrder, Order } from '../../../shared/type';
+import { UserOrder, Order } from '../types';
 import { Knex } from 'knex';
 import { Logger } from 'winston';
 const orderTable = 'ORDERS_TB';
@@ -27,7 +27,7 @@ class OrderRepository {
         try {
             let orderList = await knex('ORDERS_TB as ot')
                 .select(
-                    'created_at', 'book_title', 'total_count', 'total_price',
+                    'created_at', 'book_title', 'total_quantity', 'total_price',
                     'delivery_id', 'address', 'receiver', 'contact'
                 ).where('ot.user_id', userId)
                 .join('DELIVERY_TB as dt', 'dt.id', 'ot.delivery_id');
@@ -46,7 +46,7 @@ class OrderRepository {
                     delivery_id: deliveryId,
                     book_title: orderData.bookTitle,
                     total_price: orderData.totalPrice,
-                    total_count: orderData.totalCount
+                    total_count: orderData.totalQuantity
                 })
             return orderId;
         } catch (e: any) {
@@ -84,7 +84,7 @@ class OrderRepository {
 
     async selectOrderDetail(userId: number, orderId: number) {
         let result = await knex('ORDERED_BOOKS_TB as ot')
-            .select('ot.book_id', 'title', 'author', 'price', 'count')
+            .select('ot.book_id', 'title', 'author', 'price', 'quantity')
             .where({ order_id: orderId })
             .join('BOOKS_TB as bt', 'id', 'ot.book_id')
         return result;

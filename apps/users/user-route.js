@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var router = express.Router();
 var express_validator_1 = require("express-validator");
-var jwt_1 = require("../../shared/lib/jwt");
+var jwt_1 = require("../../middleware/jwt");
 var user_controller_1 = require("./layered-architecture/user-controller");
 router.post('/join', [
     (0, express_validator_1.body)('email')

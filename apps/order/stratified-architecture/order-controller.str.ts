@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express';
 import logger from '../../../shared/logger';
-import { UserOrder } from '../../../shared/type';
+import { UserOrder } from '../types';
 import { MyResponse } from '../../../shared/type'
 import { UserToken } from '../../../shared/type';
 import util from '../../../shared/lib/util'
-import { Order } from '../../../shared/type';
+import { Order } from '../types';
 import orderIntegrate from './order-integrate';
 
 
@@ -14,7 +14,7 @@ const getOrderList: RequestHandler = async function (req, res, next) {
 
     try {
         let data: UserOrder[] = await orderIntegrate.getOrderList(userId);
-        let message = util.makeCodeByNumber(data);
+        let message = util.makeCodeByArray(data);
         response = util.makeResponse(data, message, null);
         res.status(200).json(response);
     } catch (e: any) {
@@ -30,7 +30,7 @@ const getOrderDetail: RequestHandler = async function (req, res, next) {
 
     try {
         let data: UserOrder[] = await orderIntegrate.getOrderDetail(userId, orderId);
-        let message: string = util.makeCodeByNumber(data);
+        let message: string = util.makeCodeByArray(data);
         response = util.makeResponse(data, message, null);
         res.status(200).json(response);
     } catch (e: any) {
