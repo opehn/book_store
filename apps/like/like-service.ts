@@ -1,14 +1,24 @@
-import { likeDb } from '../../data/dbAccess';
+import { LikeRepository, getRepoInstance } from './like-db';
 
-export default {
-    toggleLikeStatus: async function toggleLikeStatus(userId: number, bookId: number, liked: boolean) {
+export class LikeService {
+    private likeRepository;
+
+    constructor(likeRepository: LikeRepository) {
+        this.likeRepository = likeRepository;
+    }
+
+    async toggleLikeStatus(userId: number, bookId: number, liked: boolean): Promise<number | number[]> {
         try {
             if (liked)
-                return await likeDb.deleteLikedUser(userId);
+                return await this.likeRepository.insertLikedUser(userId, bookId);
             else
-                return await likeDb.insertLikedUser(userId, bookId);
+                return await this.likeRepository.deleteLikedUser(userId);
         } catch (e) {
             throw e;
         }
     }
+}
+
+export function getServiceInstance() {
+    return new LikeService(getRepoInstance());
 }

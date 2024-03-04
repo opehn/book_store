@@ -36,11 +36,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getRepoInstance = exports.LikeRepository = void 0;
 var connection_1 = require("../../data/connection");
 var index_js_1 = require("../../shared/logger/index.js");
 var likeTable = 'LIKES_TB';
-exports.default = {
-    insertLikedUser: function insertLikedUser(userId, bookId) {
+var LikeRepository = /** @class */ (function () {
+    function LikeRepository() {
+    }
+    LikeRepository.prototype.insertLikedUser = function (userId, bookId) {
         return __awaiter(this, void 0, void 0, function () {
             var result, e_1;
             return __generator(this, function (_a) {
@@ -63,8 +66,8 @@ exports.default = {
                 }
             });
         });
-    },
-    deleteLikedUser: function deleteLikedUser(userId) {
+    };
+    LikeRepository.prototype.deleteLikedUser = function (userId) {
         return __awaiter(this, void 0, void 0, function () {
             var result, e_2;
             return __generator(this, function (_a) {
@@ -87,5 +90,11 @@ exports.default = {
                 }
             });
         });
-    }
-};
+    };
+    return LikeRepository;
+}());
+exports.LikeRepository = LikeRepository;
+function getRepoInstance() {
+    return new LikeRepository();
+}
+exports.getRepoInstance = getRepoInstance;

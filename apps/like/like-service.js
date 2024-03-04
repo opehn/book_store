@@ -36,9 +36,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var dbAccess_1 = require("../../data/dbAccess");
-exports.default = {
-    toggleLikeStatus: function toggleLikeStatus(userId, bookId, liked) {
+exports.getServiceInstance = exports.LikeService = void 0;
+var like_db_1 = require("./like-db");
+var LikeService = /** @class */ (function () {
+    function LikeService(likeRepository) {
+        this.likeRepository = likeRepository;
+    }
+    LikeService.prototype.toggleLikeStatus = function (userId, bookId, liked) {
         return __awaiter(this, void 0, void 0, function () {
             var e_1;
             return __generator(this, function (_a) {
@@ -46,9 +50,9 @@ exports.default = {
                     case 0:
                         _a.trys.push([0, 5, , 6]);
                         if (!liked) return [3 /*break*/, 2];
-                        return [4 /*yield*/, dbAccess_1.likeDb.deleteLikedUser(userId)];
+                        return [4 /*yield*/, this.likeRepository.insertLikedUser(userId, bookId)];
                     case 1: return [2 /*return*/, _a.sent()];
-                    case 2: return [4 /*yield*/, dbAccess_1.likeDb.insertLikedUser(userId, bookId)];
+                    case 2: return [4 /*yield*/, this.likeRepository.deleteLikedUser(userId)];
                     case 3: return [2 /*return*/, _a.sent()];
                     case 4: return [3 /*break*/, 6];
                     case 5:
@@ -58,5 +62,11 @@ exports.default = {
                 }
             });
         });
-    }
-};
+    };
+    return LikeService;
+}());
+exports.LikeService = LikeService;
+function getServiceInstance() {
+    return new LikeService((0, like_db_1.getRepoInstance)());
+}
+exports.getServiceInstance = getServiceInstance;

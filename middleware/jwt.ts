@@ -1,8 +1,8 @@
 import { validationResult } from 'express-validator';
 import { RequestHandler } from 'express';
-import logger from '../logger';
+import logger from '../shared/logger';
 import jwt = require('jsonwebtoken');
-import { UserToken } from '../type';
+import { UserToken } from '../shared/type';
 
 function makeUser(userId: number, email: string, name: string): UserToken {
     return {
@@ -16,8 +16,8 @@ function makeJwtOption(expireTime: string, issuer: string) {
     return { expiresIn: expireTime, issuer: issuer }
 }
 
-function makeJwtToken(userId: string, email: string, name: string) {
-    let user: UserToken = makeUser(parseInt(userId), email, name);
+function makeJwtToken(userId: number, email: string, name: string) {
+    let user: UserToken = makeUser(userId, email, name);
     let opt = makeJwtOption('30m', 'Anna');
     return jwt.sign(user, process.env.PRIVATE_KEY as any, opt);
 }

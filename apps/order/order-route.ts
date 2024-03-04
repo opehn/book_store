@@ -1,9 +1,10 @@
 import * as express from 'express';
 const router = express.Router();
-import jwtUtil from '../../shared/lib/jwt';
+import jwtUtil from '../../middleware/jwt';
 import { checkSchema, ValidationChain } from 'express-validator';
 import { paymentSchema } from '../../routes/validation-schema';
-import orderController from './order-controller';
+import orderController from './layered-architecture/order-controller';
+//import orderController from './stratified-architecture/order-controller.str'
 import { RequestHandler } from 'express'
 
 /* 주문 목록 조회 */

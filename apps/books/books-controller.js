@@ -38,8 +38,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBookDetail = exports.getAllBooks = void 0;
 var logger_1 = require("../../shared/logger");
-var book_db_1 = require("./book-db");
 var util_1 = require("../../shared/lib/util");
+var book_integration_1 = require("./book-integration");
+var BookIntegration = (0, book_integration_1.getBookInstance)();
 function makeParams(query) {
     var limit = parseInt(query.limit);
     var offset = parseInt(query.offset);
@@ -62,30 +63,30 @@ var getAllBooks = function (req, res, next) { return __awaiter(void 0, void 0, v
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, book_db_1.default.getBookByCategory(params)];
+                return [4 /*yield*/, BookIntegration.getBookByCategory(params)];
             case 2:
                 bookData = _a.sent();
-                response = util_1.default.makeResponse(bookData, 'Success', null);
+                response = util_1.default.makeResponse(bookData, null, 'Success');
                 res.status(200).json(response);
                 return [3 /*break*/, 4];
             case 3:
                 e_1 = _a.sent();
                 logger_1.default.reportResponseErr(req.url, req.method, e_1.message);
-                res.status(500).json({ message: 'Server Error' });
+                res.status(500).json(util_1.default.makeResponse(null, null, 'Failed'));
                 return [3 /*break*/, 4];
             case 4: return [3 /*break*/, 8];
             case 5:
                 _a.trys.push([5, 7, , 8]);
-                return [4 /*yield*/, book_db_1.default.getAllBooks(params.limit, params.offset)];
+                return [4 /*yield*/, BookIntegration.getBookNoCategory(params.limit, params.offset)];
             case 6:
                 bookData = _a.sent();
-                response = util_1.default.makeResponse(bookData, 'Success', null);
+                response = util_1.default.makeResponse(bookData, null, 'Success');
                 res.status(200).json(response);
                 return [3 /*break*/, 8];
             case 7:
                 e_2 = _a.sent();
                 logger_1.default.reportResponseErr(req.url, req.method, e_2.messsage);
-                res.status(500).json(util_1.default.makeResponse(null, 'Error', e_2.message));
+                res.status(500).json({ error: 'Failed' });
                 return [3 /*break*/, 8];
             case 8: return [2 /*return*/];
         }
@@ -93,25 +94,26 @@ var getAllBooks = function (req, res, next) { return __awaiter(void 0, void 0, v
 }); };
 exports.getAllBooks = getAllBooks;
 var getBookDetail = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var bookId, response, bookData, e_3;
+    var bookId, userId, response, bookData, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 bookId = req.params.bookId;
+                userId = req.user.userId;
                 response = {};
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, book_db_1.default.getBookById(parseInt(bookId))];
+                return [4 /*yield*/, BookIntegration.getBookDetail(parseInt(bookId), userId)];
             case 2:
                 bookData = _a.sent();
-                response = util_1.default.makeResponse(bookData, 'Success', null);
+                response = util_1.default.makeResponse(bookData, null, 'Success');
                 res.status(200).json(response);
                 return [3 /*break*/, 4];
             case 3:
                 e_3 = _a.sent();
                 logger_1.default.reportResponseErr(req.url, req.method, e_3.message);
-                res.status(500).json(util_1.default.makeResponse(null, 'Error', e_3.message));
+                res.status(500).json({ error: 'Failed' });
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }

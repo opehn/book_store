@@ -1,23 +1,6 @@
 import bcrypt = require('bcrypt');
 
 export default {
-    hashPassword: async function hashPassword(password: string) {
-        const saltRounds = 10;
-        try {
-            let hash = await bcrypt.hash(password, saltRounds)
-            return hash;
-        } catch (e) {
-            throw e;
-        }
-    },
-    comparePassword: async function comparePassword(inputPassword: string, hashedPassword: string) {
-        try {
-            const result = await bcrypt.compare(inputPassword, hashedPassword);
-            return result;
-        } catch (error) {
-            throw error;
-        }
-    },
     getOneMonthAgo: function getOneMonthAgo() {
         let currentTimeInSeoul = new Date();
         currentTimeInSeoul.setMinutes(currentTimeInSeoul.getMinutes() + currentTimeInSeoul.getTimezoneOffset() + 540);

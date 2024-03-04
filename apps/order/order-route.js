@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var router = express.Router();
-var jwt_1 = require("../../shared/lib/jwt");
+var jwt_1 = require("../../middleware/jwt");
 var express_validator_1 = require("express-validator");
 var validation_schema_1 = require("../../routes/validation-schema");
-var order_controller_1 = require("./order-controller");
+var order_controller_1 = require("./layered-architecture/order-controller");
 /* 주문 목록 조회 */
 router.get('/', [
     jwt_1.default.verifyToken,

@@ -1,20 +1,20 @@
 import { RequestHandler } from 'express';
-import logger from '../../shared/logger';
-import orderService from './order-service';
-import { UserOrder } from '../../shared/type';
-import orderDb from './order-db';
-import { myResponse } from '../../shared/type'
-import { UserToken } from '../../shared/type';
-import util from '../../shared/lib/util'
-import { Order } from '../../shared/type';
+import logger from '../../../shared/logger';
+import { UserOrder } from '../types';
+import { MyResponse } from '../../../shared/type'
+import { UserToken } from '../../../shared/type';
+import util from '../../../shared/lib/util'
+import { Order } from '../types';
+import orderIntegrate from './order-integrate';
+
 
 const getOrderList: RequestHandler = async function (req, res, next) {
-    let response: myResponse = {};
+    let response: MyResponse = {};
     let { userId } = req.user as UserToken;
 
     try {
-        let data: UserOrder[] = await orderDb.selectOrderList(userId);
-        let message = util.makeMessage(data);
+        let data: UserOrder[] = await orderIntegrate.getOrderList(userId);
+        let message = util.makeCodeByArray(data);
         response = util.makeResponse(data, message, null);
         res.status(200).json(response);
     } catch (e: any) {
@@ -26,11 +26,11 @@ const getOrderList: RequestHandler = async function (req, res, next) {
 const getOrderDetail: RequestHandler = async function (req, res, next) {
     let { userId } = req.user as UserToken;
     let orderId = parseInt(req.params.orderId);
-    let response: myResponse = {};
+    let response: MyResponse = {};
 
     try {
-        let data: UserOrder[] = await orderDb.selectOrderDetail(userId, orderId);
-        let message: string = util.makeMessage(data);
+        let data: UserOrder[] = await orderIntegrate.getOrderDetail(userId, orderId);
+        let message: string = util.makeCodeByArray(data);
         response = util.makeResponse(data, message, null);
         res.status(200).json(response);
     } catch (e: any) {
@@ -41,12 +41,11 @@ const getOrderDetail: RequestHandler = async function (req, res, next) {
 
 const orderPayment: RequestHandler = async function (req, res, next) {
     let { userId } = req.user as UserToken;
-    let response: myResponse = {};
+    let response: MyResponse = {};
     let orderData: Order = req.body as Order;
 
     try {
-        let bookIds: number[] = await orderService.handlePayment(orderData);
-        await orderDb.insertOrderAndDeleteCart(userId, orderData, bookIds);
+        await orderIntegrate.handlePayment(userId, orderData);
         response = util.makeResponse(null, 'Success', null)
         res.status(200).json(response);
     } catch (e: any) {

@@ -1,18 +1,18 @@
 import { RequestHandler } from 'express';
-import logger from '../../shared/logger';
-import cartDb from './cart-db'
-import { myResponse } from '../../shared/type'
-import { UserToken } from '../../shared/type';
-import util from '../../shared/lib/util'
-import { Cart } from '../../shared/type';
+import logger from '../../../shared/logger';
+import cartDb from './cart-db';
+import { MyResponse } from '../../../shared/type'
+import { UserToken } from '../../../shared/type';
+import util from '../../../shared/lib/util'
+import { Cart } from '../../../shared/type';
 
 
 const getCartList: RequestHandler = async function (req, res, next) {
     let { userId } = req.user as UserToken;
-    let response: myResponse = {};
+    let response: MyResponse = {};
     try {
         let data: Cart[] = await cartDb.selectCartByUser(userId);
-        let message: string = util.makeMessage(data);
+        let message: string = util.makeCodeByNumber(data);
         response = util.makeResponse(data, message, null);
         res.status(200).json(response);
     } catch (e: any) {
@@ -26,10 +26,10 @@ const addCart: RequestHandler = async function (req, res, next) {
     let { bookId, count } = req.body;
     let { userId } = req.user as UserToken;
     let sign = req.query.sign as string;
-    let response: myResponse = {};
+    let response: MyResponse = {};
     try {
         let data = await cartDb.updateOrInsertCartItem(userId, bookId, count, sign);
-        let message: string = util.makeMessage(data);
+        let message: string = util.makeCodeByNumber(data);
         response = util.makeResponse(null, message, null);
         res.status(200).json(response);
     } catch (e: any) {

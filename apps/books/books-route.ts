@@ -3,7 +3,7 @@ const router = express.Router();
 import express_validator = require('express-validator');
 const { param, query } = express_validator;
 import { getAllBooks, getBookDetail } from './books-controller';
-import jwtUtil from '../../shared/lib/jwt';
+import jwtUtil from '../../middleware/jwt';
 
 router.get('/',
     [
@@ -16,6 +16,7 @@ router.get('/:bookId',
     [
         param('bookId').notEmpty().withMessage('No bookId'),
         jwtUtil.validate,
+        jwtUtil.verifyToken
     ], getBookDetail);
 
 export default router;
