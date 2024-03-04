@@ -47,7 +47,10 @@ export class UserService {
 
     async isPasswordMatch(loginInfo: LoginInfo): Promise<boolean> {
         try {
+            console.log("logininfo :", loginInfo);
             const hashedPassword = await this.userRepository.selectPasswordByEmail(loginInfo.email);
+            if (!hashedPassword)
+                return false;
             const result: boolean = await bcrypt.compare(loginInfo.password, hashedPassword);
             return result;
         } catch (e: any) {
@@ -62,7 +65,7 @@ export class UserService {
             if (isUserDuplicate) {
                 return {
                     message: '중복된 이메일입니다',
-                    err: 'Success'
+                    err: 'Duplicate'
                 };
             } else {
                 const hash = await this.hashPassword(userInfo.password);
@@ -82,9 +85,9 @@ export class UserService {
             if (isValidUser && isValidPassword)
                 return { userId: isValidUser };
             else if (isValidUser)
-                return { userId: null, message: '패스워드가 일치하지 않습니다' };
+                return { userId: null, message: '패스워드가 일치하지 않습니다', err: 'Password' };
             else
-                return { userId: null, message: '이메일이 일치하지 않습니다' };
+                return { userId: null, message: '이메일이 일치하지 않습니다', err: 'Email' };
         } catch (e) {
             throw e;
         }

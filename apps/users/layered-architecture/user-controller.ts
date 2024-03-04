@@ -28,9 +28,12 @@ const login: RequestHandler = async function (req, res, next) {
         if (result.userId) {
             token = jwtUtil.makeJwtToken(result.userId, loginInfo.email, loginInfo.name);
             res.cookie("token", token);
+            res.status(200).json({ ...response, token: token });
         }
-        response = util.makeResponse(null, result.message, 'Success');
-        res.status(200).json({ ...response, token: token });
+        else {
+            response = util.makeResponse(null, result.message, result.err);
+            res.status(401).json(response);
+        }
     } catch (e: any) {
         logger.reportResponseErr(req.url, req.method, e.message);
         res.status(500).json({ error: 'Failed' });
