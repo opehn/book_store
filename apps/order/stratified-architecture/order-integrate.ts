@@ -30,10 +30,10 @@ export default {
                 let newItems = orderService.makeBookItems(orderData, orderId[0]);
 
                 //insertOrderedBook
-                let result = await orderRepository.insertOrderedBook(newItems)
+                await orderRepository.insertOrderedBook(newItems)
 
                 //deleteCart
-                let result2 = await orderRepository.deleteCart(userId, bookIds);
+                await orderRepository.deleteCart(userId, bookIds);
 
                 trx.commit;
             })

@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.paymentSchema = void 0;
-var paymentSchema = {
+
+const paymentSchema = {
     items: {
         isArray: true,
         errorMessage: 'Items should be array'
@@ -32,5 +30,6 @@ var paymentSchema = {
         isNumeric: true,
         errorMessage: 'TotalPrice should be number'
     },
-};
-exports.paymentSchema = paymentSchema;
+}
+
+export { paymentSchema }; 

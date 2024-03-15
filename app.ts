@@ -1,15 +1,18 @@
-import express = require('express');
+//Set env variables
 import dotenv = require('dotenv');
-import logger from './shared/logger/index';
-import bodyParser = require('body-parser');
-import cookieParser = require('cookie-parser');
-import log from './middleware/loggerMiddleware'
+
 const result = dotenv.config();
-const cors = require('cors');
 
 if (result.error) {
     logger.error('dotenv config error');
 }
+
+import express = require('express');
+import logger from './shared/logger/index';
+import bodyParser = require('body-parser');
+import cookieParser = require('cookie-parser');
+import log from './shared/middleware/loggerMiddleware'
+import cors = require('cors');
 
 let app = express();
 

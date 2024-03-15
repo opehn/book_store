@@ -1,6 +1,6 @@
 import * as express from 'express';
 const router = express.Router();
-import jwtUtil from '../../middleware/jwt';
+import jwtUtil from '../../shared/middleware/jwt';
 import { checkSchema, ValidationChain } from 'express-validator';
 import { paymentSchema } from '../../routes/validation-schema';
 import orderController from './layered-architecture/order-controller';

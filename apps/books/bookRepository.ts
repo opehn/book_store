@@ -1,6 +1,6 @@
-import knex from '../../data/connection.js';
+import knex from '../../shared/data/connection.js';
 import logger from '../../shared/logger/index.js';
-import dbUtil from '../../data/dbUtil.js';
+import dbUtil from '../../shared/data/dbUtil.js';
 import { GetBookParams } from './types.js';
 import { Knex } from 'knex';
 import { Logger } from 'winston';
@@ -14,13 +14,13 @@ type BookRepositoryDeps = {
 
 
 class BookRepository {
-    private knex: Knex;
-    private logger: Logger;
+    // private knex: Knex;
+    // private logger: Logger;
 
-    constructor(deps: BookRepositoryDeps) {
-        this.knex = knex;
-        this.logger = logger;
-    }
+    // constructor(deps: BookRepositoryDeps) {
+    //     this.knex = knex;
+    //     this.logger = logger;
+    // }
 
     async selectAllBooks(limit: number, offset: number): Promise<any> {
         try {
@@ -81,7 +81,8 @@ class BookRepository {
 }
 
 function getRepoInstance(): BookRepository {
-    return new BookRepository({ knex, logger });
+    return new BookRepository();
+    //return new BookRepository({ knex, logger });
 }
 
 export { BookRepository, getRepoInstance };

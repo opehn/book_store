@@ -1,4 +1,3 @@
-import { BookRepository, getRepoInstance } from "./bookRepository";
 import { BookDTO, BookDetailDTO } from "./types";
 
 export class BookService {

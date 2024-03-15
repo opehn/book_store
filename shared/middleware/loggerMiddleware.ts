@@ -1,4 +1,4 @@
-import logger from '../shared/logger/index'
+import logger from '../logger/index'
 import { RequestHandler, Send, Response, NextFunction } from 'express'
 
 const requestLog: RequestHandler = async function reportRequest(req, res, next) {

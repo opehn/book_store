@@ -1,11 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+import bcrypt = require('bcrypt');
+
+export default {
     getOneMonthAgo: function getOneMonthAgo() {
-        var currentTimeInSeoul = new Date();
+        let currentTimeInSeoul = new Date();
         currentTimeInSeoul.setMinutes(currentTimeInSeoul.getMinutes() + currentTimeInSeoul.getTimezoneOffset() + 540);
-        var oneMonthBefore = new Date();
+
+        let oneMonthBefore = new Date();
         oneMonthBefore.setMonth(currentTimeInSeoul.getMonth() - 1);
         return (oneMonthBefore);
     }
-};
+}

@@ -3,3 +3,7 @@
 /node_modules/*
 promise.js
 *.js
+/config/*.js
+/apps/*/*.js
+/shared/*/*.js
+/shared/*.js
