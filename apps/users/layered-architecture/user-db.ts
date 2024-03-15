@@ -1,6 +1,6 @@
-import knex from '../../../data/connection';
+import knex from '../../../shared/data/connection';
 import logger from '../../../shared/logger/index.js';
-import dbUtil from '../../../data/dbUtil.js';
+import dbUtil from '../../../shared/data/dbUtil.js';
 import { LoginInfo, UserInfo } from '../types'
 const userTable = 'USERS_TB';
 

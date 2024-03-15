@@ -1,4 +1,4 @@
-import knex from '../../data/connection';
+import knex from '../../shared/data/connection';
 import logger from '../../shared/logger/index.js';
 
 const likeTable = 'LIKES_TB';

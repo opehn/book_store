@@ -1,6 +1,6 @@
-import knex from '../../data/connection.js';
+import knex from '../../shared/data/connection.js';
 import logger from '../../shared/logger/index.js';
-import dbUtil from '../../data/dbUtil.js';
+import dbUtil from '../../shared/data/dbUtil.js';
 import { GetBookParams } from './types.js';
 import { Knex } from 'knex';
 import { Logger } from 'winston';

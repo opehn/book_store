@@ -1,8 +1,8 @@
 import { validationResult } from 'express-validator';
 import { RequestHandler } from 'express';
-import logger from '../shared/logger';
+import logger from '../logger';
 import jwt = require('jsonwebtoken');
-import { UserToken } from '../shared/type';
+import { UserToken } from '../type';
 
 function makeUser(userId: number, email: string, name: string): UserToken {
     return {

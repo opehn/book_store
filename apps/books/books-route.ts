@@ -3,7 +3,7 @@ const router = express.Router();
 import express_validator = require('express-validator');
 const { param, query } = express_validator;
 import { getAllBooks, getBookDetail } from './books-controller';
-import jwtUtil from '../../middleware/jwt';
+import jwtUtil from '../../shared/middleware/jwt';
 
 router.get('/',
     [

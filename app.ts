@@ -3,7 +3,7 @@ import dotenv = require('dotenv');
 import logger from './shared/logger/index';
 import bodyParser = require('body-parser');
 import cookieParser = require('cookie-parser');
-import log from './middleware/loggerMiddleware'
+import log from './shared/middleware/loggerMiddleware'
 const result = dotenv.config();
 const cors = require('cors');
 
