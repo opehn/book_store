@@ -3,7 +3,7 @@ import logger from '../../../shared/logger';
 import { MyResponse, UserToken } from '../../../shared/type'
 import { UserInfo } from '../types';
 import util from '../../../shared/lib/util'
-import jwtUtil from '../../../middleware/jwt'
+import jwtUtil from '../../../shared/middleware/jwt'
 import { getServiceInstance, UserService } from './user-service';
 
 const userService: UserService = getServiceInstance();

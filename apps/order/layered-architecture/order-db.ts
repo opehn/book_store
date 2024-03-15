@@ -1,4 +1,4 @@
-import knex from '../../../data/connection';
+import knex from '../../../shared/data/connection';
 import logger from '../../../shared/logger/index.js';
 import { UserOrder, Order, OrderDetail } from '../types';
 import { Knex } from 'knex';

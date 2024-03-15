@@ -2,7 +2,7 @@ import { BookItem, Order, OrderedBookItem, UserOrder, OrderDTO, OrderDetail, Ord
 import { OrderRepository, getRepoInstance } from './order-db.str';
 import { Logger } from 'winston';
 import logger from '../../../shared/logger/index';
-import knex from '../../../data/connection';
+import knex from '../../../shared/data/connection';
 import { Knex } from 'knex';
 import { order } from '../../../routes';
 
